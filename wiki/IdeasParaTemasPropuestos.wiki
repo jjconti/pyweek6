@@ -1,0 +1,31 @@
+#labels pweek6,python,temas
+= Detalles de las ideas por tema =
+
+== 1. Robot ==
+- Traducción: ¿necesita alguien una traducción?
+
+- Idea 1: "Hay un robot..." se separa en partes para evitar obstáculos, las partes vibran sin estar 100% bajo nuestro control.
+
+== 2. Shuffle ==
+- Traducción: arrastrar pies / barajar naipes / revolver papeles
+
+- Idea 1: letras revueltas, se hace una pregunta, se juega por turnos, se extraen letras para formar las palabras
+
+== 3. Mashed ==
+- Traducción: machacado / molido (puré de papas)
+
+- Idea 1: reproducción de grillos, 2 colores de grillos, se necesitan dos para hacer un tercero e incrementar la población. Hay que evitar la copulación: aplastarlos! Desplazamiento de grillos por toda la pantalla, comienzan chicos y van creciendo hasta llegar a la edad de reproducción, sonido creciendo cuantos más grillos hay. Simple en escenarios (se necesita uno)
+
+== 4. Jig ==
+- Traducción: brincar / vibrar (Jig Head : anzuelo con plomada en la cabeza)
+
+- Idea 1: es casi la Idea 1 del tema 3 pero desde el punto de vista del grillo. El grillo va saltando evitando que lo aplasten. Diferentes pantallas (dormitorio, patio, calle...)
+
+- Idea 2: pasan los pescados por la pantalla y manejamos una caña, y al arrojarla, el anzuelo debe golpear al pescado. Juntar más pescados por golpe...
+
+== 5. Formation ==
+- Traducción: formación (formación de patos, formación militar, formación de aviones, etc)
+
+- Idea 1: patos en formación, volando. Manejamos un aguilucho que debe romper la formación y cazar los patos al vuelo. Hay que cazar la mayor cantidad de patos posibles.
+
+- Idea 2: perro ovejero que lleva ovejas a un corral. Puede aparecer un lobo ocasional que desbarate la situación.
