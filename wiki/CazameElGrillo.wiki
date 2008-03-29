@@ -25,15 +25,15 @@ Comienza la cazeria del grillo.
 ==Juego==
 El juego básicamente se basa en la premisa de que hay que matar al grillo, la idea es la siguiente.
   
- *Idea 1 (jig y smashed): Los grillos saltan por la pantalla (cada determinado tiempo, mientras se va avanzando el nivel ese delay disminuye).
+ * Idea 1 (jig y smashed): Los grillos saltan por la pantalla (cada determinado tiempo, mientras se va avanzando el nivel ese delay disminuye).
   
-  *Objetivo: Matar los grillos aplastandolos con diferentes herramientas (zapatos. pantuflas, etc) se podria hacer que se junten los grillos muertos y se los tire a un tacho.
+  * Objetivo: Matar los grillos aplastandolos con diferentes herramientas (zapatos. pantuflas, etc) se podria hacer que se junten los grillos muertos y se los tire a un tacho.
 
-  *Idea 2 (basado en lo anterior): Pero Toto, saca provecho de la invasión de grillos y pone su tiendita en la cual vende latas de picadillos a pedido. Entonces...el va recibiendo pedidos y lo que tiene que haces es cazar los grillos matarlos, y llevarlos a una maquina que procesa y enlata el picadillo de grillo.
+  * Idea 2 (basado en lo anterior): Pero Toto, saca provecho de la invasión de grillos y pone su tiendita en la cual vende latas de picadillos a pedido. Entonces...el va recibiendo pedidos y lo que tiene que haces es cazar los grillos matarlos, y llevarlos a una maquina que procesa y enlata el picadillo de grillo.
 
   La idea es que haya diferentes tipos de preparaciones, ej: Lata 1: 2 grillos macho y una hemnbra. Lata 2 (Super gridito): 3 grillos bebes, y asi diferentes combinaciones y cantidades de latas que tiene q hacer.
   
-  *Objetivo: Completar los pedidos con los diferentes mix que te piden que hagas en el menor tiempo posible.
+  * Objetivo: Completar los pedidos con los diferentes mix que te piden que hagas en el menor tiempo posible.
 
-  *Observación: en ambos casos los grillos pueden reproducirse, siempre y cuando se encuentren un macho con una hembra que seran diferenciables por un color, o pq la hembra tenga un moñito rosa :).
+  * Observación: en ambos casos los grillos pueden reproducirse, siempre y cuando se encuentren un macho con una hembra que seran diferenciables por un color, o pq la hembra tenga un moñito rosa :).
   Tambien los grillos van creciendo.
