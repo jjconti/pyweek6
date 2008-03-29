@@ -16,6 +16,8 @@
 
 - Idea 1: reproducción de grillos, 2 colores de grillos, se necesitan dos para hacer un tercero e incrementar la población. Hay que evitar la copulación: aplastarlos! Desplazamiento de grillos por toda la pantalla, comienzan chicos y van creciendo hasta llegar a la edad de reproducción, sonido creciendo cuantos más grillos hay. Simple en escenarios (se necesita uno)
 
+ [CazameElGrillo Detalle Idea]
+
 == 4. Jig ==
 - Traducción: brincar / vibrar (Jig Head : anzuelo con plomada en la cabeza)
 
