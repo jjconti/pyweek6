@@ -9,10 +9,13 @@ Hay dos grillos (al mejor estilo pinki y cerebro) y los hechan del lugar donde e
 
 *Dialogo entre grillos*
   Grillo 1: Ya estoy cansado de este lugar...aqui ya no se puede vivir más.
+
   Grillo 2: Es cierto estuve pensando mucho en esto....y si vamos a vivir a la ciudad.
   Grillo 1: Hmm parece interesante...
+
   Grillo 2: Pues vamos! (y se van)
   (Mejorar dialogo)
+
 
 Llegan a una casa (la de nuestro afortunado amigo Toto) y comienzan su guitarreada...se lo ve a Toto durmiendo y su ojo se abre derrepente...se notan las venas y la ira en sus ojos...
 
