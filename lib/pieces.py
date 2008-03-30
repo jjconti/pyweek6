@@ -4,6 +4,7 @@ from config import *
 import os
 import glob
 import utils
+from levels.pos1 import *
 #from pygame.locals import *
 #from config import *
 #import math
