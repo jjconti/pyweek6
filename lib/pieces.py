@@ -18,19 +18,30 @@ class Piece(pygame.sprite.Sprite):
         self.image = img
         self.rect = self.image.get_rect()
         self.static = static
-        #if self.static:
-            #self.rect.topleft = level1[id]
-        #else:
-            #self.min_vel, self.max_vel = 0,0#self._velocity()
-            #self.num = self.count(self.min_vel, self.max_vel)
-            #self.func_x = random.choice(self.functions)
-            #cordenates = range(HEIGHT) # alto
-            #self.x = random.choice(cordenates)
-            #self.y = random.choice(cordenates)
+        if self.static:
+            self.rect.topleft = level1[id]
+        else:
+            self.min_vel, self.max_vel = 0,0#self._velocity()
+            self.num = self.count(self.min_vel, self.max_vel)
+            self.func_x = random.choice(self.functions)
+            cordenates = range(HEIGHT) # alto
+            angle = random.choice([90, 180, 270])
+            self.image = pygame.transform.rotate(self.image, angle)
+            self.x = random.choice(cordenates)
+            self.y = random.choice(cordenates)
 
         cordenates = range(HEIGHT) # alto
 
         if self.static:
+            print level1[id]
+            self.rect.topleft = level1[id]
+        else:
+            self.min_vel, self.max_vel = 0,0#self._velocity()
+            self.num = self.count(self.min_vel, self.max_vel)
+            self.func_x = random.choice(self.functions)
+            cordenates = range(HEIGHT) # alto
+            self.x = random.choice(cordenates)
+            self.y = random.choice(cordenates)
             self.rect.topleft = (random.choice(cordenates), random.choice(cordenates))
 
         self.min_vel, self.max_vel = 0,0#self._velocity()
@@ -82,8 +93,8 @@ class Pieces():
         result = []
         #print PIECES_LEVEL1
         for pathfile in glob.glob(os.path.join(PIECES_LEVEL1, '*.png')):
-            #print filename
-            image = utils.load_image(pathfile)
+            print pathfile
+            image = utils.load_image(pathfile, -1)
             result.append(image)
         return result
 
