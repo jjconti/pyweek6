@@ -35,16 +35,17 @@ class Piece(pygame.sprite.Sprite):
         if self.selected:
             self.rect.center = pygame.mouse.get_pos()
 
-        num = self.num.next()
-        num = math.radians(num)
-        func_y = 10*num
-
-        pos = (self.func_x(num) + self.x, func_y + self.y)
-        self.rect.center = pos
-        if self.rect.top > HEIGHT:
-            self.rect.move_ip(0, pos[1])
-            self.num = self.count(self.min_vel, self.max_vel)
-            self.y = 0
+        else:
+            num = self.num.next()
+            num = math.radians(num)
+            func_y = 10*num
+    
+            pos = (self.func_x(num) + self.x, func_y + self.y)
+            self.rect.center = pos
+            if self.rect.top > HEIGHT:
+                self.rect.move_ip(0, pos[1])
+                self.num = self.count(self.min_vel, self.max_vel)
+                self.y = 0
 
     def count(self, min_vel, max_vel):
         #i = random.randrange(min_vel, max_vel)
