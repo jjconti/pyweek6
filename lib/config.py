@@ -11,4 +11,9 @@ CENTER = HEIGHT / 2
 CLOCK_TICS = 100
 
 # todos los path
-#PIECES_PATH = os.path.join()
+DATA = os.path.join("data")
+IMGS = os.path.join(DATA, "imgs")
+
+# imagenes
+LEVEL1 = os.path.join(IMGS, "level1")
+PIECES_LEVEL1 =os.path.join(LEVEL1, "pieces")
