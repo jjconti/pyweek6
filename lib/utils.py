@@ -12,12 +12,12 @@ def load_image(fullname, colorkey=None):
         print 'Cannot load image:', fullname
         raise SystemExit, message
     
-    image = image.convert()
-    if colorkey is not None:
-        if colorkey is -1:
-            #colorkey = image.get_at((0,0))
-            colorkey = (255, 255, 255)
-        image.set_colorkey(colorkey, RLEACCEL)
+    image = image.convert_alpha()
+    #if colorkey is not None:
+        #if colorkey is -1:
+            ##colorkey = image.get_at((0,0))
+            #colorkey = (255, 255, 255)
+        #image.set_colorkey(colorkey, RLEACCEL)
     return image
 
 class NoneSound(object):
