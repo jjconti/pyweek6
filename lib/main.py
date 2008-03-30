@@ -1,3 +1,4 @@
+
 import sys
 import pygame
 from pygame.locals import *
@@ -9,11 +10,17 @@ from level import Level
 #from help import Help
 #from credits import Credits
 
+from config import *
+import utils
+
+import data
 
 if not pygame.font: print 'Warning, fonts disabled'
 if not pygame.mixer: print 'Warning, sound disabled'
-
+	
+							
 def main():
+
     #Initialize 
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -44,3 +51,4 @@ def exit():
 
 if __name__ == "__main__":
     main()
+
