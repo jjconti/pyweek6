@@ -78,11 +78,11 @@ class Level(object):
 
             if event.button == 4:
                 if self.mouse_with_piece:
-                    self.selected_piece.image = pygame.transform.rotate(self.selected_piece.image, 90)
+                    self.selected_piece.rotate(90)
 
             if event.button == 5:
                 if self.mouse_with_piece:
-                    self.selected_piece.image = pygame.transform.rotate(self.selected_piece.image, 270)
+                    self.selected_piece.rotate(270)
 
     def agarrar_soltar(self, pos):
         '''Logica para agarrar o soltar las piezas con el mouse'''

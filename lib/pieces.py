@@ -26,7 +26,7 @@ class Piece(pygame.sprite.Sprite):
             self.func_x = random.choice(self.functions)
             cordenates = range(HEIGHT) # alto
             angle = random.choice([90, 180, 270])
-            self.image = pygame.transform.rotate(self.image, angle)
+            self.rotate(angle)
             self.x = random.choice(cordenates)
             self.y = random.choice(cordenates)
 
@@ -54,6 +54,10 @@ class Piece(pygame.sprite.Sprite):
     def _velocity(self):
         largo, ancho = self.rect.size
         return (largo * ancho) / float(500) + 2
+    
+    def rotate(self, angle):
+        self.image = pygame.transform.rotate(self.image, angle)
+        self.rect  = self.image.get_rect()
     
     def fit(self, robot):
         collideds = pygame.sprite.spritecollide(self, robot, False)
