@@ -74,33 +74,36 @@ class Level(object):
 	    
 	if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
-                for piece in self.piezas:
-                    if piece.rect.collidepoint(event.pos):
-                        self.selected_piece = piece
-                        
-                        #Primer click (agarrar)
-                        if not self.mouse_with_piece:
-                            self.mouse_with_piece = True
-                            piece.selected = True
-                        #Segundo Click (soltar)
-                        else:
-                            self.mouse_with_piece = False
-                            piece.selected = False
-                            piece.x, piece.y = piece.rect.topleft
-                            collideds = pygame.sprite.spritecollide(self.selected_piece, self.robot, False)
-                            
-                            temp = [x for x in collideds if x.id == self.selected_piece.id ]
-                            if temp:
-                                self.selected_piece.fit(temp[0])
-                                self.robot.add(self.selected_piece)
-                                self.piezas.remove(self.selected_piece)
-                                
-                            
-                        break
+                self.agarrar_soltar(event.pos)
 
-            print "mouse"
-            print event.button
-            print event.pos
+            if event.button == 4:
+                if self.mouse_with_piece:
+                    self.selected_piece.image = pygame.transform.rotate(self.selected_piece.image, 90)
+
+            if event.button == 5:
+                if self.mouse_with_piece:
+                    self.selected_piece.image = pygame.transform.rotate(self.selected_piece.image, 270)
+
+    def agarrar_soltar(self, pos):
+        '''Logica para agarrar o soltar las piezas con el mouse'''
+        for piece in self.piezas:
+            if piece.rect.collidepoint(pos):
+                self.selected_piece = piece
+                
+                #Primer click (agarrar)
+                if not self.mouse_with_piece:
+                    self.mouse_with_piece = True
+                    piece.selected = True
+                #Segundo Click (soltar)
+                else:
+                    self.mouse_with_piece = False
+                    piece.selected = False
+                    piece.x, piece.y = piece.rect.topleft
+
+                    if self.selected_piece.fit(self.robot):
+                        self.robot.add(self.selected_piece)
+                        self.piezas.remove(self.selected_piece)
+                break
 
     def finish(self):
         return False

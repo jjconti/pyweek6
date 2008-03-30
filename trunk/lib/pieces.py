@@ -55,8 +55,14 @@ class Piece(pygame.sprite.Sprite):
         largo, ancho = self.rect.size
         return (largo * ancho) / float(500) + 2
     
-    def fit(self, robot_piece):
-        self.rect.topleft = robot_piece.rect.topleft
+    def fit(self, robot):
+        collideds = pygame.sprite.spritecollide(self, robot, False)
+        target = [x for x in collideds if x.id == self.id ]
+        if target:
+            self.rect.topleft = target[0].rect.topleft
+            return True
+        
+        return False
 
     def update(self):
         if self.static:
