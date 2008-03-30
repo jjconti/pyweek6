@@ -11,7 +11,7 @@ if not pygame.font: print 'Warning, fonts disabled'
 if not pygame.mixer: print 'Warning, sound disabled'
 
 class Level(object):
-    '''TwistedMold level'''
+    '''Ojalata level'''
 
     def __init__(self, screen, father, level=1, total_points=0):
 
