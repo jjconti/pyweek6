@@ -50,12 +50,12 @@ class Level(object):
     def update(self):
         '''Actualizar valores de variables y ejecuta los update()
            de los grupos.'''            
-        pass      
+        self.piezas.update()
             
     
     def draw(self):
         '''Dibuja en pantalla los grupos.'''
-        pass
+        self.piezas.draw(self.screen)
 
     def control(self, event):
         
