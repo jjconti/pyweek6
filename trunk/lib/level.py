@@ -26,7 +26,7 @@ class Level(object):
         #Create the game clock
         self.clock = pygame.time.Clock()
         self.cargar_robot()
-        self.robot.draw(self.screen)
+        
 
         self.mouse_with_piece = False
 
@@ -55,12 +55,12 @@ class Level(object):
 
     def update(self):
         '''Actualizar valores de variables y ejecuta los update()
-           de los grupos.'''            
+           de los grupos.'''
         self.piezas.update()
-            
-    
+
     def draw(self):
         self.screen.blit(utils.create_surface((WIDTH, HEIGHT), (0,0,0)), (0,0) )
+        self.robot.draw(self.screen)
         '''Dibuja en pantalla los grupos.'''
         self.piezas.draw(self.screen)
 
@@ -70,19 +70,20 @@ class Level(object):
             sys.exit(0)
 	    
 	if event.type == MOUSEBUTTONDOWN:
-		if event.button == 1:
-                        for piece in self.piezas:
-                                if piece.rect.collidepoint(event.pos):
-                                        if not self.mouse_with_piece:
-                                            self.mouse_with_piece = True
-                                            piece.selected = True
-                                        else:
-                                            self.mouse_with_piece = False
-                                            piece.selected = False
+            if event.button == 1:
+                for piece in self.piezas:
+                    if piece.rect.collidepoint(event.pos):
+                        if not self.mouse_with_piece:
+                            self.mouse_with_piece = True
+                            piece.selected = True
+                        else:
+                            self.mouse_with_piece = False
+                            piece.selected = False
+                            piece.x, piece.y = piece.rect.topleft
 
-		print "mouse"
-		print event.button
-		print event.pos
+            print "mouse"
+            print event.button
+            print event.pos
 
     def finish(self):
         return False
@@ -92,9 +93,10 @@ class Level(object):
         p = Pieces()
         self.robot = pygame.sprite.RenderUpdates(p.get_all())
 
+
     def cargar_piezas(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
-        sets = [Pieces() for x in (1,2,3)]
+        sets = [Pieces() for x in range(1)]
         sprites = []
         for s in sets:
             sprites += s.get_all()
@@ -103,5 +105,5 @@ class Level(object):
 def main():
     Level().loop()
 
-if __name__ == "__main__":
+if __name__ == "__main__py":
     main()
