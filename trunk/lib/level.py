@@ -7,6 +7,8 @@ import sys
 from pieces import Pieces
 from config import *
 
+import utils
+
 if not pygame.font: print 'Warning, fonts disabled'
 if not pygame.mixer: print 'Warning, sound disabled'
 
@@ -25,7 +27,11 @@ class Level(object):
         self.clock = pygame.time.Clock()
         self.cargar_robot()
         self.robot.draw(self.screen)
+
+        self.mouse_with_piece = False
+
         self.cargar_piezas()
+
 
     def loop(self):  
         #music.play_music(PLAYMUSIC)
@@ -54,6 +60,7 @@ class Level(object):
             
     
     def draw(self):
+        self.screen.blit(utils.create_surface((WIDTH, HEIGHT), (0,0,0)), (0,0) )
         '''Dibuja en pantalla los grupos.'''
         self.piezas.draw(self.screen)
 
@@ -61,6 +68,21 @@ class Level(object):
         
         if event.type == QUIT:
             sys.exit(0)
+	    
+	if event.type == MOUSEBUTTONDOWN:
+		if event.button == 1:
+                        for piece in self.piezas:
+                                if piece.rect.collidepoint(event.pos):
+                                        if not self.mouse_with_piece:
+                                            self.mouse_with_piece = True
+                                            piece.selected = True
+                                        else:
+                                            self.mouse_with_piece = False
+                                            piece.selected = False
+
+		print "mouse"
+		print event.button
+		print event.pos
 
     def finish(self):
         return False
