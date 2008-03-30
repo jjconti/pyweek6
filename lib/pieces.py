@@ -1,4 +1,6 @@
 import pygame
+import data
+from config import *
 #from pygame.locals import *
 #from config import *
 #import math
@@ -13,9 +15,11 @@ class Pieces(pygame.sprite.Sprite):
     max_velocity = 12
     min_velocity = 2
 
-    def __init__(self, img):
+    def __init__(self):
         # recibe una lista de imágenes (path)
         pygame.sprite.Sprite.__init__(self)
+
+        self.sprites = self.load_images()
 
         radius = random.choice(range(min_radius,max_radius))
 
