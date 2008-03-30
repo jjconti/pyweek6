@@ -25,6 +25,7 @@ class Level(object):
         self.clock = pygame.time.Clock()
         self.cargar_robot()
         self.robot.draw(self.screen)
+        self.cargar_piezas()
 
     def loop(self):  
         #music.play_music(PLAYMUSIC)
@@ -68,6 +69,14 @@ class Level(object):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
         p = Pieces()
         self.robot = pygame.sprite.RenderUpdates(p.get_all())
+
+    def cargar_piezas(self):
+        '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
+        sets = [Pieces() for x in (1,2,3)]
+        sprites = []
+        for s in sets:
+            sprites += s.get_all()
+        self.piezas = pygame.sprite.RenderUpdates(sprites)
 
 def main():
     Level().loop()
