@@ -4,7 +4,7 @@ from config import *
 import os
 import glob
 import utils
-from levels.pos1 import *
+from levelposimages import *
 #from pygame.locals import *
 #from config import *
 #import math
@@ -16,6 +16,7 @@ class Piece(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = img
         self.rect = self.image.get_rect()
+        self.rect.topleft = level1[id]
 
 class Pieces():
     functions = [lambda x: 20*math.sin(x/4),
