@@ -9,6 +9,8 @@ from config import *
 
 import utils
 
+from pprint import pprint
+
 if not pygame.font: print 'Warning, fonts disabled'
 if not pygame.mixer: print 'Warning, sound disabled'
 
@@ -59,12 +61,13 @@ class Level(object):
         self.piezas.update()
 
     def draw(self):
-        self.screen.blit(utils.create_surface((WIDTH, HEIGHT), (0,0,0)), (0,0) )
+        self.screen.blit(utils.create_surface((WIDTH, HEIGHT), (100,100,100)), (0,0) )
         self.robot.draw(self.screen)
         '''Dibuja en pantalla los grupos.'''
         self.piezas.draw(self.screen)
 
     def control(self, event):
+        
         
         if event.type == QUIT:
             sys.exit(0)
@@ -73,13 +76,27 @@ class Level(object):
             if event.button == 1:
                 for piece in self.piezas:
                     if piece.rect.collidepoint(event.pos):
+                        self.selected_piece = piece
+                        
+                        #Primer click (agarrar)
                         if not self.mouse_with_piece:
                             self.mouse_with_piece = True
                             piece.selected = True
+                        #Segundo Click (soltar)
                         else:
                             self.mouse_with_piece = False
                             piece.selected = False
                             piece.x, piece.y = piece.rect.topleft
+                            collideds = pygame.sprite.spritecollide(self.selected_piece, self.robot, False)
+                            
+                            temp = [x for x in collideds if x.id == self.selected_piece.id ]
+                            if temp:
+                                self.selected_piece.fit(temp[0])
+                                self.robot.add(self.selected_piece)
+                                self.piezas.remove(self.selected_piece)
+                                
+                            
+                        break
 
             print "mouse"
             print event.button
@@ -90,8 +107,13 @@ class Level(object):
 
     def cargar_robot(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
-        p = Pieces()
+        p = Pieces(static=True)
+
         self.robot = pygame.sprite.RenderUpdates(p.get_all())
+        for piece in self.robot:
+            piece.image = piece.image.convert()
+            piece.image.set_alpha(50)
+            piece.image = piece.image.convert_alpha()
 
 
     def cargar_piezas(self):
@@ -101,6 +123,9 @@ class Level(object):
         for s in sets:
             sprites += s.get_all()
         self.piezas = pygame.sprite.RenderUpdates(sprites)
+        
+        for piece in self.piezas:
+            piece.image = piece.image.convert_alpha()
 
 def main():
     Level().loop()

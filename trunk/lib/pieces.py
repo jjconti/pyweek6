@@ -18,19 +18,34 @@ class Piece(pygame.sprite.Sprite):
         self.image = img
         self.rect = self.image.get_rect()
         self.static = static
+        #if self.static:
+            #self.rect.topleft = level1[id]
+        #else:
+            #self.min_vel, self.max_vel = 0,0#self._velocity()
+            #self.num = self.count(self.min_vel, self.max_vel)
+            #self.func_x = random.choice(self.functions)
+            #cordenates = range(HEIGHT) # alto
+            #self.x = random.choice(cordenates)
+            #self.y = random.choice(cordenates)
+
+        cordenates = range(HEIGHT) # alto
+
         if self.static:
-            self.rect.topleft = level1[id]
-        else:
-            self.min_vel, self.max_vel = 0,0#self._velocity()
-            self.num = self.count(self.min_vel, self.max_vel)
-            self.func_x = random.choice(self.functions)
-            cordenates = range(HEIGHT) # alto
-            self.x = random.choice(cordenates)
-            self.y = random.choice(cordenates)
+            self.rect.topleft = (random.choice(cordenates), random.choice(cordenates))
+
+        self.min_vel, self.max_vel = 0,0#self._velocity()
+        self.num = self.count(self.min_vel, self.max_vel)
+        self.func_x = random.choice(self.functions)
+        
+        self.x = random.choice(cordenates)
+        self.y = random.choice(cordenates)
 
     def _velocity(self):
         largo, ancho = self.rect.size
         return (largo * ancho) / float(500) + 2
+    
+    def fit(self, robot_piece):
+        self.rect.topleft = robot_piece.rect.topleft
 
     def update(self):
         if self.static:
