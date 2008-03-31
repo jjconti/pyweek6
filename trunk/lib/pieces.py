@@ -11,6 +11,7 @@ import utils
 from levelposimages import level_pos
 import math
 import random
+from pprint import pprint
 
 class Piece(pygame.sprite.Sprite):
     functions = [lambda x: 20*math.sin(x/4),
@@ -96,14 +97,16 @@ class Pieces(object):
     def load_images(self):
         result = []
         for pathfile in glob.glob(os.path.join(PIECES_LEVEL[self.level], '*.png')):
+            myFile = os.path.basename(pathfile)
+            myId = myFile[:-4]
             image = utils.load_image(pathfile, -1)
-            result.append(image)
+            result.append((int(myId), image))
         return result
 
     def get_all(self):
         result = []
-        for id, img in enumerate(self.images):
-            piece = Piece(id+1, img, self.level, self.static)
+        for img in self.images:
+            piece = Piece(img[0], img[1], self.level, self.static)
             result.append(piece)
         return result
 
@@ -111,5 +114,5 @@ if __name__ == '__main__':
     pygame.init()
     size = (700,550)
     screen = pygame.display.set_mode(size)
-    pieces = Pieces()
+    pieces = Pieces(level=1)
     print pieces.get_all()
