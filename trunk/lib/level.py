@@ -27,6 +27,7 @@ class Level(object):
         self.level = level
         self.tics = 0
         self.exit = False
+        self.paused = False
         
         self.explosions = pygame.sprite.Group()
         ExplosionMedium.containers = self.explosions
@@ -44,8 +45,9 @@ class Level(object):
         while not self.finish():
             self.tics += 1
    
-            self.update()
-            self.draw()
+            if not self.paused:
+                self.update()
+                self.draw()
 
             #Control
             for event in pygame.event.get():
@@ -78,7 +80,9 @@ class Level(object):
         if event.type == KEYDOWN:
             if event.key == K_f:
                 pygame.display.toggle_fullscreen()
-	
+            if event.key == K_p:
+                self.paused ^= True	
+        
 	if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
                 self.agarrar_soltar(event.pos)
