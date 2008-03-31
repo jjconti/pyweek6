@@ -129,8 +129,9 @@ class Level(object):
         self.robot = pygame.sprite.RenderUpdates(p.get_all())
         for piece in self.robot:
             piece.image = piece.image.convert()
+            piece.image.set_colorkey((255,255,255), RLEACCEL)
             piece.image.set_alpha(50)
-            piece.image = piece.image.convert_alpha()
+            #piece.image = piece.image.convert_alpha()
 
 
     def cargar_piezas(self):
@@ -141,8 +142,8 @@ class Level(object):
             sprites += s.get_all()
         self.piezas = pygame.sprite.RenderUpdates(sprites)
 
-        for piece in self.piezas:
-            piece.image = piece.image.convert_alpha()
+        #for piece in self.piezas:
+            #piece.image = piece.image.convert_alpha()
 
 def main():
     Level().loop()

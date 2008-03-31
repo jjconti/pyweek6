@@ -99,7 +99,7 @@ class Pieces(object):
         for pathfile in glob.glob(os.path.join(PIECES_LEVEL[self.level], '*.png')):
             myFile = os.path.basename(pathfile)
             myId = myFile[:-4]
-            image = utils.load_image(pathfile, -1)
+            image = utils.load_image_alpha(pathfile, -1)
             result.append((int(myId), image))
         return result
 
