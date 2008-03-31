@@ -1,5 +1,5 @@
 import os
-
+import glob
 # configuraciones
 
 # pantalla
@@ -25,3 +25,7 @@ PIECES_LEVEL = {1: os.path.join(LEVEL1, "pieces"),
 # Font
 FONT_CREDIT = os.path.join(FONTS, "GALACTOS.ttf")
 
+INTRO = os.path.join(IMGS, "intro")
+INTRO_IMAGES = sorted(glob.glob(INTRO+'/*.png'))
+print INTRO_IMAGES
+INTRO_TIMES = [0.22] * len(INTRO_IMAGES)
