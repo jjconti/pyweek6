@@ -1,15 +1,19 @@
 #! -*- coding: utf-8 -*-
 
+import sys
+from pprint import pprint
+
 import pygame
 from pygame.locals import *
-import sys
 
-from pieces import Pieces
 from config import *
-
 import utils
 
-from pprint import pprint
+from pieces import Pieces
+from explosion import *
+
+
+
 
 if not pygame.font: print 'Warning, fonts disabled'
 if not pygame.mixer: print 'Warning, sound disabled'
@@ -22,25 +26,25 @@ class Level(object):
         self.screen = screen
         self.father = father
         self.level = level
-        #self.background = utils.load_image(levels[level]['background'])
         self.tics = 0
         self.exit = False
+        
+        self.explosions = pygame.sprite.Group()
+        ExplosionMedium.containers = self.explosions
+
         #Create the game clock
         self.clock = pygame.time.Clock()
         self.cargar_robot()
-        
 
         self.mouse_with_piece = False
 
         self.cargar_piezas()
 
-
     def loop(self):  
         #music.play_music(PLAYMUSIC)
         while not self.finish():
-            self.tics += 1            
+            self.tics += 1
    
-            #self.screen.blit(self.background, (0,0)) 
             self.update()
             self.draw()
 
@@ -59,22 +63,29 @@ class Level(object):
         '''Actualizar valores de variables y ejecuta los update()
            de los grupos.'''
         self.piezas.update()
+        self.explosions.update()
 
     def draw(self):
         self.screen.blit(utils.create_surface((WIDTH, HEIGHT), (100,100,100)), (0,0) )
         self.robot.draw(self.screen)
         '''Dibuja en pantalla los grupos.'''
         self.piezas.draw(self.screen)
+        self.explosions.draw(self.screen)
 
     def control(self, event):
-        
-        
         if event.type == QUIT:
             sys.exit(0)
-	    
+
+        if event.type == KEYDOWN:
+            if event.key == K_f:
+                pygame.display.toggle_fullscreen()
+	
 	if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
                 self.agarrar_soltar(event.pos)
+
+            if event.button == 2:
+                ExplosionMedium(event.pos)
 
             if event.button == 4:
                 if self.mouse_with_piece:
@@ -89,7 +100,7 @@ class Level(object):
         for piece in self.piezas:
             if piece.rect.collidepoint(pos):
                 self.selected_piece = piece
-                
+
                 #Primer click (agarrar)
                 if not self.mouse_with_piece:
                     self.mouse_with_piece = True
@@ -126,7 +137,7 @@ class Level(object):
         for s in sets:
             sprites += s.get_all()
         self.piezas = pygame.sprite.RenderUpdates(sprites)
-        
+
         for piece in self.piezas:
             piece.image = piece.image.convert_alpha()
 
