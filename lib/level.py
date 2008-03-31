@@ -44,11 +44,10 @@ class Level(object):
 
         #Create the game clock
         self.clock = pygame.time.Clock()
-        self.dispatcher = Dispatcher(2, self.piezas_activas, self.piezas, self.piezas_erroneas)
+        self.dispatcher = Dispatcher(2, self.piezas_activas, self.piezas, self.piezas_erroneas, self.piezas_encajadas, self.robot)
         
-        self.npiezas = 0
         self.totalpiezas = len(self.robot)
-        self.mouse_with_piece = False
+        
 
     def loop(self):  
         #music.play_music(PLAYMUSIC)
@@ -88,6 +87,7 @@ class Level(object):
         '''Dibuja en pantalla los grupos.'''
         self.piezas.draw(self.screen)
         self.explosions.draw(self.screen)
+        
 
     def control(self, event):
         if event.type == QUIT:
@@ -101,49 +101,19 @@ class Level(object):
         
 	if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
-                self.agarrar_soltar(event.pos)
+                self.dispatcher.agarrar_soltar(event.pos)
 
             if event.button == 2:
                 ExplosionMedium(event.pos)
 
             if event.button == 4:
-                if self.mouse_with_piece:
-                    self.selected_piece.rotate(90)
+                self.dispatcher.rotate_selected(90)
 
             if event.button == 5:
-                if self.mouse_with_piece:
-                    self.selected_piece.rotate(270)
-
-    def agarrar_soltar(self, pos):
-        '''Logica para agarrar o soltar las piezas con el mouse'''
-        for piece in self.piezas:
-            if piece.rect.collidepoint(pos):
-                self.selected_piece = piece
-
-                #Primer click (agarrar)
-                if not self.mouse_with_piece:
-                    self.mouse_with_piece = True
-                    piece.selected = True
-                #Segundo Click (soltar)
-                else:
-                    self.mouse_with_piece = False
-                    piece.selected = False
-                    piece.release()
-
-                    if self.selected_piece.fit(self.robot):
-
-                        print "ENCAJO!!"
-                        self.piezas_encajadas.add(self.selected_piece)
-
-                        self.npiezas += 1
-                        self.robot.add(self.selected_piece)
-
-                        self.piezas.remove(self.selected_piece)
-                        self.piezas_activas.remove(self.selected_piece)
-                break
+                self.dispatcher.rotate_selected(270)
 
     def finish(self):
-        return self.totalpiezas == self.npiezas
+        return self.totalpiezas == self.dispatcher.npiezas
 
     def cargar_robot(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
