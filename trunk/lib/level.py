@@ -58,7 +58,7 @@ class Level(object):
 
             pygame.display.flip()
     
-        if self.level < 4:
+        if self.level < 3:
             def f(screen):
                 return Level(screen, self.father, self.level + 1)
             return f
