@@ -1,4 +1,6 @@
-#! -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# -*-coding: utf-8 -*-
+# Filename: level.py
 
 import sys
 from pprint import pprint
