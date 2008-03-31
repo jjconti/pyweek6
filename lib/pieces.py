@@ -60,7 +60,7 @@ class Piece(pygame.sprite.Sprite):
 
     def release(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
-        self.num = self.count(mouse_x / 50)
+        self.num = self.count()
         self.x = mouse_x
         self.y = mouse_y
 
