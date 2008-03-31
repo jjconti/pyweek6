@@ -8,7 +8,7 @@ from config import *
 import os
 import glob
 import utils
-from levelposimages import *
+from levelposimages import level_pos
 import math
 import random
 
@@ -17,18 +17,19 @@ class Piece(pygame.sprite.Sprite):
                  lambda x: 20*math.cos(x/2),
                  lambda x: x]
 
-    def __init__(self, id, img, static=False):
+    def __init__(self, id, img, level, static=False):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = img
         self.rect = self.image.get_rect()
 
+        self.level = level
         self.id = id
         self.selected = False
         self.desfasaje_rotacion = 0
 
         if static:
-            self.rect.topleft = level1[id]
+            self.rect.topleft = level_pos[self.level][id]
         else:
             self.min_vel, self.max_vel = 0,0#self._velocity()
             self.num = self.count(self.min_vel, self.max_vel)
@@ -86,14 +87,15 @@ class Piece(pygame.sprite.Sprite):
             x = x+i
             yield x
 
-class Pieces:
-    def __init__(self, static=False):
+class Pieces(object):
+    def __init__(self, level, static=False):
+        self.level = level
         self.images = self.load_images()
         self.static = static
 
     def load_images(self):
         result = []
-        for pathfile in glob.glob(os.path.join(PIECES_LEVEL1, '*.png')):
+        for pathfile in glob.glob(os.path.join(PIECES_LEVEL[self.level], '*.png')):
             image = utils.load_image(pathfile, -1)
             result.append(image)
         return result
@@ -101,7 +103,7 @@ class Pieces:
     def get_all(self):
         result = []
         for id, img in enumerate(self.images):
-            piece = Piece(id+1, img, self.static)
+            piece = Piece(id+1, img, self.level, self.static)
             result.append(piece)
         return result
 

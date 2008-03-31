@@ -14,9 +14,6 @@ import utils
 from pieces import Pieces
 from explosion import *
 
-
-
-
 if not pygame.font: print 'Warning, fonts disabled'
 if not pygame.mixer: print 'Warning, sound disabled'
 
@@ -123,7 +120,7 @@ class Level(object):
 
     def cargar_robot(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
-        p = Pieces(static=True)
+        p = Pieces(static=True, level=self.level)
 
         self.robot = pygame.sprite.RenderUpdates(p.get_all())
         for piece in self.robot:
@@ -134,7 +131,7 @@ class Level(object):
 
     def cargar_piezas(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
-        sets = [Pieces() for x in range(1)]
+        sets = [Pieces(level=self.level) for x in range(1)]
         sprites = []
         for s in sets:
             sprites += s.get_all()

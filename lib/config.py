@@ -17,8 +17,11 @@ FONTS = os.path.join(DATA, "fonts")
 CREDITS = os.path.join(DATA, "credits.txt")
 # imagenes
 LEVEL1 = os.path.join(IMGS, "level1")
-PIECES_LEVEL1 = os.path.join(LEVEL1, "pieces")
-
+LEVEL2 = os.path.join(IMGS, "level2")
+LEVEL3 = os.path.join(IMGS, "level3")
+PIECES_LEVEL = {1: os.path.join(LEVEL1, "pieces"),
+                2: os.path.join(LEVEL1, "pieces"),
+                3: os.path.join(LEVEL1, "pieces")}
 # Font
 FONT_CREDIT = os.path.join(FONTS, "GALACTOS.ttf")
 
