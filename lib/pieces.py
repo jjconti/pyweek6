@@ -32,14 +32,16 @@ class Piece(pygame.sprite.Sprite):
         self.selected = False
         self.desfasaje_rotacion = 0
         
-        if static:
-            self.rect.topleft = level_pos[self.level][id]
+        self.static = static
+        self.ubicar()
+        
+    def ubicar(self):
+        if self.static:
+            self.rect.topleft = level_pos[self.level][self.id]
             self.image = self.image.convert()
             self.image.set_colorkey((255,255,255), RLEACCEL)
             self.image.set_alpha(50)
         else:
-            print "PIEZA"
-            
             self.num = self.count()
             self.func_x = random.choice(self.functions)
             angle = random.choice([90, 180, 270])
@@ -49,8 +51,7 @@ class Piece(pygame.sprite.Sprite):
             # piezas (cordenada y solamente, x aparecen en 0)
             cordenates = range(WIDTH) # alto
             self.x = random.choice(cordenates)
-            print "x", self.x
-            self.y = random.choice(cordenates)
+            self.y = 0
 
     def _velocity(self):
         #largo, ancho = self.rect.size
@@ -160,9 +161,7 @@ class Dispatcher(object):
                 if options:
                     pieza = random.choice(options)
                     options.remove(pieza)
-                    pieza.rect.bottom = 0
-                    pieza.y = 0
-                    pieza.num = pieza.count()
+                    pieza.ubicar()
                     self.piezas_activas.add(pieza)
                     print pieza.id
             
