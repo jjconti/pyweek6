@@ -12,6 +12,7 @@ from levelposimages import level_pos
 import math
 import random
 from pprint import pprint
+from pygame.locals import RLEACCEL
 
 class Piece(pygame.sprite.Sprite):
     functions = [lambda x: 20*math.sin(x/4),
@@ -31,6 +32,9 @@ class Piece(pygame.sprite.Sprite):
 
         if static:
             self.rect.topleft = level_pos[self.level][id]
+            self.image = self.image.convert()
+            self.image.set_colorkey((255,255,255), RLEACCEL)
+            self.image.set_alpha(50)
         else:
             self.min_vel, self.max_vel = 0,0#self._velocity()
             self.num = self.count(self.min_vel, self.max_vel)
