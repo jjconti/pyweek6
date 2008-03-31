@@ -14,6 +14,8 @@ import random
 from pprint import pprint
 from pygame.locals import RLEACCEL
 
+DEBUG_MANUEL = True
+
 class Piece(pygame.sprite.Sprite):
     functions = [lambda x: 20*math.sin(x/4),
                  lambda x: 20*math.cos(x/2),
@@ -29,21 +31,22 @@ class Piece(pygame.sprite.Sprite):
         self.id = id
         self.selected = False
         self.desfasaje_rotacion = 0
-
+        
         if static:
             self.rect.topleft = level_pos[self.level][id]
             self.image = self.image.convert()
             self.image.set_colorkey((255,255,255), RLEACCEL)
             self.image.set_alpha(50)
         else:
-            self.min_vel, self.max_vel = 0,0#self._velocity()
-            self.num = self.count(self.min_vel, self.max_vel)
+            self.num = self.count()
             self.func_x = random.choice(self.functions)
-            cordenates = range(HEIGHT) # alto
             angle = random.choice([90, 180, 270])
             self.rotate(angle)
+            # define el rango de cordenadas en las que pueden aparecer las
+            # piezas (cordenada y solamente, x aparecen en 0)
+            cordenates = range(WIDTH) # alto
             self.x = random.choice(cordenates)
-            self.y = random.choice(cordenates)
+            self.y = 0#random.choice(cordenates)
 
     def _velocity(self):
         largo, ancho = self.rect.size
@@ -53,10 +56,16 @@ class Piece(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.image, angle)
         self.rect  = self.image.get_rect()
         self.desfasaje_rotacion = (self.desfasaje_rotacion + angle) % 360
-        print self.desfasaje_rotacion
-    
+        #print self.desfasaje_rotacion
+
+    def release(self):
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        self.num = self.count(mouse_x / 50)
+        self.x = mouse_x
+        self.y = mouse_y
+
     def fit(self, robot):
-        print self.desfasaje_rotacion
+        #print self.desfasaje_rotacion
         if self.desfasaje_rotacion:
             return False
 
@@ -81,13 +90,14 @@ class Piece(pygame.sprite.Sprite):
             pos = (self.func_x(num) + self.x, func_y + self.y)
             self.rect.center = pos
             if self.rect.top > HEIGHT:
+                #print self.num.next()
                 self.rect.move_ip(0, pos[1])
-                self.num = self.count(self.min_vel, self.max_vel)
+                self.num = self.count()
                 self.y = 0
 
-    def count(self, min_vel, max_vel):
+    def count(self, x=0):
         i = self._velocity()
-        x = 0
+        x = x
         while 1:
             x = x+i
             yield x
