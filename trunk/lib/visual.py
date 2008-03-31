@@ -62,7 +62,7 @@ if __name__ == '__main__':
     size = (700,550)
     screen = pygame.display.set_mode(size)
     fill = [(0,0,0), (255,255,255), (127,127,127), (50,50,50)]
-    FINISH_IMAGE = sorted(glob.glob('/home/manuel/proyectos/pyweek6/data/imgs/baile/robot/*.png'))
+    FINISH_IMAGE = sorted(glob.glob('data/imgs/baile/*.png'))
     print FINISH_IMAGE
     images = [utils.load_image_alpha(image) for image in FINISH_IMAGE]
     times = [0.2] * len(FINISH_IMAGE)
