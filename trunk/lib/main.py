@@ -6,7 +6,7 @@ from config import  *
 from level import Level
 #from menu import Menu
 #from scores import HighScores
-#from visual import Visual
+from visual import Visual
 #from help import Help
 #from credits import Credits
 
@@ -29,10 +29,10 @@ def main():
     #pygame.display.set_icon(icon)
 
     #Introduction
-    #images = [utils.load_image(image) for image in INTRO_IMAGES]
-    #visual = Visual(screen, images, INTRO_TIMES)
+    images = [utils.load_image_alpha(image) for image in INTRO_IMAGES]
+    visual = Visual(screen, images, INTRO_TIMES)
     #music.play_music(INTROMUSIC, 1)
-    #visual.loop()
+    visual.loop()
     #music.stop_music()
     
     #Shooter opcion
