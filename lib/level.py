@@ -35,7 +35,8 @@ class Level(object):
         #Create the game clock
         self.clock = pygame.time.Clock()
         self.cargar_robot()
-
+        self.npiezas = 0
+        self.totalpiezas = len(self.robot)
         self.mouse_with_piece = False
 
         self.cargar_piezas()
@@ -57,6 +58,10 @@ class Level(object):
 
             pygame.display.flip()
     
+        if self.level < 4:
+            def f(screen):
+                return Level(screen, self.father, self.level + 1)
+            return f
         if self.exit:
             return self.father
 
@@ -115,12 +120,13 @@ class Level(object):
                     piece.x, piece.y = piece.rect.topleft
 
                     if self.selected_piece.fit(self.robot):
+                        self.npiezas += 1
                         self.robot.add(self.selected_piece)
                         self.piezas.remove(self.selected_piece)
                 break
 
     def finish(self):
-        return False
+        return self.totalpiezas == self.npiezas
 
     def cargar_robot(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
