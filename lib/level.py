@@ -12,6 +12,8 @@ from config import *
 import utils
 
 from pieces import Pieces
+from pieces import Dispatcher
+
 from explosion import *
 
 if not pygame.font: print 'Warning, fonts disabled'
@@ -29,17 +31,24 @@ class Level(object):
         self.exit = False
         self.paused = False
         
-        self.explosions = pygame.sprite.Group()
+        self.robot           = pygame.sprite.RenderUpdates()
+        self.cargar_robot()
+        self.piezas          = pygame.sprite.RenderUpdates()
+        self.cargar_piezas()
+        self.piezas_erroneas = pygame.sprite.Group()
+        self.cargar_piezas_erroneas()
+        self.piezas_activas  = pygame.sprite.Group()
+        self.piezas_encajadas= pygame.sprite.Group()
+        self.explosions      = pygame.sprite.Group()
         ExplosionMedium.containers = self.explosions
 
         #Create the game clock
         self.clock = pygame.time.Clock()
-        self.cargar_robot()
+        self.dispatcher = Dispatcher(2, self.piezas_activas, self.piezas, self.piezas_erroneas)
+        
         self.npiezas = 0
         self.totalpiezas = len(self.robot)
         self.mouse_with_piece = False
-
-        self.cargar_piezas()
 
     def loop(self):  
         #music.play_music(PLAYMUSIC)
@@ -47,6 +56,7 @@ class Level(object):
             self.tics += 1
    
             if not self.paused:
+                self.dispatcher.dispatch()
                 self.update()
                 self.draw()
 
@@ -68,12 +78,13 @@ class Level(object):
     def update(self):
         '''Actualizar valores de variables y ejecuta los update()
            de los grupos.'''
-        self.piezas.update()
+        self.piezas_activas.update()
         self.explosions.update()
 
     def draw(self):
         self.screen.blit(utils.create_surface((WIDTH, HEIGHT), (100,100,100)), (0,0) )
         self.robot.draw(self.screen)
+        self.piezas_encajadas.draw(self.screen)
         '''Dibuja en pantalla los grupos.'''
         self.piezas.draw(self.screen)
         self.explosions.draw(self.screen)
@@ -122,9 +133,15 @@ class Level(object):
                     #piece.x, piece.y = piece.rect.topleft
 
                     if self.selected_piece.fit(self.robot):
+
+                        print "ENCAJO!!"
+                        self.piezas_encajadas.add(self.selected_piece)
+
                         self.npiezas += 1
                         self.robot.add(self.selected_piece)
+
                         self.piezas.remove(self.selected_piece)
+                        self.piezas_activas.remove(self.selected_piece)
                 break
 
     def finish(self):
@@ -134,7 +151,13 @@ class Level(object):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
         p = Pieces(static=True, level=self.level)
 
-        self.robot = pygame.sprite.RenderUpdates(p.get_all())
+        self.robot.add(p.get_all())
+
+        for piece in self.robot:
+            piece.image = piece.image.convert()
+            piece.image.set_colorkey((255,255,255), RLEACCEL)
+            piece.image.set_alpha(50)
+
 
 
     def cargar_piezas(self):
@@ -143,11 +166,12 @@ class Level(object):
         sprites = []
         for s in sets:
             sprites += s.get_all()
-        self.piezas = pygame.sprite.RenderUpdates(sprites)
+        self.piezas.add(sprites)
 
-        #for piece in self.piezas:
-            #piece.image = piece.image.convert_alpha()
-
+    
+    def cargar_piezas_erroneas(self):
+        pass
+        
 def main():
     Level().loop()
 

@@ -38,10 +38,13 @@ class Piece(pygame.sprite.Sprite):
             self.image.set_colorkey((255,255,255), RLEACCEL)
             self.image.set_alpha(50)
         else:
+            print "PIEZA"
+            
             self.num = self.count()
             self.func_x = random.choice(self.functions)
             angle = random.choice([90, 180, 270])
             self.rotate(angle)
+            self.rect.bottom = 0
             # define el rango de cordenadas en las que pueden aparecer las
             # piezas (cordenada y solamente, x aparecen en 0)
             cordenates = range(WIDTH) # alto
@@ -49,16 +52,17 @@ class Piece(pygame.sprite.Sprite):
             self.y = random.choice(cordenates)
 
     def _velocity(self):
-        largo, ancho = self.rect.size
-        vel = (largo * ancho) / float(500) + 2
-        #print "Velocidad: ",vel
-        return min(30, vel)
+        #largo, ancho = self.rect.size
+        #vel = (largo * ancho) / float(500) + 2
+        ##print "Velocidad: ",vel
+        #return min(30, vel)
+        return 10
+
     
     def rotate(self, angle):
         self.image = pygame.transform.rotate(self.image, angle)
         self.rect  = self.image.get_rect()
         self.desfasaje_rotacion = (self.desfasaje_rotacion + angle) % 360
-        #print self.desfasaje_rotacion
 
     def release(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -66,13 +70,16 @@ class Piece(pygame.sprite.Sprite):
         self.x = mouse_x
         self.y = mouse_y
 
+
     def fit(self, robot):
         #print self.desfasaje_rotacion
         if self.desfasaje_rotacion:
             return False
 
         collideds = pygame.sprite.spritecollide(self, robot, False)
+        pprint(collideds)
         target = [x for x in collideds if x.id == self.id ]
+        
         if target:
             self.rect.topleft = target[0].rect.topleft
             return True
@@ -80,6 +87,8 @@ class Piece(pygame.sprite.Sprite):
         return False
 
     def update(self):
+        if self.rect.top > HEIGHT:
+            return
 
         if self.selected:
             self.rect.center = pygame.mouse.get_pos()
@@ -125,6 +134,33 @@ class Pieces(object):
             piece = Piece(img[0], img[1], self.level, self.static)
             result.append(piece)
         return result
+        
+class Dispatcher(object):
+    def __init__(self, mount, piezas_activas, piezas, piezas_erroneas):
+        self.mount = mount
+        self.piezas_activas = piezas_activas
+        self.piezas = piezas
+        self.piezas_erroneas = piezas_erroneas
+    
+    def new_dispatch(self):
+        if not self.piezas_activas.sprites():
+            return True
+        
+        for p in self.piezas_activas:
+            if p.rect.top < HEIGHT:
+                return False
+        return True
+        
+    def dispatch(self):
+        if self.new_dispatch():
+            self.piezas_activas.empty()
+            for i in range(self.mount):
+                pieza = random.choice(self.piezas.sprites())
+                pieza.rect.bottom = 0
+                pieza.num = pieza.count()
+                self.piezas_activas.add(pieza)
+            
+            
 
 if __name__ == '__main__':
     pygame.init()
