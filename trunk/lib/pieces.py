@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*-coding: utf-8 -*-
+# Filename: pieces.py
+
 import pygame
 import data
 from config import *
@@ -82,7 +86,7 @@ class Piece(pygame.sprite.Sprite):
             x = x+i
             yield x
 
-class Pieces():
+class Pieces:
     def __init__(self, static=False):
         self.images = self.load_images()
         self.static = static
