@@ -37,14 +37,15 @@ def main():
     
     #Shooter opcion
     #opcion = menu
-    #while opcion is not exit:
-    #    change = opcion(screen).loop()
-    #    if change:
-    #        opcion = change
-    #opcion()        #Exit
+    opcion = play
+    while opcion is not exit:
+        change = opcion(screen).loop()
+        if change:
+            opcion = change
+    opcion()        #Exit
 
-    level = Level(screen, None) 
-    level.loop()
+def play(screen):
+    return Level(screen, None) 
 
 def exit():
     sys.exit(0)
