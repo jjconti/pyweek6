@@ -46,7 +46,7 @@ class Piece(pygame.sprite.Sprite):
             # piezas (cordenada y solamente, x aparecen en 0)
             cordenates = range(WIDTH) # alto
             self.x = random.choice(cordenates)
-            self.y = 0#random.choice(cordenates)
+            self.y = random.choice(cordenates)
 
     def _velocity(self):
         largo, ancho = self.rect.size
