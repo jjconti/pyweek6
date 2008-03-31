@@ -50,7 +50,9 @@ class Piece(pygame.sprite.Sprite):
 
     def _velocity(self):
         largo, ancho = self.rect.size
-        return (largo * ancho) / float(500) + 2
+        vel = (largo * ancho) / float(500) + 2
+        #print "Velocidad: ",vel
+        return min(30, vel)
     
     def rotate(self, angle):
         self.image = pygame.transform.rotate(self.image, angle)
