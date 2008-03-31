@@ -3,16 +3,21 @@
 # Filename: pieces.py
 
 import pygame
-import data
-from config import *
+from pygame.locals import RLEACCEL
 import os
 import glob
-import utils
-from levelposimages import level_pos
 import math
 import random
 from pprint import pprint
-from pygame.locals import RLEACCEL
+
+import utils
+import data
+from config import *
+
+from levelposimages import level_pos
+from explosion import *
+
+
 
 DEBUG_MANUEL = True
 
@@ -30,12 +35,13 @@ class Piece(pygame.sprite.Sprite):
         self.level = level
         self.id = id
         self.selected = False
+        self.selected_time = 0
         self.desfasaje_rotacion = 0
-        
+
         self.static = static
-        self.ubicar()
-        
-    def ubicar(self):
+        self.set_top_position()
+
+    def set_top_position(self):
         if self.static:
             self.rect.topleft = level_pos[self.level][self.id]
             self.image = self.image.convert()
@@ -60,7 +66,6 @@ class Piece(pygame.sprite.Sprite):
         #return min(30, vel)
         return 10
 
-    
     def rotate(self, angle):
         self.image = pygame.transform.rotate(self.image, angle)
         self.rect  = self.image.get_rect()
@@ -72,6 +77,10 @@ class Piece(pygame.sprite.Sprite):
         self.x = mouse_x
         self.y = mouse_y
 
+    def select(self, miliseconds):
+        self.selected = True
+        self.selected_time = (miliseconds * CLOCK_TICS) / 1000
+        print "selected_time",self.selected_time
 
     def fit(self, robot):
         #print self.desfasaje_rotacion
@@ -81,11 +90,10 @@ class Piece(pygame.sprite.Sprite):
         collideds = pygame.sprite.spritecollide(self, robot, False)
         pprint(collideds)
         target = [x for x in collideds if x.id == self.id ]
-        
+
         if target:
             self.rect.topleft = target[0].rect.topleft
             return True
-
         return False
 
     def update(self):
@@ -93,8 +101,10 @@ class Piece(pygame.sprite.Sprite):
             return
 
         if self.selected:
-            self.rect.center = pygame.mouse.get_pos()
-
+            self.rect.center   = pygame.mouse.get_pos()
+            self.selected_time -= 1
+            if self.selected_time == 0:
+                self.dispatcher.selected_explosion()
         else:
             num = self.num.next()
             num = math.radians(num)
@@ -135,36 +145,82 @@ class Pieces(object):
             piece = Piece(img[0], img[1], self.level, self.static)
             result.append(piece)
         return result
-        
+
 class Dispatcher(object):
-    def __init__(self, mount, piezas_activas, piezas, piezas_erroneas):
+    def __init__(self, mount, piezas_activas, piezas, piezas_erroneas, piezas_encajadas, robot):
+        #mount es la cantidad de piezas que son despachadas de forma simultanea
         self.mount = mount
-        self.piezas_activas = piezas_activas
-        self.piezas = piezas
-        self.piezas_erroneas = piezas_erroneas
-    
+        self.piezas_activas   = piezas_activas
+        self.piezas           = piezas
+        self.piezas_erroneas  = piezas_erroneas
+        self.piezas_encajadas = piezas_encajadas
+        self.robot = robot
+
+        for p in self.piezas:
+            p.dispatcher = self
+
+        self.npiezas = 0
+        self.mouse_with_piece = False
+
+    def selected_explosion(self):
+        self.selected_piece.selected = False
+        self.mouse_with_piece = False
+        self.piezas_activas.remove(self.selected_piece)
+        ExplosionMedium(self.selected_piece.rect.center)
+        self.selected_piece.set_top_position()
+
     def new_dispatch(self):
         if not self.piezas_activas.sprites():
             return True
-        
+
         for p in self.piezas_activas:
             if p.rect.top < HEIGHT:
                 return False
         return True
-        
+
     def dispatch(self):
         if self.new_dispatch():
             self.piezas_activas.empty()
-            
+
             options = self.piezas.sprites()
             for i in range(self.mount):
                 if options:
                     pieza = random.choice(options)
                     options.remove(pieza)
-                    pieza.ubicar()
+                    pieza.set_top_position()
                     self.piezas_activas.add(pieza)
                     print pieza.id
-            
+
+    def rotate_selected(self, angle):
+        if self.mouse_with_piece:
+            self.selected_piece.rotate(angle)
+
+    def agarrar_soltar(self, pos):
+        '''Logica para agarrar o soltar las piezas con el mouse'''
+        for piece in self.piezas:
+            if piece.rect.collidepoint(pos):
+                self.selected_piece = piece
+
+                #Primer click (agarrar)
+                if not self.mouse_with_piece:
+                    self.mouse_with_piece = True
+                    piece.select(1500)
+                #Segundo Click (soltar)
+                else:
+                    self.mouse_with_piece = False
+                    piece.selected = False
+                    piece.release()
+
+                    if self.selected_piece.fit(self.robot):
+
+                        print "ENCAJO!!"
+                        self.piezas_encajadas.add(self.selected_piece)
+
+                        self.npiezas += 1
+
+                        self.piezas.remove(self.selected_piece)
+                        self.piezas_activas.remove(self.selected_piece)
+                break
             
 
 if __name__ == '__main__':
