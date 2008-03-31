@@ -19,6 +19,22 @@ def load_image(fullname, colorkey=None):
         image.set_colorkey(colorkey, RLEACCEL)
     return image
 
+def load_image_alpha(fullname, colorkey=None):
+
+    try:
+        image = pygame.image.load(fullname)
+    except pygame.error, message:
+        print 'Cannot load image:', fullname
+        raise SystemExit, message
+    image = image.convert_alpha()
+    if colorkey is not None:
+        if colorkey is -1:
+            #colorkey = image.get_at((0,0))
+            colorkey = (255, 0, 0)
+        image.set_colorkey(colorkey, RLEACCEL)
+    return image
+
+
 class NoneSound(object):
     def play(self): pass
 

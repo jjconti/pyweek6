@@ -10,15 +10,20 @@ import random
 
 class Piece(pygame.sprite.Sprite):
     functions = [lambda x: 20*math.sin(x/4),
-                 lambda x: 20*math.cos(x/2)]
+                 lambda x: 20*math.cos(x/2),
+                 lambda x: x]
+
     def __init__(self, id, img, static=False):
-        self.id = id
-        self.selected = False
         pygame.sprite.Sprite.__init__(self)
+
         self.image = img
         self.rect = self.image.get_rect()
-        self.static = static
-        if self.static:
+
+        self.id = id
+        self.selected = False
+        self.desfasaje_rotacion = 0
+
+        if static:
             self.rect.topleft = level1[id]
         else:
             self.min_vel, self.max_vel = 0,0#self._velocity()
@@ -30,27 +35,6 @@ class Piece(pygame.sprite.Sprite):
             self.x = random.choice(cordenates)
             self.y = random.choice(cordenates)
 
-        cordenates = range(HEIGHT) # alto
-
-        if self.static:
-            print level1[id]
-            self.rect.topleft = level1[id]
-        else:
-            self.min_vel, self.max_vel = 0,0#self._velocity()
-            self.num = self.count(self.min_vel, self.max_vel)
-            self.func_x = random.choice(self.functions)
-            cordenates = range(HEIGHT) # alto
-            self.x = random.choice(cordenates)
-            self.y = random.choice(cordenates)
-            self.rect.topleft = (random.choice(cordenates), random.choice(cordenates))
-
-        self.min_vel, self.max_vel = 0,0#self._velocity()
-        self.num = self.count(self.min_vel, self.max_vel)
-        self.func_x = random.choice(self.functions)
-        
-        self.x = random.choice(cordenates)
-        self.y = random.choice(cordenates)
-
     def _velocity(self):
         largo, ancho = self.rect.size
         return (largo * ancho) / float(500) + 2
@@ -58,19 +42,24 @@ class Piece(pygame.sprite.Sprite):
     def rotate(self, angle):
         self.image = pygame.transform.rotate(self.image, angle)
         self.rect  = self.image.get_rect()
+        self.desfasaje_rotacion = (self.desfasaje_rotacion + angle) % 360
+        print self.desfasaje_rotacion
     
     def fit(self, robot):
+        print self.desfasaje_rotacion
+        if self.desfasaje_rotacion:
+            return False
+
         collideds = pygame.sprite.spritecollide(self, robot, False)
         target = [x for x in collideds if x.id == self.id ]
         if target:
             self.rect.topleft = target[0].rect.topleft
             return True
-        
+
         return False
 
     def update(self):
-        if self.static:
-            return
+
         if self.selected:
             self.rect.center = pygame.mouse.get_pos()
 
@@ -78,7 +67,7 @@ class Piece(pygame.sprite.Sprite):
             num = self.num.next()
             num = math.radians(num)
             func_y = 10*num
-    
+
             pos = (self.func_x(num) + self.x, func_y + self.y)
             self.rect.center = pos
             if self.rect.top > HEIGHT:
@@ -87,7 +76,6 @@ class Piece(pygame.sprite.Sprite):
                 self.y = 0
 
     def count(self, min_vel, max_vel):
-        #i = random.randrange(min_vel, max_vel)
         i = self._velocity()
         x = 0
         while 1:
@@ -101,9 +89,7 @@ class Pieces():
 
     def load_images(self):
         result = []
-        #print PIECES_LEVEL1
         for pathfile in glob.glob(os.path.join(PIECES_LEVEL1, '*.png')):
-            print pathfile
             image = utils.load_image(pathfile, -1)
             result.append(image)
         return result
@@ -114,8 +100,6 @@ class Pieces():
             piece = Piece(id+1, img, self.static)
             result.append(piece)
         return result
-
-
 
 if __name__ == '__main__':
     pygame.init()
