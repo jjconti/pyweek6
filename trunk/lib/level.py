@@ -128,9 +128,7 @@ class Level(object):
                 else:
                     self.mouse_with_piece = False
                     piece.selected = False
-                    #print 'llama a release'
                     piece.release()
-                    #piece.x, piece.y = piece.rect.topleft
 
                     if self.selected_piece.fit(self.robot):
 

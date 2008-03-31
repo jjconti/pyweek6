@@ -49,6 +49,7 @@ class Piece(pygame.sprite.Sprite):
             # piezas (cordenada y solamente, x aparecen en 0)
             cordenates = range(WIDTH) # alto
             self.x = random.choice(cordenates)
+            print "x", self.x
             self.y = random.choice(cordenates)
 
     def _velocity(self):
@@ -101,7 +102,6 @@ class Piece(pygame.sprite.Sprite):
             pos = (self.func_x(num) + self.x, func_y + self.y)
             self.rect.center = pos
             if self.rect.top > HEIGHT:
-                #print self.num.next()
                 self.rect.move_ip(0, pos[1])
                 self.num = self.count()
                 self.y = 0
@@ -154,11 +154,17 @@ class Dispatcher(object):
     def dispatch(self):
         if self.new_dispatch():
             self.piezas_activas.empty()
+            
+            options = self.piezas.sprites()
             for i in range(self.mount):
-                pieza = random.choice(self.piezas.sprites())
-                pieza.rect.bottom = 0
-                pieza.num = pieza.count()
-                self.piezas_activas.add(pieza)
+                if options:
+                    pieza = random.choice(options)
+                    options.remove(pieza)
+                    pieza.rect.bottom = 0
+                    pieza.y = 0
+                    pieza.num = pieza.count()
+                    self.piezas_activas.add(pieza)
+                    print pieza.id
             
             
 
