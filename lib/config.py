@@ -46,6 +46,5 @@ MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
 #sonidos
 EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
 PEEP = os.path.join(SOUNDS, "peep.ogg")
-COUNTDOWN = os.path.join(SOUNDS, "countdown.wav")  
 
 print "EXPLOSION",EXPLOSION
