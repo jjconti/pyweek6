@@ -47,7 +47,7 @@ class Level(object):
 
         #Create the game clock
         self.clock = pygame.time.Clock()
-        self.dispatcher = Dispatcher(2, self.piezas_activas, self.piezas, self.piezas_erroneas, self.piezas_encajadas, self.robot)
+        self.dispatcher = Dispatcher(3, self.piezas_activas, self.piezas, self.piezas_erroneas, self.piezas_encajadas, self.robot)
         
         
         self.totalpiezas = len(self.robot)
@@ -119,7 +119,7 @@ class Level(object):
                 self.dispatcher.rotate_selected(270)
 
     def finish(self):
-        return self.totalpiezas == self.dispatcher.npiezas
+        return not self.piezas.sprites()
 
     def cargar_robot(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
