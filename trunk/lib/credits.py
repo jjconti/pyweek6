@@ -45,12 +45,12 @@ class Credits(object):
         image = '/home/nercof/Proyectos/pyweek6/data/imgs/credits.png'
         background = pygame.image.load(image)
 
-        title = 'CREDITS'
-        title_img = self.font_3.render(title, True, (100, 100, 100))
-        topleft = (background.get_rect().width - title_img.get_rect().width) / 2, 30
-        background.blit(title_img, topleft)
-        self.screen.blit(background, (0,0))
-        pygame.display.flip()
+        #title = 'CREDITS'
+        #title_img = self.font_3.render(title, True, (100, 100, 100))
+        #topleft = (background.get_rect().width - title_img.get_rect().width) / 2, 30
+        #background.blit(title_img, topleft)
+        #self.screen.blit(background, (0,0))
+        #pygame.display.flip()
         clock = pygame.time.Clock()
 
         # Probemos con dos nomas
@@ -61,27 +61,25 @@ class Credits(object):
                 bandera = False
                 time_loop = 0
                 pos_x_inicial = 200
-                pos_y = y = 60#background.get_rect().width/2
+                pos_y = y = 100#background.get_rect().width/2
                 developer = ' '.join(developer)
                 while not bandera:
                     clock.tick(60)
+                    print time_loop
                     pygame.display.flip()
                     self.screen.blit(background, (0,0))
-                    # Sumamos uno al time_loop
                     time_loop += 1
                     if time_loop == 60:
-                        state = 1
                         bandera = True
-                    #
-                    print "Person: ", developer
+                    #print "Person: ", developer
                     imagen = self.font_1.render(developer, True,
                             (100,100,100))
-                    #x_2 = 30#self.screen.get_width()/2
 
                     if self._verifyKey():
                         return self.father
+                    print 'Posicion Y: ', y
                     self.screen.blit(imagen, (pos_x_inicial, y)) # dibuja la imagen
-                    y += pos_y + 10
+                    y += 0.1
 
             pygame.time.delay(50)
 
