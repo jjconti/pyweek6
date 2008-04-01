@@ -39,8 +39,9 @@ BLUE = (122, 138, 16)
 
 INTRO = os.path.join(IMGS, "intro")
 INTRO_IMAGES = sorted(glob.glob(INTRO+'/*.png'))
-print INTRO_IMAGES
 INTRO_TIMES = [0.22] * len(INTRO_IMAGES)
+MISC = os.path.join(IMGS, "misc")
+MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
 
 #sonidos
 EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")

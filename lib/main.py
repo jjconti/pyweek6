@@ -6,7 +6,7 @@ from config import  *
 from level import Level
 #from menu import Menu
 #from scores import HighScores
-from visual import Visual
+from intro import Visual
 #from help import Help
 #from credits import Credits
 
