@@ -36,7 +36,7 @@ class Level(object):
         self.cargar_robot()
         self.piezas          = pygame.sprite.RenderUpdates()
         self.cargar_piezas()
-        self.piezas_erroneas = pygame.sprite.Group()
+        self.piezas_erroneas = pygame.sprite.RenderUpdates()
         self.cargar_piezas_erroneas()
         self.piezas_activas  = pygame.sprite.Group()
         self.piezas_encajadas= pygame.sprite.Group()
@@ -90,7 +90,7 @@ class Level(object):
         self.robot.draw(self.screen)
         self.piezas_encajadas.draw(self.screen)
         '''Dibuja en pantalla los grupos.'''
-        self.piezas.draw(self.screen)
+        self.piezas_activas.draw(self.screen)
         self.explosions.draw(self.screen)
         self.widgets.draw(self.screen)
         
@@ -123,7 +123,7 @@ class Level(object):
 
     def cargar_robot(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
-        p = Pieces(static=True, level=self.level)
+        p = Pieces(type_piece="static", level=self.level)
 
         self.robot.add(p.get_all())
 
@@ -132,20 +132,21 @@ class Level(object):
             piece.image.set_colorkey((255,255,255), RLEACCEL)
             piece.image.set_alpha(50)
 
-
-
     def cargar_piezas(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
-        sets = [Pieces(level=self.level) for x in range(1)]
+        sets = [Pieces(type_piece="dinamic", level=self.level) for x in range(1)]
         sprites = []
         for s in sets:
             sprites += s.get_all()
         self.piezas.add(sprites)
 
-    
     def cargar_piezas_erroneas(self):
-        pass
-        
+        sets = [Pieces(type_piece="erronea", level=self.level) for x in range(1)]
+        sprites = []
+        for s in sets:
+            sprites += s.get_all()
+        self.piezas_erroneas.add(sprites)
+
 def main():
     Level().loop()
 

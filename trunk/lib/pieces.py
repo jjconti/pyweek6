@@ -43,8 +43,7 @@ class EnergyBar(pygame.sprite.Sprite):
         #text = font.render("Energy", True, BLACK)
         w = 15
         h = max(int(WIDTH * self.energy_percent / 100), 0)
-        print h
-        
+
         if self.energy_percent > 60: 
             color = GREEN
         elif self.energy_percent > 30:
@@ -76,6 +75,73 @@ class StaticPiece(pygame.sprite.Sprite):
         self.image = self.image.convert()
         self.image.set_colorkey((255,255,255), RLEACCEL)
         self.image.set_alpha(50)
+
+class ErroneaPiece(pygame.sprite.Sprite):
+    functions = [lambda x: 20*math.sin(x/4),
+                 lambda x: 20*math.cos(x/2),
+                 lambda x: x]
+
+    def __init__(self, id, img, level):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = img
+        self.rect = self.image.get_rect()
+
+        self.level = level
+        self.id = id
+        self.desfasaje_rotacion = 0
+
+        self.set_top_position()
+
+    def set_top_position(self):
+        self.num = self.count()
+        self.func_x = random.choice(self.functions)
+        angle = random.choice([90, 180, 270])
+        self.rotate(angle)
+        self.rect.bottom = 0
+        # define el rango de cordenadas en las que pueden aparecer las
+        # piezas (cordenada y solamente, x aparecen en 0)
+        cordenates = range(WIDTH) # alto
+        self.x = random.choice(cordenates)
+        self.y = 0
+
+    def _velocity(self):
+        #largo, ancho = self.rect.size
+        #vel = (largo * ancho) / float(500) + 2
+        ##print "Velocidad: ",vel
+        #return min(30, vel)
+        return 10
+
+    def rotate(self, angle):
+        self.image = pygame.transform.rotate(self.image, angle)
+        self.rect  = self.image.get_rect()
+        self.desfasaje_rotacion = (self.desfasaje_rotacion + angle) % 360
+
+    def update(self):
+        if self.rect.top > HEIGHT:
+            return
+
+        num = self.num.next()
+        num = math.radians(num)
+        func_y = 10*num
+
+        pos = (self.func_x(num) + self.x, func_y + self.y)
+        self.rect.center = pos
+        if self.rect.top > HEIGHT:
+            self.rect.move_ip(0, pos[1])
+            self.num = self.count()
+            self.y = 0
+
+    def count(self, x=0):
+        i = self._velocity()
+        x = x
+        while 1:
+            x = x+i
+            yield x
+            
+    def is_erronea(self):
+        return True
+    
 
 class DinamicPiece(pygame.sprite.Sprite):
     functions = [lambda x: 20*math.sin(x/4),
@@ -173,28 +239,42 @@ class DinamicPiece(pygame.sprite.Sprite):
             x = x+i
             yield x
 
+    def is_erronea(self):
+        return False
+
 class Pieces(object):
-    def __init__(self, level, static=False):
+    def __init__(self, level, type_piece="static"):
         self.level = level
+        self.type_piece = type_piece
         self.images = self.load_images()
-        self.static = static
 
     def load_images(self):
-        result = []
-        for pathfile in glob.glob(os.path.join(PIECES_LEVEL[self.level], '*.png')):
-            myFile = os.path.basename(pathfile)
-            myId = myFile[:-4]
-            image = utils.load_image_alpha(pathfile, -1)
-            result.append((int(myId), image))
+        if self.type_piece in ("static", "dinamic"): 
+            result = []
+            for pathfile in glob.glob(os.path.join(PIECES_LEVEL[self.level], '*.png')):
+                myFile = os.path.basename(pathfile)
+                myId = myFile[:-4]
+                image = utils.load_image_alpha(pathfile, -1)
+                result.append((int(myId), image))
+        elif self.type_piece == "erronea":
+            result = []
+            for pathfile in glob.glob(os.path.join(ERRONEAS_LEVEL[self.level], '*.png')):
+                myFile = os.path.basename(pathfile)
+                myId = myFile[:-4]
+                image = utils.load_image_alpha(pathfile, -1)
+                result.append((int(myId), image))
+
         return result
 
     def get_all(self):
         result = []
         for img in self.images:
-            if self.static:
+            if self.type_piece == "static":
                 piece = StaticPiece(img[0], img[1], self.level)
-            else:
+            elif self.type_piece == "dinamic":
                 piece = DinamicPiece(img[0], img[1], self.level)
+            else:
+                piece = ErroneaPiece(img[0], img[1], self.level)
 
             result.append(piece)
         return result
@@ -233,17 +313,23 @@ class Dispatcher(object):
         return True
 
     def dispatch(self):
-        if self.new_dispatch():
-            self.piezas_activas.empty()
+        if not self.new_dispatch():
+            return
 
-            options = self.piezas.sprites()
-            for i in range(self.mount):
-                if options:
-                    pieza = random.choice(options)
-                    options.remove(pieza)
-                    pieza.set_top_position()
-                    self.piezas_activas.add(pieza)
-                    print pieza.id
+        self.piezas_activas.empty()
+
+        #Agrego las piezas erroneas
+        erroneas_options = self.piezas_erroneas.sprites()
+        for i in range(self.mount):
+            pieza = random.choice(erroneas_options)
+            erroneas_options.remove(pieza)
+            pieza.set_top_position()
+            self.piezas_activas.add(pieza)
+
+        #Agrego la pieza correcta
+        pieza          = random.choice(self.piezas.sprites())
+        pieza.set_top_position()
+        self.piezas_activas.add(pieza)
 
     def rotate_selected(self, angle):
         if self.mouse_with_piece:
