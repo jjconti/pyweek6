@@ -27,6 +27,16 @@ PIECES_LEVEL = {1: os.path.join(LEVEL1, "pieces"),
 # Font
 FONT_CREDIT = os.path.join(FONTS, "GALACTOS.ttf")
 
+#colors
+COLOR1 = (10, 50, 200) 
+BLACK = (0, 0, 0)
+GREEN = (0,250,0)
+ORANGE = (255, 180, 0)
+RED = (250, 0, 0)
+WHITE = (250, 250, 250)
+GREY = (100, 100, 100)
+BLUE = (122, 138, 16)
+
 INTRO = os.path.join(IMGS, "intro")
 INTRO_IMAGES = sorted(glob.glob(INTRO+'/*.png'))
 print INTRO_IMAGES
