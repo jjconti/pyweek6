@@ -149,7 +149,7 @@ class DinamicPiece(pygame.sprite.Sprite):
             yield x
 
 
-class ErroneaPiece(DinamicPiece):
+class WrongPiece(DinamicPiece):
 
     def __init__(self, id, img, level):
         DinamicPiece.__init__(self, id, img, level)
@@ -178,12 +178,14 @@ class RightPiece(DinamicPiece):
         DinamicPiece.__init__(self, id, img, level)
 
     def release(self):
+        music.stop_peep()
+        self.selected = False
         mouse_x, mouse_y = pygame.mouse.get_pos()
         self.num = self.count()
         self.x = mouse_x
         self.y = mouse_y
 
-    def select(self, miliseconds):
+    def select(self, miliseconds=2000):
         music.play_peep()
         self.selected = True
         self.selected_time = (miliseconds * CLOCK_TICS) / 1000
@@ -258,7 +260,7 @@ class Pieces(object):
             elif self.type_piece == "dinamic":
                 piece = RightPiece(img[0], img[1], self.level)
             else:
-                piece = ErroneaPiece(img[0], img[1], self.level)
+                piece = WrongPiece(img[0], img[1], self.level)
 
             result.append(piece)
         return result
@@ -276,7 +278,6 @@ class Dispatcher(object):
         for p in self.piezas:
             p.dispatcher = self
 
-        self.npiezas = 0
         self.mouse_with_piece = False
         self.mouse_with_erronea_piece = False
 
@@ -310,15 +311,17 @@ class Dispatcher(object):
         #Agrego las piezas erroneas
         erroneas_options = self.piezas_erroneas.sprites()
         for i in range(self.mount):
+            print "options", len(erroneas_options)
             pieza = random.choice(erroneas_options)
             erroneas_options.remove(pieza)
             pieza.set_top_position()
             self.piezas_activas.add(pieza)
 
         #Agrego la pieza correcta
-        pieza          = random.choice(self.piezas.sprites())
-        pieza.set_top_position()
-        self.piezas_activas.add(pieza)
+        if self.piezas.sprites():
+            pieza          = random.choice(self.piezas.sprites())
+            pieza.set_top_position()
+            self.piezas_activas.add(pieza)
 
     def rotate_selected(self, angle):
         if self.mouse_with_piece:
@@ -337,21 +340,13 @@ class Dispatcher(object):
                         self.mouse_with_erronea_piece = True
                     else:
                         self.mouse_with_piece = True
-                        piece.select(2000)
+                        piece.select(miliseconds=2000)
                 #Segundo Click (soltar)
                 else:
                     self.mouse_with_piece = False
-                    piece.selected = False
                     piece.release()
-                    music.stop_peep()
-
                     if self.selected_piece.fit(self.robot):
-
-                        print "ENCAJO!!"
                         self.piezas_encajadas.add(self.selected_piece)
-
-                        self.npiezas += 1
-
                         self.piezas.remove(self.selected_piece)
                         self.piezas_activas.remove(self.selected_piece)
                 return
