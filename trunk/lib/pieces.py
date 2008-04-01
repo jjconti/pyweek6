@@ -58,12 +58,31 @@ class EnergyBar(pygame.sprite.Sprite):
             #img.blit(text, (w1 - w2, 0))
         return img
 
-class Piece(pygame.sprite.Sprite):
+
+class StaticPiece(pygame.sprite.Sprite):
+    def __init__(self, id, img, level):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = img
+        self.rect = self.image.get_rect()
+
+        self.level = level
+        self.id = id
+
+        self.set_position()
+
+    def set_position(self):
+        self.rect.topleft = level_pos[self.level][self.id]
+        self.image = self.image.convert()
+        self.image.set_colorkey((255,255,255), RLEACCEL)
+        self.image.set_alpha(50)
+
+class DinamicPiece(pygame.sprite.Sprite):
     functions = [lambda x: 20*math.sin(x/4),
                  lambda x: 20*math.cos(x/2),
                  lambda x: x]
 
-    def __init__(self, id, img, level, static=False):
+    def __init__(self, id, img, level):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = img
@@ -75,26 +94,19 @@ class Piece(pygame.sprite.Sprite):
         self.selected_time = 0
         self.desfasaje_rotacion = 0
 
-        self.static = static
         self.set_top_position()
 
     def set_top_position(self):
-        if self.static:
-            self.rect.topleft = level_pos[self.level][self.id]
-            self.image = self.image.convert()
-            self.image.set_colorkey((255,255,255), RLEACCEL)
-            self.image.set_alpha(50)
-        else:
-            self.num = self.count()
-            self.func_x = random.choice(self.functions)
-            angle = random.choice([90, 180, 270])
-            self.rotate(angle)
-            self.rect.bottom = 0
-            # define el rango de cordenadas en las que pueden aparecer las
-            # piezas (cordenada y solamente, x aparecen en 0)
-            cordenates = range(WIDTH) # alto
-            self.x = random.choice(cordenates)
-            self.y = 0
+        self.num = self.count()
+        self.func_x = random.choice(self.functions)
+        angle = random.choice([90, 180, 270])
+        self.rotate(angle)
+        self.rect.bottom = 0
+        # define el rango de cordenadas en las que pueden aparecer las
+        # piezas (cordenada y solamente, x aparecen en 0)
+        cordenates = range(WIDTH) # alto
+        self.x = random.choice(cordenates)
+        self.y = 0
 
     def _velocity(self):
         #largo, ancho = self.rect.size
@@ -179,7 +191,11 @@ class Pieces(object):
     def get_all(self):
         result = []
         for img in self.images:
-            piece = Piece(img[0], img[1], self.level, self.static)
+            if self.static:
+                piece = StaticPiece(img[0], img[1], self.level)
+            else:
+                piece = DinamicPiece(img[0], img[1], self.level)
+
             result.append(piece)
         return result
 
