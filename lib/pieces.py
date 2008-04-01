@@ -113,7 +113,7 @@ class DinamicPiece(pygame.sprite.Sprite):
         #vel = (largo * ancho) / float(500) + 2
         ##print "Velocidad: ",vel
         #return min(30, vel)
-        return 3
+        return 16
 
     def rotate(self, angle):
         self.image = pygame.transform.rotate(self.image, angle)
