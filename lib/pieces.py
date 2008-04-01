@@ -21,6 +21,42 @@ from explosion import *
 
 
 DEBUG_MANUEL = True
+class EnergyBar(pygame.sprite.Sprite):
+    '''An energy bar'''
+    def __init__(self, energy_leap=0.05):
+        pygame.sprite.Sprite.__init__(self)
+        self.energy_leap = energy_leap
+        self.energy_percent = 100 #percent remanding of time
+        self.image = self._image()
+        self.rect = self.image.get_rect(right=WIDTH-10, bottom=HEIGHT)
+
+    def update(self):
+        self.energy_percent -= self.energy_leap
+        self.image = self._image()
+        self.rect = self.image.get_rect(right=WIDTH-10, bottom=HEIGHT)
+
+    def add_energy(self, add_percent):
+        self.energy_percent = min(100, add_percent + self.energy_percent)
+        
+    def _image(self):
+        #font = pygame.font.Font(FONT1, 14)
+        #text = font.render("Energy", True, BLACK)
+        w = 15
+        h = max(int(WIDTH * self.energy_percent / 100), 0)
+        print h
+        
+        if self.energy_percent > 60: 
+            color = GREEN
+        elif self.energy_percent > 30:
+            color = ORANGE
+        else:
+            color = RED
+        img = utils.create_surface((w,h), color)
+        #w1 = img.get_rect().width
+        #w2 = text.get_rect().width
+        #if w1 > 1.2 * w2:        
+            #img.blit(text, (w1 - w2, 0))
+        return img
 
 class Piece(pygame.sprite.Sprite):
     functions = [lambda x: 20*math.sin(x/4),

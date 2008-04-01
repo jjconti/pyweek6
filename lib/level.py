@@ -13,6 +13,7 @@ import utils
 
 from pieces import Pieces
 from pieces import Dispatcher
+from pieces import EnergyBar
 
 from explosion import *
 
@@ -39,12 +40,15 @@ class Level(object):
         self.cargar_piezas_erroneas()
         self.piezas_activas  = pygame.sprite.Group()
         self.piezas_encajadas= pygame.sprite.Group()
+        self.widgets = pygame.sprite.Group()
+        self.widgets.add(EnergyBar())
         self.explosions      = pygame.sprite.Group()
         ExplosionMedium.containers = self.explosions
 
         #Create the game clock
         self.clock = pygame.time.Clock()
         self.dispatcher = Dispatcher(2, self.piezas_activas, self.piezas, self.piezas_erroneas, self.piezas_encajadas, self.robot)
+        
         
         self.totalpiezas = len(self.robot)
         
@@ -79,6 +83,7 @@ class Level(object):
            de los grupos.'''
         self.piezas_activas.update()
         self.explosions.update()
+        self.widgets.update()
 
     def draw(self):
         self.screen.blit(utils.create_surface((WIDTH, HEIGHT), (100,100,100)), (0,0) )
@@ -87,6 +92,7 @@ class Level(object):
         '''Dibuja en pantalla los grupos.'''
         self.piezas.draw(self.screen)
         self.explosions.draw(self.screen)
+        self.widgets.draw(self.screen)
         
 
     def control(self, event):
