@@ -10,6 +10,8 @@ import pygame, os
 from pygame.locals import *
 
 from utils import *
+import music
+
 #from sound import *
 
 #def load_exp(file):
@@ -164,8 +166,7 @@ class ExplosionMedium(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(center = pos)
             self.life = 24
             self.frame = 0
-            #s = load_sound("Explode 2.wav")
-            #s.play()
+            music.play_explosion()
 
       def update(self):
             self.life -= 1
