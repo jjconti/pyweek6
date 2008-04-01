@@ -13,6 +13,7 @@ from pprint import pprint
 import utils
 import data
 from config import *
+import music
 
 from levelposimages import level_pos
 from explosion import *
@@ -78,9 +79,9 @@ class Piece(pygame.sprite.Sprite):
         self.y = mouse_y
 
     def select(self, miliseconds):
+        music.play_peep()
         self.selected = True
         self.selected_time = (miliseconds * CLOCK_TICS) / 1000
-        print "selected_time",self.selected_time
 
     def fit(self, robot):
         #print self.desfasaje_rotacion
@@ -163,6 +164,7 @@ class Dispatcher(object):
         self.mouse_with_piece = False
 
     def selected_explosion(self):
+        music.stop_peep()
         self.selected_piece.selected = False
         self.mouse_with_piece = False
         self.piezas_activas.remove(self.selected_piece)
@@ -204,12 +206,13 @@ class Dispatcher(object):
                 #Primer click (agarrar)
                 if not self.mouse_with_piece:
                     self.mouse_with_piece = True
-                    piece.select(1500)
+                    piece.select(2000)
                 #Segundo Click (soltar)
                 else:
                     self.mouse_with_piece = False
                     piece.selected = False
                     piece.release()
+                    music.stop_peep()
 
                     if self.selected_piece.fit(self.robot):
 

@@ -34,4 +34,7 @@ INTRO_TIMES = [0.22] * len(INTRO_IMAGES)
 
 #sonidos
 EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
+PEEP = os.path.join(SOUNDS, "peep.ogg")
+COUNTDOWN = os.path.join(SOUNDS, "countdown.wav")  
+
 print "EXPLOSION",EXPLOSION
