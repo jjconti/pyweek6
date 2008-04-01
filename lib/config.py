@@ -24,6 +24,11 @@ LEVEL3 = os.path.join(IMGS, "level3")
 PIECES_LEVEL = {1: os.path.join(LEVEL1, "pieces"),
                 2: os.path.join(LEVEL2, "pieces"),
                 3: os.path.join(LEVEL3, "pieces")}
+
+ERRONEAS_LEVEL = {1: os.path.join(LEVEL1, "erroneas"),
+                  2: os.path.join(LEVEL2, "erroneas"),
+                  3: os.path.join(LEVEL3, "erroneas")}
+
 # Font
 FONT_CREDIT = os.path.join(FONTS, "GALACTOS.ttf")
 
