@@ -76,72 +76,6 @@ class StaticPiece(pygame.sprite.Sprite):
         self.image.set_colorkey((255,255,255), RLEACCEL)
         self.image.set_alpha(50)
 
-class ErroneaPiece(pygame.sprite.Sprite):
-    functions = [lambda x: 20*math.sin(x/4),
-                 lambda x: 20*math.cos(x/2),
-                 lambda x: x]
-
-    def __init__(self, id, img, level):
-        pygame.sprite.Sprite.__init__(self)
-
-        self.image = img
-        self.rect = self.image.get_rect()
-
-        self.level = level
-        self.id = id
-        self.desfasaje_rotacion = 0
-
-        self.set_top_position()
-
-    def set_top_position(self):
-        self.num = self.count()
-        self.func_x = random.choice(self.functions)
-        angle = random.choice([90, 180, 270])
-        self.rotate(angle)
-        self.rect.bottom = 0
-        # define el rango de cordenadas en las que pueden aparecer las
-        # piezas (cordenada y solamente, x aparecen en 0)
-        cordenates = range(WIDTH) # alto
-        self.x = random.choice(cordenates)
-        self.y = 0
-
-    def _velocity(self):
-        #largo, ancho = self.rect.size
-        #vel = (largo * ancho) / float(500) + 2
-        ##print "Velocidad: ",vel
-        #return min(30, vel)
-        return 10
-
-    def rotate(self, angle):
-        self.image = pygame.transform.rotate(self.image, angle)
-        self.rect  = self.image.get_rect()
-        self.desfasaje_rotacion = (self.desfasaje_rotacion + angle) % 360
-
-    def update(self):
-        if self.rect.top > HEIGHT:
-            return
-
-        num = self.num.next()
-        num = math.radians(num)
-        func_y = 10*num
-
-        pos = (self.func_x(num) + self.x, func_y + self.y)
-        self.rect.center = pos
-        if self.rect.top > HEIGHT:
-            self.rect.move_ip(0, pos[1])
-            self.num = self.count()
-            self.y = 0
-
-    def count(self, x=0):
-        i = self._velocity()
-        x = x
-        while 1:
-            x = x+i
-            yield x
-            
-    def is_erronea(self):
-        return True
-    
 
 class DinamicPiece(pygame.sprite.Sprite):
     functions = [lambda x: 20*math.sin(x/4),
@@ -179,12 +113,69 @@ class DinamicPiece(pygame.sprite.Sprite):
         #vel = (largo * ancho) / float(500) + 2
         ##print "Velocidad: ",vel
         #return min(30, vel)
-        return 10
+        return 3
 
     def rotate(self, angle):
         self.image = pygame.transform.rotate(self.image, angle)
         self.rect  = self.image.get_rect()
         self.desfasaje_rotacion = (self.desfasaje_rotacion + angle) % 360
+
+    def update(self):
+        if self.rect.top > HEIGHT:
+            return
+
+        if self.selected:
+            self.rect.center   = pygame.mouse.get_pos()
+            self.selected_time -= 1
+            if self.selected_time == 0:
+                self.dispatcher.selected_explosion()
+        else:
+            num = self.num.next()
+            num = math.radians(num)
+            func_y = 10*num
+
+            pos = (self.func_x(num) + self.x, func_y + self.y)
+            self.rect.center = pos
+            if self.rect.top > HEIGHT:
+                self.rect.move_ip(0, pos[1])
+                self.num = self.count()
+                self.y = 0
+
+    def count(self, x=0):
+        i = self._velocity()
+        x = x
+        while 1:
+            x = x+i
+            yield x
+
+
+class ErroneaPiece(DinamicPiece):
+
+    def __init__(self, id, img, level):
+        DinamicPiece.__init__(self, id, img, level)
+
+    def update(self):
+        if self.rect.top > HEIGHT:
+            return
+
+        num = self.num.next()
+        num = math.radians(num)
+        func_y = 10*num
+
+        pos = (self.func_x(num) + self.x, func_y + self.y)
+        self.rect.center = pos
+        if self.rect.top > HEIGHT:
+            self.rect.move_ip(0, pos[1])
+            self.num = self.count()
+            self.y = 0
+
+    def is_erronea(self):
+        return True
+
+class RightPiece(DinamicPiece):
+
+    def __init__(self, id, img, level):
+        DinamicPiece.__init__(self, id, img, level)
 
     def release(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -232,13 +223,6 @@ class DinamicPiece(pygame.sprite.Sprite):
                 self.num = self.count()
                 self.y = 0
 
-    def count(self, x=0):
-        i = self._velocity()
-        x = x
-        while 1:
-            x = x+i
-            yield x
-
     def is_erronea(self):
         return False
 
@@ -272,7 +256,7 @@ class Pieces(object):
             if self.type_piece == "static":
                 piece = StaticPiece(img[0], img[1], self.level)
             elif self.type_piece == "dinamic":
-                piece = DinamicPiece(img[0], img[1], self.level)
+                piece = RightPiece(img[0], img[1], self.level)
             else:
                 piece = ErroneaPiece(img[0], img[1], self.level)
 
@@ -294,6 +278,7 @@ class Dispatcher(object):
 
         self.npiezas = 0
         self.mouse_with_piece = False
+        self.mouse_with_erronea_piece = False
 
     def selected_explosion(self):
         music.stop_peep()
@@ -304,6 +289,9 @@ class Dispatcher(object):
         self.selected_piece.set_top_position()
 
     def new_dispatch(self):
+        if self.mouse_with_erronea_piece:
+            return True
+
         if not self.piezas_activas.sprites():
             return True
 
@@ -317,6 +305,7 @@ class Dispatcher(object):
             return
 
         self.piezas_activas.empty()
+        self.mouse_with_erronea_piece = False
 
         #Agrego las piezas erroneas
         erroneas_options = self.piezas_erroneas.sprites()
@@ -337,14 +326,18 @@ class Dispatcher(object):
 
     def agarrar_soltar(self, pos):
         '''Logica para agarrar o soltar las piezas con el mouse'''
-        for piece in self.piezas:
+        for piece in self.piezas_activas:
             if piece.rect.collidepoint(pos):
                 self.selected_piece = piece
 
                 #Primer click (agarrar)
                 if not self.mouse_with_piece:
-                    self.mouse_with_piece = True
-                    piece.select(2000)
+                    if piece.is_erronea():
+                        ExplosionMedium(piece.rect.center)
+                        self.mouse_with_erronea_piece = True
+                    else:
+                        self.mouse_with_piece = True
+                        piece.select(2000)
                 #Segundo Click (soltar)
                 else:
                     self.mouse_with_piece = False
@@ -361,7 +354,7 @@ class Dispatcher(object):
 
                         self.piezas.remove(self.selected_piece)
                         self.piezas_activas.remove(self.selected_piece)
-                break
+                return
             
 
 if __name__ == '__main__':
