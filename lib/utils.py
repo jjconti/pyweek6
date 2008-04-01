@@ -44,7 +44,7 @@ class DataBag(object):
 
 
 def load_sound(fullname):
-
+    print "fullname", fullname
     if not pygame.mixer or not pygame.mixer.get_init():
         return NoneSound()
 

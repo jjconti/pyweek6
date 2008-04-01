@@ -15,6 +15,8 @@ DATA = os.path.join("data")
 IMGS = os.path.join(DATA, "imgs")
 FONTS = os.path.join(DATA, "fonts")
 CREDITS = os.path.join(DATA, "credits.txt")
+SOUNDS = os.path.join(DATA, "sounds")
+
 # imagenes
 LEVEL1 = os.path.join(IMGS, "level1")
 LEVEL2 = os.path.join(IMGS, "level2")
@@ -29,3 +31,7 @@ INTRO = os.path.join(IMGS, "intro")
 INTRO_IMAGES = sorted(glob.glob(INTRO+'/*.png'))
 print INTRO_IMAGES
 INTRO_TIMES = [0.22] * len(INTRO_IMAGES)
+
+#sonidos
+EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
+print "EXPLOSION",EXPLOSION
