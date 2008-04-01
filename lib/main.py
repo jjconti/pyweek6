@@ -6,7 +6,7 @@ from config import  *
 from level import Level
 #from menu import Menu
 #from scores import HighScores
-from intro import Visual
+from intro import Intro
 #from help import Help
 #from credits import Credits
 
@@ -30,9 +30,9 @@ def main():
 
     #Introduction
     images = [utils.load_image_alpha(image) for image in INTRO_IMAGES]
-    visual = Visual(screen, images, INTRO_TIMES)
+    intro = Intro(screen, images, INTRO_TIMES)
     #music.play_music(INTROMUSIC, 1)
-    visual.loop()
+    intro.loop()
     #music.stop_music()
     
     #Shooter opcion

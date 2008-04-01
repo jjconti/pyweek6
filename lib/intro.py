@@ -5,7 +5,7 @@ import glob
 import utils
 from config import WIDTH, HEIGHT, INTRO_IMAGES
 
-class Visual(object):
+class Intro(object):
     def __init__(self, screen, images, times, func=None, loopear=False):
         self.screen = screen
         self.images = images
@@ -65,6 +65,6 @@ if __name__ == '__main__':
     fill = [(0,0,0), (255,255,255), (127,127,127), (50,50,50)]
     images = [utils.load_image_alpha(image) for image in INTRO_IMAGES]
     times = [0.2] * len(INTRO_IMAGES)
-    visual = Visual(screen, images, times, prueba, loopear=False)
-    func = visual.loop()
+    intro = Intro(screen, images, times, prueba, loopear=False)
+    func = intro.loop()
     func()
