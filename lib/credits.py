@@ -21,9 +21,16 @@ class Credits(object):
         self.father = father
         self.developers = []
         self.font = []
-        for x in xrange(2,5):
-            print x*10
-            self.font.append(pygame.font.Font(FONT_CREDIT, x*10))
+        self.font = self.generar_fuentes()
+
+    def generar_fuentes(self):
+        """Crea la lista de tamaños de fuentes y la fuente en sí"""
+        lista_size = [10, 15, 20, 25, 30, 35, 50, 35, 30, 25, 20, 15, 10]
+        lista_font = []
+        # Gereramos las fuentes
+        for size in lista_size:
+            lista_font.append(pygame.font.Font(FONT_CREDIT, size))
+        return lista_font
 
     def loop(self):
         pygame.event.clear()
@@ -44,11 +51,9 @@ class Credits(object):
     def _generar_imagenes(self, developer):
         """Genero por cada tamaño de letra una cantidad de palabras para ir
         mostrandolas en el mismo tiempo en distintas coordenadas"""
-        lista = {}
-        for pos, font in enumerate(self.font):
-            lista[pos] = []
-            for obj in range(3):
-                lista[pos].append(font.render(developer, True, GREY))
+        lista = []
+        for font in self.font:
+            lista.append(font.render(developer, True, GREY))
         return lista
 
     def _dibujar_secuencia(self, lista_imagenes, background, topleft):
@@ -57,43 +62,24 @@ class Credits(object):
         bandera = False
         clock = pygame.time.Clock()
         time_loop = 0
+        #pos_x_inicial = 340
         while not bandera:
-            clock.tick(1000)
+            clock.tick(30)
             pygame.display.flip()
             self.screen.blit(background, (0,0))
-            if y >= 780:
+            time_loop+=1
+            if y >= 780 or time_loop == 30:
                 bandera = True
             if self._verifyKey():
                 return self.father #FIXME
-            if y >= 160:
-                # Poner imagen_2
-                #for pos, font in enumerate(lista_imagenes[1]):
-                #    self.screen.blit(lista_imagenes[1][pos],
-                #            (pos_x_inicial, y))
-                # Surface
-                # get_height()
-                # get_width()
-                for a,b in zip(lista_imagenes[0], lista_imagenes[2]):
-                    xa = WIDTH - a.get_width() / 2 
-                    xb = WIDTH - a.get_width() / 2 
-                    self.screen.blit(a, (pos_x_inicial + (b.get_width()/4), y-15))
-                    self.screen.blit(b, (pos_x_inicial, y))
-                #pygame.time.delay(100)
-                #pass
-                y += 2
-            elif y >= 190:
-                # Poner imagen_3
-                for pos, font in enumerate(lista_imagenes[2]):
-                    self.screen.blit(lista_imagenes[2],
-                            (pos_x_inicial, y))
-                y +=2
-                #pygame.time.delay(100)
-            else:
-                # Palabras pequeñas
-                for pos, font in enumerate(lista_imagenes[0]):
-                    self.screen.blit(lista_imagenes[0][pos],
-                           (pos_x_inicial, y))
-                y += 2
+            for pos, font in enumerate(lista_imagenes):
+                pos_x_inicial = (WIDTH - font.get_width() / 2)-100
+                self.screen.blit(font, (pos_x_inicial, y))
+                if pos == 8:
+                    pygame.time.delay(500)
+                y += font.get_height()
+            # pygame.time.delay(300)
+
 
     def _draw_screen(self):
         pygame.display.set_caption(WINDOW_TITLE)
@@ -101,7 +87,7 @@ class Credits(object):
         background = pygame.image.load(image)
 
         title = 'CREDITS'
-        title_img = self.font[-1].render(title, True, (100, 100, 100))
+        title_img = self.font[7].render(title, True, (100, 100, 100))
         topleft = (background.get_rect().width - title_img.get_rect().width) / 2, 30
         background.blit(title_img, topleft)
         self.screen.blit(background, (0,0))
