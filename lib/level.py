@@ -66,11 +66,17 @@ class Level(object):
         #music.play_music(PLAYMUSIC)
         while not self.finish():
             self.tics += 1
-   
-            if not self.paused:
-                self.dispatcher.dispatch()
-                self.update()
-                self.draw()
+
+            if event.type == KEYDOWN:
+                if event.key == K_p:
+                    self.pause ^= 1
+
+            if self.paused:
+                continue
+
+            self.dispatcher.dispatch()
+            self.update()
+            self.draw()
 
             #Control
             for event in pygame.event.get():
