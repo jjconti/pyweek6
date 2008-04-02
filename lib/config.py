@@ -39,10 +39,11 @@ DUDA, ENOJO, FELIZ, FELIZ2, FELIZ3, INCERTIDUMBRE, SORPRESA, MIEDO = range(1,9)
 BACK = os.path.join(BACKGROUND, "taller.png")
 
 IMAGE_CREDITS = os.path.join(BACKGROUND, "credits2.png")
+HELP = os.path.join(BACKGROUND, "help_inscription.png") 
 
 # Font
 FONT_CREDIT = os.path.join(FONTS, "GALACTOS.ttf")
-FONT_MENU 	= os.path.join(FONTS, "VeraBd.ttf") #de momento pongo esta hasta que encuentre alguna buena
+FONT_MENU = os.path.join(FONTS, "VeraBd.ttf") #de momento pongo esta hasta que encuentre alguna buena
 
 #colors
 COLOR1 = (10, 50, 200) 
@@ -78,3 +79,6 @@ MENUMUSIC = os.path.join(SOUNDS, "menu.ogg")
 #sonidos
 EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
 PEEP = os.path.join(SOUNDS, "peep.ogg")
+
+#backgrounds
+HELPBG = os.path.join(BACKGROUND, "help.png")
