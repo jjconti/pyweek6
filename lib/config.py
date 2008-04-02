@@ -10,6 +10,8 @@ CENTER = HEIGHT / 2
 
 CLOCK_TICS = 100
 
+ROBOT_OFFSET = (165, 6)
+
 # todos los path
 DATA = os.path.join("data")
 IMGS = os.path.join(DATA, "imgs")
@@ -51,5 +53,3 @@ MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
 #sonidos
 EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
 PEEP = os.path.join(SOUNDS, "peep.ogg")
-
-print "EXPLOSION",EXPLOSION

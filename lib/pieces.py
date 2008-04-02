@@ -71,7 +71,8 @@ class StaticPiece(pygame.sprite.Sprite):
         self.set_position()
 
     def set_position(self):
-        self.rect.topleft = level_pos[self.level][self.id]
+        t,l = level_pos[self.level][self.id]
+        self.rect.topleft = t + ROBOT_OFFSET[0], l + ROBOT_OFFSET[1]
         self.image = self.image.convert()
         self.image.set_colorkey((255,255,255), RLEACCEL)
         self.image.set_alpha(50)
