@@ -76,11 +76,11 @@ class Credits(object):
         time_loop = 0
         #pos_x_inicial = 340
         while not bandera:
-            clock.tick(30)
+            clock.tick(1000)
             pygame.display.flip()
             self.screen.blit(background, (0,0))
             time_loop+=1
-            if y >= 780 or time_loop == 30:
+            if y >= 780 or time_loop == 1000:
                 bandera = True
             if self._verifyKey():
                 return self.father #FIXME
@@ -89,11 +89,9 @@ class Credits(object):
                 pos_x_inicial = (500 - font.get_width() / 2)-100
                 self.screen.blit(font, (pos_x_inicial, y))
                 if pos == self.punto_medio:
-                    print self.punto_medio
                     pygame.time.delay(500)
                 y += font.get_height()
-                #pygame.time.delay(300)
-
+                pygame.display.flip()
 
     def _draw_screen(self):
         pygame.display.set_caption(WINDOW_TITLE)
