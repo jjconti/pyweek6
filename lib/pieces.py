@@ -307,21 +307,18 @@ class Dispatcher(object):
         self.piezas_encajadas_adelante = piezas_encajadas_adelante
         self.robot = robot
         self.hand  = hand
+        self.selected_piece = None
 
         for p in self.piezas.sprites() + self.piezas_erroneas.sprites():
             p.dispatcher = self
 
-        self.mouse_with_piece = False
-        self.mouse_with_erronea_piece = False
-
     def selected_explosion(self):
         music.stop_peep()
-        self.selected_piece.selected = False
-        self.hand.release()
-        self.mouse_with_piece = False
-        self.piezas_activas.remove(self.selected_piece)
         ExplosionMedium(self.selected_piece.rect.center)
+        self.selected_piece.release()
         self.selected_piece.set_top_position()
+        self.selected_piece = None
+        self.hand.release()
 
     def moving_pieces(self):
         return [x for x in self.piezas.sprites() if x.is_moving()] + \
@@ -345,7 +342,7 @@ class Dispatcher(object):
             piece.move()
 
     def rotate_selected(self, angle):
-        if self.mouse_with_piece:
+        if self.selected_piece:
             self.selected_piece.rotate(angle)
 
     def agarrar_soltar(self, pos):
@@ -357,19 +354,18 @@ class Dispatcher(object):
         
         for piece in sprites:
             if self.hand.collide(piece):
-                self.selected_piece = piece
+                #self.selected_piece = piece
                 alguna = True
 
                 #Primer click (agarrar)
-                if not self.mouse_with_piece:
-                    self.mouse_with_piece = True
+                if not self.selected_piece:
                     piece.select(miliseconds=2000)
                     #selecciono una pieza correcta
                     quepaso = "correcta"
+                    self.selected_piece = piece
 
                 #Segundo Click (soltar)
                 else:
-                    self.mouse_with_piece = False
                     piece.release()
                     self.hand.release()
                     if self.selected_piece.fit(self.robot):
@@ -384,6 +380,8 @@ class Dispatcher(object):
                     #solto afuera
                     else:
                         quepaso = "soltoafuera"
+                        
+                    self.selected_piece = None
 
                 break
 
@@ -393,7 +391,7 @@ class Dispatcher(object):
         return quepaso
         
     def soltar(self):
-        if not self.mouse_with_piece:
+        if not self.selected_piece:
             self.hand.release()
             
 
