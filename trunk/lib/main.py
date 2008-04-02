@@ -28,11 +28,12 @@ def main():
     #icon = utils.load_image(ICON, (0,0,0))
     #pygame.display.set_icon(icon)
 
-    #Introduction
-    images = [utils.load_image_alpha(image) for image in INTRO_IMAGES]
-    intro = Intro(screen, images, INTRO_TIMES)
+    #Introduction : descomentar una vez implementado
+    #images = [utils.load_image_alpha(image) for image in INTRO_IMAGES]
+    #intro = Intro(screen, images, INTRO_TIMES)
     #music.play_music(INTROMUSIC, 1)
-    intro.loop()
+    #intro.loop()
+    
     #music.stop_music()
     
     #Shooter opcion
