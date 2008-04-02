@@ -55,11 +55,11 @@ BLUE = (122, 138, 16)
 
 INTRO = os.path.join(IMGS, "intro")
 INTRO_IMAGES = sorted(glob.glob(INTRO+'/*.png'))
-INTRO_XY = { 'intro0001.png':(0,0), 'intro0003.png':(0,0), 'intro0005.png':(0,0), 'intro0007.png':(0,0), 'intro0009.png':(0,0),
-             'intro0011.png':(0,0), 'intro0013.png':(0,0), 'intro0015.png':(0,0), 'intro0017.png':(0,0), 'intro0019.png':(0,0), 
-             'intro0021.png':(0,0), 'intro0023.png':(0,0), 'intro0025.png':(0,0), 'intro0027.png':(0,0), 'intro0029.png':(0,0), 
-             'intro0031.png':(0,0), 'intro0033.png':(0,0), 'intro0035.png':(0,0), 'intro0037.png':(0,0), 'intro0039.png':(0,0), 
-             'intro0041.png':(0,0), 'intro0043.png':(0,0) }
+INTRO_XY = {'intro0001.png':(265,  50),'intro0003.png':(265,  51),'intro0005.png':(265,  51),'intro0007.png':(265,  51),'intro0009.png':(265,  51),
+            'intro0011.png':(256,  51),'intro0013.png':(247,  51),'intro0015.png':(239,  51),'intro0017.png':(231,  51),'intro0019.png':(242,  51),
+            'intro0021.png':(242,  51),'intro0023.png':(234,  72),'intro0025.png':(238,  72),'intro0027.png':(236,  72),'intro0029.png':(231,  94),
+            'intro0031.png':(206, 122),'intro0033.png':(206, 187),'intro0035.png':(206, 237),'intro0037.png':(206, 322),'intro0039.png':(206, 356),
+            'intro0041.png':(153, 349),'intro0043.png':(206, 356) }
 
 INTRO_TIMES = [0.22] * len(INTRO_IMAGES)
 MISC = os.path.join(IMGS, "misc")
