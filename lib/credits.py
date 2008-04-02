@@ -88,9 +88,9 @@ class Credits(object):
                     #print "Pos_x_inicial: ", pos_x_inicial
                     pos_x_inicial = (WIDTH / 2 - font.get_width() / 2)
                     self.screen.blit(font, (pos_x_inicial, y))
-                    if pos == self.punto_medio:
-                        pygame.time.delay(1000)
-                    #pygame.time.delay(100)
+                    #if pos == self.punto_medio:
+                    #    pygame.time.delay(1000)
+                    pygame.time.delay(800)
                     y += font.get_height()
                     pygame.display.flip()
                     cambiar = True
