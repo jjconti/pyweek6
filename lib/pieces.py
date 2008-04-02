@@ -77,6 +77,14 @@ class StaticPiece(pygame.sprite.Sprite):
         self.image.set_colorkey((255,255,255), RLEACCEL)
         self.image.set_alpha(50)
 
+    def __str__(self):
+        return "Pieza %d" % (self.id,)
+
+class FacePiece(StaticPiece):
+
+    def set_position(self):
+        t,l = level_pos[self.level][2]  #2 es la cara en todos los niveles
+        self.rect.topleft = t + ROBOT_OFFSET[0] + 15, l + ROBOT_OFFSET[1] + 10
 
 class DinamicPiece(pygame.sprite.Sprite):
     functions = [lambda x: 20*math.sin(x/4),
@@ -250,7 +258,13 @@ class Pieces(object):
                 myId = myFile[:-4]
                 image = utils.load_image_alpha(pathfile, -1)
                 result.append((int(myId), image))
-
+        elif self.type_piece == "face":
+            result = []
+            for pathfile in glob.glob(os.path.join(FACES, '*.png')):
+                myFile = os.path.basename(pathfile)
+                myId = myFile[:-4]
+                image = utils.load_image_alpha(pathfile, -1)
+                result.append((int(myId), image))
         return result
 
     def get_all(self):
@@ -260,9 +274,10 @@ class Pieces(object):
                 piece = StaticPiece(img[0], img[1], self.level)
             elif self.type_piece == "dinamic":
                 piece = RightPiece(img[0], img[1], self.level)
-            else:
+            elif self.type_piece == "erronea":
                 piece = WrongPiece(img[0], img[1], self.level)
-
+            elif self.type_piece == "face":
+                piece = FacePiece(img[0], img[1], self.level)
             result.append(piece)
         return result
 
@@ -330,27 +345,41 @@ class Dispatcher(object):
 
     def agarrar_soltar(self, pos):
         '''Logica para agarrar o soltar las piezas con el mouse'''
+        quepaso = ""
+        alguna = False
         for piece in self.piezas_activas:
             if piece.rect.collidepoint(pos):
                 self.selected_piece = piece
+                alguna = True
 
                 #Primer click (agarrar)
                 if not self.mouse_with_piece:
                     if piece.is_erronea():
                         ExplosionMedium(piece.rect.center)
                         self.mouse_with_erronea_piece = True
+                        quepaso = "erronea"
                     else:
                         self.mouse_with_piece = True
                         piece.select(miliseconds=2000)
+                        #selecciono una pieza correcta
+                        quepaso = "correcta"
                 #Segundo Click (soltar)
-                else:
+                elif not piece.is_erronea():
                     self.mouse_with_piece = False
                     piece.release()
                     if self.selected_piece.fit(self.robot):
                         self.piezas_encajadas.add(self.selected_piece)
                         self.piezas.remove(self.selected_piece)
                         self.piezas_activas.remove(self.selected_piece)
-                return
+                        #encajo
+                        quepaso = "encajo"
+                    #solto afuera
+                    else:
+                        quepaso = "soltoafuera"
+        if not alguna:
+            quepaso = "clickafuera"        
+        #click afuera
+        return quepaso
             
 
 if __name__ == '__main__':
