@@ -43,7 +43,8 @@ HELP = os.path.join(BACKGROUND, "help_inscription.png")
 
 # Font
 FONT_CREDIT = os.path.join(FONTS, "GALACTOS.ttf")
-FONT_MENU = os.path.join(FONTS, "VeraBd.ttf") #de momento pongo esta hasta que encuentre alguna buena
+#FONT_MENU = os.path.join(FONTS, "VeraBd.ttf") #de momento pongo esta hasta que encuentre alguna buena
+FONT_MENU = os.path.join(FONTS, "Borobots.ttf") #de momento pongo esta hasta que encuentre alguna buena
 
 #colors
 COLOR1 = (10, 50, 200) 
