@@ -239,6 +239,9 @@ class DinamicPiece(pygame.sprite.Sprite):
  
     def is_moving(self):
         return self.moving in (self.MOVING_NORMAL, self.MOVING_CINTA)
+    
+    def is_falling(self):
+        return self.moving == self.MOVING_NORMAL
 
     def move(self):
         self.moving = self.MOVING_NORMAL
@@ -313,7 +316,6 @@ class Dispatcher(object):
             p.dispatcher = self
 
     def selected_explosion(self):
-        music.stop_peep()
         ExplosionMedium(self.selected_piece.rect.center)
         self.selected_piece.release()
         self.selected_piece.set_top_position()
@@ -323,13 +325,15 @@ class Dispatcher(object):
     def moving_pieces(self):
         return [x for x in self.piezas.sprites() if x.is_moving()] + \
                [x for x in self.piezas_erroneas.sprites() if x.is_moving()]
+    def falling_pieces(self):
+        return [x for x in self.piezas.sprites() if x.is_falling()] + \
+               [x for x in self.piezas_erroneas.sprites() if x.is_falling()]
 
     def stop_pieces(self):
         return [x for x in self.piezas.sprites() if not x.is_moving()] + \
                [x for x in self.piezas_erroneas.sprites() if not x.is_moving()]
 
     def dispatch(self):
-
         if random.choice(range(50)):
             return
 
@@ -350,50 +354,53 @@ class Dispatcher(object):
         quepaso = ""
         alguna = False
         self.hand.select()
-        sprites = self.moving_pieces()
-        
-        for piece in sprites:
-            if self.hand.collide(piece):
-                #self.selected_piece = piece
-                alguna = True
 
-                #Primer click (agarrar)
+        if self.selected_piece:
+            quepaso = self.soltar2()
+        else:
+            quepaso = self.agarrar()
+
+        if quepaso == "":
+            quepaso = "clickafuera"
+        #click afuera
+        return quepaso
+
+    def soltar2(self):
+        self.selected_piece.release()
+        self.hand.release()
+
+        if self.selected_piece.fit(self.robot):
+            if self.selected_piece.prof == ATRAS:
+                self.piezas_encajadas_atras.add(self.selected_piece)
+            else:   #ADELANTE
+                self.piezas_encajadas_adelante.add(self.selected_piece)
+            self.piezas.remove(self.selected_piece)
+            self.piezas_activas.remove(self.selected_piece)
+            #encajo
+            quepaso = "encajo"
+        #solto afuera
+        else:
+            quepaso = "soltoafuera"
+
+        self.selected_piece = None
+        return quepaso
+
+    def soltar(self):
+        if not self.selected_piece:
+            self.hand.release()
+
+    def agarrar(self):
+        quepaso = ""
+
+        for piece in self.falling_pieces():
+            if self.hand.collide(piece):
+                alguna = True
                 if not self.selected_piece:
                     piece.select(miliseconds=2000)
                     #selecciono una pieza correcta
                     quepaso = "correcta"
                     self.selected_piece = piece
-
-                #Segundo Click (soltar)
-                else:
-                    piece.release()
-                    self.hand.release()
-                    if self.selected_piece.fit(self.robot):
-                        if self.selected_piece.prof == ATRAS:
-                            self.piezas_encajadas_atras.add(self.selected_piece)
-                        else:   #ADELANTE
-                            self.piezas_encajadas_adelante.add(self.selected_piece)
-                        self.piezas.remove(self.selected_piece)
-                        self.piezas_activas.remove(self.selected_piece)
-                        #encajo
-                        quepaso = "encajo"
-                    #solto afuera
-                    else:
-                        quepaso = "soltoafuera"
-                        
-                    self.selected_piece = None
-
-                break
-
-        if not alguna:
-            quepaso = "clickafuera"
-        #click afuera
         return quepaso
-        
-    def soltar(self):
-        if not self.selected_piece:
-            self.hand.release()
-            
 
 if __name__ == '__main__':
     pygame.init()
