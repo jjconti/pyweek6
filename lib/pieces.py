@@ -98,7 +98,7 @@ class StaticPiece(pygame.sprite.Sprite):
         self.set_position()
 
     def set_position(self):
-        t,l = level_pos[self.level][self.id]
+        t,l = level_pos[self.level][self.id][:2]
         self.rect.topleft = t + ROBOT_OFFSET[0], l + ROBOT_OFFSET[1]
         self.image = self.image.convert()
         self.image.set_colorkey((255,255,255), RLEACCEL)
@@ -110,13 +110,15 @@ class StaticPiece(pygame.sprite.Sprite):
 class FacePiece(StaticPiece):
 
     def set_position(self):
-        t,l = level_pos[self.level][2]  #2 es la cara en todos los niveles
+        t,l = level_pos[self.level][2][:2]  #2 es la cara en todos los niveles
         self.rect.topleft = t + ROBOT_OFFSET[0] + 15, l + ROBOT_OFFSET[1] + 10
 
 class DinamicPiece(pygame.sprite.Sprite):
     functions = [lambda x,direccion: direccion*20*math.sin(x/4),
                  lambda x,direccion: direccion*20*math.cos(x/2),
-                 lambda x,direccion: direccion*x]
+                 lambda x,direccion: direccion*x,
+                 lambda x,direccion: direccion*x**2/6,
+                 lambda x,direccion: -direccion*x**2/6]
 
     def __init__(self, id, img, level):
         pygame.sprite.Sprite.__init__(self)
