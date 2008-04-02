@@ -11,7 +11,7 @@ class Intro(object):
         self.screen = screen
         self.images = self.load_images()
         self.background = utils.load_image_alpha(BACKINTRO_IMAGE, -1)
-        times = [0.15] * len(self.images)
+        times = [0.1] * len(self.images)
         if times == -1:
             self.times = -1
         else:
