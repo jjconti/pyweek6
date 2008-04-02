@@ -58,10 +58,11 @@ YELLOW = (240, 255, 0)
 INTRO = os.path.join(IMGS, "intro")
 INTRO_IMAGES = sorted(glob.glob(INTRO+'/*.png'))
 INTRO_XY = {'intro0001':(265,  50),'intro0003':(265,  51),'intro0005':(265,  51),'intro0007':(265,  51),'intro0009':(265,  51),
-            'intro0011':(256,  51),'intro0013':(247,  51),'intro0015':(239,  51),'intro0017':(231,  51),'intro0019':(242,  51),
-            'intro0021':(242,  51),'intro0023':(234,  72),'intro0025':(238,  72),'intro0027':(236,  72),'intro0029':(231,  94),
+            'intro0011':(265,  51),'intro0013':(265,  51),'intro0015':(265,  51),'intro0017':(265,  51),'intro0019':(265,  51),
+            'intro0021':(265,  51),'intro0023':(265,  72),'intro0025':(265,  72),'intro0027':(236,  72),'intro0029':(231,  94),
             'intro0031':(206, 122),'intro0033':(206, 187),'intro0035':(206, 237),'intro0037':(206, 322),'intro0039':(206, 356),
-            'intro0041':(153, 349),'intro0043':(206, 356) }
+            'intro0041':(206, 349),'intro0042':(206, 349),'intro0043':(206, 349),'intro0045':(206, 349),'intro0047':(206, 349),
+            'intro0049':(206, 356) }
 
 INTRO_TIMES = [0.22] * len(INTRO_IMAGES)
 MISC = os.path.join(IMGS, "misc")

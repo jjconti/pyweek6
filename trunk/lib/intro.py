@@ -26,7 +26,6 @@ class Intro(object):
             myId = myFile[:-4]
             image = utils.load_image_alpha(pathfile, -1)
             result.append((myId, image))
-        print result
         return result
 
     def loop(self, reverse=False):
