@@ -12,7 +12,7 @@ import sys
 
 ##
 # Módulos propios
-from config import FONT_CREDIT, CREDITS, WINDOW_TITLE
+from config import FONT_CREDIT, CREDITS, WINDOW_TITLE,IMAGE_CREDITS
 
 
 class Credits(object):
@@ -42,7 +42,7 @@ class Credits(object):
 
     def _draw_screen(self):
         pygame.display.set_caption(WINDOW_TITLE)
-        image = '.data/img/credits.png'
+        image = IMAGE_CREDITS
         background = pygame.image.load(image)
 
         #title = 'CREDITS'
@@ -84,6 +84,7 @@ class Credits(object):
                     if y >= 190:
                         # Poner imagen_2
                         self.screen.blit(imagen_2, (pos_x_inicial, y))
+                        pygame.time.delay(50)
                         #pass
                     elif y >= 220:
                         # Poner imagen_3
