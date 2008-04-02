@@ -120,9 +120,10 @@ class DinamicPiece(pygame.sprite.Sprite):
                  lambda x,direccion: direccion*x**2/6,
                  lambda x,direccion: -direccion*x**2/6]
 
-    MOVING_CINTA  = 0
-    MOVING_NORMAL = 1
-    MOVING_STOP   = 2
+    MOVING_CINTA   = 0
+    MOVING_NORMAL  = 1
+    MOVING_FALLING = 2
+    MOVING_STOP    = 3
 
     def __init__(self, id, img, level):
         pygame.sprite.Sprite.__init__(self)
@@ -149,6 +150,7 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.num = self.count()
         self.x = mouse_x
         self.y = mouse_y
+        self.moving = self.MOVING_FALLING
 
     def select(self, miliseconds=2000):
         music.play_peep()
@@ -215,16 +217,19 @@ class DinamicPiece(pygame.sprite.Sprite):
                 self.update_cinta()
             elif self.moving == self.MOVING_NORMAL:
                self.update_normal()
+            elif self.moving == self.MOVING_FALLING:
+               self.update_falling()
 
     def update_cinta(self):
         self.rect.left += 1
 
-    def update_normal(self):
+    def update_falling(self):
+        self.rect.top += 4
 
+    def update_normal(self):
         if self.rect.y == self.change_function:
             self.func_x = random.choice(self.functions)
-            #self.num = self.count()
-    
+
         num = self.num.next()
         num = math.radians(num)
         func_y = 10*num
