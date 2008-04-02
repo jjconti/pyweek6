@@ -27,7 +27,7 @@ class Level(object):
     def __init__(self, screen, father, level=1, total_points=0):
 
         self.screen = screen
-        self.background = utils.load_image(BACK)
+        self.background = utils.load_image(BACKLEVEL_IMAGE)
         self.father = father
         self.level = level
         self.tics = 0
@@ -96,7 +96,8 @@ class Level(object):
         self.widgets.update()
 
     def draw(self):
-        self.screen.blit(self.background, (0,0) )
+        self.screen.fill((0,0,0))
+        self.screen.blit(self.background, (210,5) )
         self.robot.draw(self.screen)
         self.piezas_encajadas.draw(self.screen)
         self.face.draw(self.screen)
@@ -186,7 +187,7 @@ class Level(object):
     def face_change(self, event, quepaso=""):
         '''Captura el movimiento del mouse para cambiar la cara del robot.'''
         x,y = event.pos        
-        limit1 = ROBOT_OFFSET[1] + 150
+        limit1 = ROBOT_OFFSET[1]
         if quepaso: self.situacion = quepaso
         
         if self.situacion == "correcto" and y < limit1 and self.face.sprites()[0].id != INCERTIDUMBRE:
