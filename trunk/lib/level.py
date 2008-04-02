@@ -82,7 +82,6 @@ class Level(object):
                 self.control(event)
 
             self.clock.tick(CLOCK_TICS)
-
             pygame.display.flip()
 
         self.points = 0 #Actualizar
