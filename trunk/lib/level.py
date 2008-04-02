@@ -24,7 +24,7 @@ if not pygame.mixer: print 'Warning, sound disabled'
 class Level(object):
     '''Ojalata level'''
 
-    def __init__(self, screen, father, level=1, total_points=0):
+    def __init__(self, screen, father, level=1, points=0):
 
         self.screen = screen
         self.background = utils.load_image(BACKLEVEL_IMAGE)
@@ -43,7 +43,7 @@ class Level(object):
         self.piezas_activas  = pygame.sprite.Group()
         self.piezas_encajadas= pygame.sprite.Group()
         self.widgets = pygame.sprite.Group()
-        self.widgets.add(EnergyBar())
+        self.widgets.add(EnergyBar(self.level * 0.05))
         self.explosions = pygame.sprite.Group()
         ExplosionMedium.containers = self.explosions
         #self.face = pygame.sprite.GroupSingle()
@@ -60,6 +60,7 @@ class Level(object):
         
         
         self.totalpiezas = len(self.robot)
+        self.points = 0
         
 
     def loop(self):  
@@ -79,10 +80,12 @@ class Level(object):
             self.clock.tick(CLOCK_TICS)
 
             pygame.display.flip()
+
+        self.points = 0 #Actualizar
     
         if self.level < 3:
             def f(screen):
-                return Level(screen, self.father, self.level + 1)
+                return Level(screen, self.father, self.level + 1, self.points)
             return f
 
         if self.exit:
