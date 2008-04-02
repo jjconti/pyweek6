@@ -38,7 +38,7 @@ DUDA, ENOJO, FELIZ, FELIZ2, FELIZ3, INCERTIDUMBRE, SORPRESA, MIEDO = range(1,9)
 
 BACK = os.path.join(BACKGROUND, "taller.png")
 
-IMAGE_CREDITS = os.path.join(BACKGROUND, "credits.png")
+IMAGE_CREDITS = os.path.join(BACKGROUND, "credits2.png")
 
 # Font
 FONT_CREDIT = os.path.join(FONTS, "GALACTOS.ttf")
