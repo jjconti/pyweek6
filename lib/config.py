@@ -55,9 +55,16 @@ BLUE = (122, 138, 16)
 
 INTRO = os.path.join(IMGS, "intro")
 INTRO_IMAGES = sorted(glob.glob(INTRO+'/*.png'))
+INTRO_XY = { 'intro0001.png':(0,0), 'intro0003.png':(0,0), 'intro0005.png':(0,0), 'intro0007.png':(0,0), 'intro0009.png':(0,0),
+             'intro0011.png':(0,0), 'intro0013.png':(0,0), 'intro0015.png':(0,0), 'intro0017.png':(0,0), 'intro0019.png':(0,0), 
+             'intro0021.png':(0,0), 'intro0023.png':(0,0), 'intro0025.png':(0,0), 'intro0027.png':(0,0), 'intro0029.png':(0,0), 
+             'intro0031.png':(0,0), 'intro0033.png':(0,0), 'intro0035.png':(0,0), 'intro0037.png':(0,0), 'intro0039.png':(0,0), 
+             'intro0041.png':(0,0), 'intro0043.png':(0,0) }
+
 INTRO_TIMES = [0.22] * len(INTRO_IMAGES)
 MISC = os.path.join(IMGS, "misc")
 MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
+BACKINTRO_IMAGE = BACKGROUND+"/taller.png"
 
 #sonidos
 EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
