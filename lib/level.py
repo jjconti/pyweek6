@@ -66,17 +66,11 @@ class Level(object):
         #music.play_music(PLAYMUSIC)
         while not self.finish():
             self.tics += 1
-
-            if event.type == KEYDOWN:
-                if event.key == K_p:
-                    self.pause ^= 1
-
-            if self.paused:
-                continue
-
-            self.dispatcher.dispatch()
-            self.update()
-            self.draw()
+   
+            if not self.paused:
+                self.dispatcher.dispatch()
+                self.update()
+                self.draw()
 
             #Control
             for event in pygame.event.get():
@@ -113,17 +107,24 @@ class Level(object):
 
 
     def control(self, event):
+        if event.type == KEYDOWN:
+            if event.key == K_f:
+                pygame.display.toggle_fullscreen()
+            if event.key == K_p:
+                self.paused ^= True
+
+        if self.paused:
+            return
+
         if event.type == QUIT:
             sys.exit(0)
-        
+
         if event.type == MOUSEMOTION:
             self.face_change(event)
 
         if event.type == KEYDOWN:
             if event.key == K_f:
                 pygame.display.toggle_fullscreen()
-            if event.key == K_p:
-                self.paused ^= True
             if event.key == K_DOWN:
                 self.dispatcher.rotate_selected(90)
             if event.key == K_UP:	
@@ -187,7 +188,7 @@ class Level(object):
         x,y = event.pos        
         limit1 = ROBOT_OFFSET[1] + 150
         if quepaso: self.situacion = quepaso
-        print self.situacion
+        
         if self.situacion == "correcto" and y < limit1 and self.face.sprites()[0].id != INCERTIDUMBRE:
             self.last_face = self.face.sprites()[0]
             self.face.empty()
@@ -221,7 +222,7 @@ class Level(object):
     
         elif self.situacion == "volver": # ciertas caras, luego de unos segundos vuelven a la anterior
             delay = time.time() - self.facetime
-            print delay
+            
             if delay > 2:
                 self.face.empty()
                 self.face.add(self.last_face)
