@@ -123,6 +123,10 @@ class DinamicPiece(pygame.sprite.Sprite):
                  lambda x,direccion: direccion*x**2/6,
                  lambda x,direccion: -direccion*x**2/6]
 
+    MOVING_CINTA  = 0
+    MOVING_NORMAL = 1
+    MOVING_STOP   = 2
+
     def __init__(self, id, img, level):
         pygame.sprite.Sprite.__init__(self)
 
@@ -134,7 +138,7 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.selected = False
         self.selected_time = 0
         self.desfasaje_rotacion = 0
-        self.moving = False
+        self.moving = self.MOVING_STOP
 
         self.set_top_position()
 
@@ -176,6 +180,7 @@ class DinamicPiece(pygame.sprite.Sprite):
         cordenates = range(WIDTH) # alto
         self.x = random.choice(cordenates)
         self.y = 0
+        self.rect.bottom = 0
 
     def _velocity(self):
         #largo, ancho = self.rect.size
@@ -190,11 +195,15 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.desfasaje_rotacion = (self.desfasaje_rotacion + angle) % 360
 
     def update(self):
-        if not self.is_moving():
+
+        if self.moving == self.MOVING_STOP:
             return
 
-        if self.rect.top > HEIGHT:
-            return self.stop()
+        if self.rect.bottom > HEIGHT - 20:
+            self.moving = self.MOVING_CINTA
+
+        if self.rect.left > WIDTH:
+            self.moving = self.MOVING_STOP
 
         if self.selected:
             self.rect.center   = pygame.mouse.get_pos()
@@ -202,26 +211,32 @@ class DinamicPiece(pygame.sprite.Sprite):
             if self.selected_time == 0:
                 self.dispatcher.selected_explosion()
         else:
-            num = self.num.next()
-            num = math.radians(num)
-            func_y = 10*num
+            if self.moving == self.MOVING_CINTA:
+                self.update_cinta()
+            elif self.moving == self.MOVING_NORMAL:
+               self.update_normal()
 
-            direccion = 1
-            pos = (self.func_x(num,direccion) + self.x, func_y + self.y)
-            self.rect.center = pos
-            if self.rect.top > HEIGHT:
-                self.rect.move_ip(0, pos[1])
-                self.num = self.count()
-                self.y = 0
+    def update_cinta(self):
+        self.rect.left += 1
+
+    def update_normal(self):
+        num = self.num.next()
+        num = math.radians(num)
+        func_y = 10*num
+
+        direccion = 1
+        pos = (self.func_x(num,direccion) + self.x, func_y + self.y)
+        self.rect.center = pos
+        if self.rect.top > HEIGHT:
+            self.rect.move_ip(0, pos[1])
+            self.num = self.count()
+            self.y = 0
  
     def is_moving(self):
-        return self.moving
+        return self.moving in (self.MOVING_NORMAL, self.MOVING_CINTA)
 
     def move(self):
-        self.moving = True
-
-    def stop(self):
-        self.moving = False
+        self.moving = self.MOVING_NORMAL
 
     def count(self, x=0):
         i = self._velocity()
@@ -303,7 +318,7 @@ class Dispatcher(object):
     def moving_pieces(self):
         return [x for x in self.piezas.sprites() if x.is_moving()] + \
                [x for x in self.piezas_erroneas.sprites() if x.is_moving()]
-               
+
     def stop_pieces(self):
         return [x for x in self.piezas.sprites() if not x.is_moving()] + \
                [x for x in self.piezas_erroneas.sprites() if not x.is_moving()]
@@ -313,7 +328,7 @@ class Dispatcher(object):
         if random.choice(range(50)):
             return
 
-        if len(self.moving_pieces()) > 4:
+        if len(self.moving_pieces()) > 8:
             return
 
         if self.stop_pieces():
@@ -330,8 +345,8 @@ class Dispatcher(object):
         quepaso = ""
         alguna = False
         self.hand.select()
-        sprites = [x for x in self.piezas.sprites() if x.is_moving()] + \
-                  [x for x in self.piezas_erroneas.sprites() if x.is_moving()]
+        sprites = self.moving_pieces()
+        
         for piece in sprites:
             if self.hand.collide(piece):
                 self.selected_piece = piece
