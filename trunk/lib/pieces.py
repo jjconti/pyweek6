@@ -205,7 +205,7 @@ class RightPiece(DinamicPiece):
             return False
 
         collideds = pygame.sprite.spritecollide(self, robot, False)
-        pprint(collideds)
+        
         target = [x for x in collideds if x.id == self.id ]
 
         if target:
@@ -327,7 +327,6 @@ class Dispatcher(object):
         #Agrego las piezas erroneas
         erroneas_options = self.piezas_erroneas.sprites()
         for i in range(self.mount):
-            print "options", len(erroneas_options)
             pieza = random.choice(erroneas_options)
             erroneas_options.remove(pieza)
             pieza.set_top_position()
@@ -387,4 +386,3 @@ if __name__ == '__main__':
     size = (700,550)
     screen = pygame.display.set_mode(size)
     pieces = Pieces(level=1)
-    print pieces.get_all()
