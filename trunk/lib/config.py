@@ -42,6 +42,7 @@ IMAGE_CREDITS = os.path.join(BACKGROUND, "credits2.png")
 
 # Font
 FONT_CREDIT = os.path.join(FONTS, "GALACTOS.ttf")
+FONT_MENU 	= os.path.join(FONTS, "VeraBd.ttf") #de momento pongo esta hasta que encuentre alguna buena
 
 #colors
 COLOR1 = (10, 50, 200) 
@@ -52,6 +53,7 @@ RED = (250, 0, 0)
 WHITE = (250, 250, 250)
 GREY = (100, 100, 100)
 BLUE = (122, 138, 16)
+YELLOW = (240, 255, 0)
 
 INTRO = os.path.join(IMGS, "intro")
 INTRO_IMAGES = sorted(glob.glob(INTRO+'/*.png'))
@@ -64,7 +66,13 @@ INTRO_XY = {'intro0001':(265,  50),'intro0003':(265,  51),'intro0005':(265,  51)
 INTRO_TIMES = [0.22] * len(INTRO_IMAGES)
 MISC = os.path.join(IMGS, "misc")
 MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
+
+#backgrounds
 BACKINTRO_IMAGE = BACKGROUND+"/taller.png"
+BACKMENU_IMAGEN = BACKGROUND+"/menu.png"
+
+#musicas
+MENUMUSIC = os.path.join(SOUNDS, "menu.ogg")
 
 #sonidos
 EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
