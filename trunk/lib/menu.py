@@ -20,17 +20,17 @@ class Menu(object):
         font1 = pygame.font.Font(FONT_MENU, 50)
         self.hor_step = font1.get_height() + 10
         self.clock = pygame.time.Clock()
-        self.selected_imgs = [font1.render(text, True, YELLOW) for text in self.items]
+        self.selected_imgs = [font1.render(text, True, RED) for text in self.items]
         self.selected_imgs2 = [font1.render(text, True, BLACK) for text in self.items]
         self.unselected_imgs = [font1.render(text, True, GREY) for text in self.items]
-        self.unselected_imgs2 = [font1.render(text, True, BLUE) for text in self.items]
+        self.unselected_imgs2 = [font1.render(text, True, BLACK) for text in self.items]
         self.unselected_rects = None
         self.timeloop = 0
         self.state = 0 
         
         self.background = utils.load_image(BACKMENU_IMAGEN)
-        title_img = font1.render(title, True, GREY)
-        title_img2 = font1.render(title, True, BLUE)
+        title_img = font1.render(title, True, YELLOW)
+        title_img2 = font1.render(title, True, RED)
         topleft = (self.background.get_rect().width - title_img.get_rect().width) / 2, 30
         topleft2 = (self.background.get_rect().width - title_img.get_rect().width) / 2-self.separator, 30-self.separator
         self.background.blit(title_img2, topleft2)
