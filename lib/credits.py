@@ -19,6 +19,7 @@ class Credits(object):
     def __init__(self, screen, father=None):
         self.screen = screen
         self.father = father
+        print "Padre: ", self.father
         self.developers = []
         self.font = []
         self.font = self.generar_fuentes()
@@ -36,7 +37,6 @@ class Credits(object):
         for num in range(8):
             lista_size.append(base)
             base-=5
-        #lista_size = [10, 15, 20, 25, 30, 35, 50, 35, 30, 25, 20, 15, 10]
         print "Lista size: ", lista_size
         lista_font = []
         # Gereramos las fuentes
@@ -48,15 +48,12 @@ class Credits(object):
         pygame.event.clear()
         self._load_credits()
         self._draw_screen()
-        pygame.time.delay(200)
-        return self.father
 
     def _load_credits(self):
         try:
             credits = csv.reader(open(CREDITS))
             for credit in credits:
                 self.developers.append(credit)
-            #self._developers()
         except IOError:
             print 'Cannot open credits file'
 
@@ -75,29 +72,29 @@ class Credits(object):
         cambiar = False
         clock = pygame.time.Clock()
         time_loop = 0
-        #pos_x_inicial = 340
         while not bandera:
             clock.tick(1000)
             pygame.display.flip()
             self.screen.blit(background, (0,0))
             time_loop+=1
-            print cambiar
-            if cambiar:#y >= 780 or time_loop == 1000:
+            if cambiar or time_loop==1000:#y >= 780 or time_loop == 1000:
                 bandera = True
             else:
-                if self._verifyKey():
-                    return self.father #FIXME
+                if self._verifyKey():#FIXME
+                    print "Quiero salir!"
+                    return self.father
                 for pos, font in enumerate(lista_imagenes):
+                    pos_x_inicial = (400 - font.get_width() / 2)
+                    #print "Pos_x_inicial: ", pos_x_inicial
                     #pos_x_inicial = (WIDTH - font.get_width() / 2)-100
-                    pos_x_inicial = (500 - font.get_width() / 2)-100
                     self.screen.blit(font, (pos_x_inicial, y))
                     if pos == self.punto_medio:
-                        pygame.time.delay(700)
+                        pygame.time.delay(1000)
+                    #pygame.time.delay(100)
                     y += font.get_height()
                     pygame.display.flip()
-            #import pdb
-            #pdb.set_trace()
                     cambiar = True
+                pygame.time.delay(1000)
 
     def _draw_screen(self):
         pygame.display.set_caption(WINDOW_TITLE)
@@ -112,9 +109,9 @@ class Credits(object):
         pygame.display.flip()
 
         # Probemos con dos nomas
-        lista_aux = self.developers#[1:4]
+        lista_aux = self.developers
         while True:
-            for developer in lista_aux:#self.developers[0:2]:
+            for developer in lista_aux:
                 developer = ' '.join(developer)
                 # genero las imagenes para mostrar
                 lista_imagenes = self._generar_imagenes(developer)
@@ -134,8 +131,9 @@ class Credits(object):
         return False
 
 if __name__ == '__main__':
+    print "Paso algo..."
     pygame.init()
-    size = (780,560)
+    size = (WIDTH, HEIGHT)
     screen = pygame.display.set_mode(size)
     credits = Credits(screen)
     credits.loop()
