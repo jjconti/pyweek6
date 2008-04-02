@@ -84,9 +84,9 @@ class Credits(object):
                     print "Quiero salir!"
                     return self.father
                 for pos, font in enumerate(lista_imagenes):
-                    pos_x_inicial = (400 - font.get_width() / 2)
+                    #pos_x_inicial = (400 - font.get_width() / 2)
                     #print "Pos_x_inicial: ", pos_x_inicial
-                    #pos_x_inicial = (WIDTH - font.get_width() / 2)-100
+                    pos_x_inicial = (WIDTH / 2 - font.get_width() / 2)
                     self.screen.blit(font, (pos_x_inicial, y))
                     if pos == self.punto_medio:
                         pygame.time.delay(1000)
