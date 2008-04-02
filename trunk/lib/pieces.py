@@ -75,6 +75,9 @@ class Hand(pygame.sprite.Sprite):
 
         return utils.load_image_alpha(HAND_AFTER_DRAG, -1)
     
+    def toggle(self):
+        self.catched ^= True
+    
     def select(self):
         self.catched = True
         
@@ -131,8 +134,36 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.selected = False
         self.selected_time = 0
         self.desfasaje_rotacion = 0
+        self.moving = False
 
         self.set_top_position()
+
+    def release(self):
+        music.stop_peep()
+        self.selected = False
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        self.num = self.count()
+        self.x = mouse_x
+        self.y = mouse_y
+
+    def select(self, miliseconds=2000):
+        music.play_peep()
+        self.selected = True
+        self.selected_time = (miliseconds * CLOCK_TICS) / 1000
+
+    def fit(self, robot):
+        #print self.desfasaje_rotacion
+        if self.desfasaje_rotacion:
+            return False
+
+        collideds = pygame.sprite.spritecollide(self, robot, False)
+
+        target = [x for x in collideds if x.id == self.id ]
+
+        if target:
+            self.rect.topleft = target[0].rect.topleft
+            return True
+        return False
 
     def set_top_position(self):
         self.num = self.count()
@@ -159,8 +190,11 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.desfasaje_rotacion = (self.desfasaje_rotacion + angle) % 360
 
     def update(self):
-        if self.rect.top > HEIGHT:
+        if not self.is_moving():
             return
+
+        if self.rect.top > HEIGHT:
+            return self.stop()
 
         if self.selected:
             self.rect.center   = pygame.mouse.get_pos()
@@ -171,93 +205,7 @@ class DinamicPiece(pygame.sprite.Sprite):
             num = self.num.next()
             num = math.radians(num)
             func_y = 10*num
-            direccion = 1
-            pos = (self.func_x(num,direcccion) + self.x, func_y + self.y)
-            self.rect.center = pos
-            if self.rect.top > HEIGHT:
-                self.rect.move_ip(0, pos[1])
-                self.num = self.count()
-                self.y = 0
 
-    def count(self, x=0):
-        i = self._velocity()
-        x = x
-        while 1:
-            x = x+i
-            yield x
-
-
-class WrongPiece(DinamicPiece):
-
-    def __init__(self, id, img, level):
-        DinamicPiece.__init__(self, id, img, level)
-
-    def update(self):
-        if self.rect.top > HEIGHT:
-            return
-
-        num = self.num.next()
-        num = math.radians(num)
-        func_y = 10*num
-
-        direccion = 1
-        pos = (self.func_x(num,direccion) + self.x, func_y + self.y)
-        self.rect.center = pos
-        if self.rect.top > HEIGHT:
-            self.rect.move_ip(0, pos[1])
-            self.num = self.count()
-            self.y = 0
-
-    def is_erronea(self):
-        return True
-
-class RightPiece(DinamicPiece):
-
-    def __init__(self, id, img, level):
-        DinamicPiece.__init__(self, id, img, level)
-
-    def release(self):
-        music.stop_peep()
-        self.selected = False
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-        self.num = self.count()
-        self.x = mouse_x
-        self.y = mouse_y
-
-    def select(self, miliseconds=2000):
-        music.play_peep()
-        self.selected = True
-        self.selected_time = (miliseconds * CLOCK_TICS) / 1000
-
-    def fit(self, robot):
-        #print self.desfasaje_rotacion
-        if self.desfasaje_rotacion:
-            return False
-
-        collideds = pygame.sprite.spritecollide(self, robot, False)
-        
-        target = [x for x in collideds if x.id == self.id ]
-
-        if target:
-            self.rect.topleft = target[0].rect.topleft
-            return True
-        return False
-
-    def update(self):
-        if self.rect.top > HEIGHT:
-            return
-
-        if self.selected:
-            self.rect.center   = pygame.mouse.get_pos()
-            self.selected_time -= 1
-            if self.selected_time == 0:
-                self.dispatcher.selected_explosion()
-        else:
-            num = self.num.next()
-            num = math.radians(num)
-            func_y = 10*num
-            
-            print num
             direccion = 1
             pos = (self.func_x(num,direccion) + self.x, func_y + self.y)
             self.rect.center = pos
@@ -265,9 +213,22 @@ class RightPiece(DinamicPiece):
                 self.rect.move_ip(0, pos[1])
                 self.num = self.count()
                 self.y = 0
+ 
+    def is_moving(self):
+        return self.moving
 
-    def is_erronea(self):
-        return False
+    def move(self):
+        self.moving = True
+
+    def stop(self):
+        self.moving = False
+
+    def count(self, x=0):
+        i = self._velocity()
+        x = x
+        while 1:
+            x = x+i
+            yield x
 
 class Pieces(object):
     def __init__(self, level, type_piece="static"):
@@ -305,9 +266,9 @@ class Pieces(object):
             if self.type_piece == "static":
                 piece = StaticPiece(img[0], img[1], self.level)
             elif self.type_piece == "dinamic":
-                piece = RightPiece(img[0], img[1], self.level)
+                piece = DinamicPiece(img[0], img[1], self.level)
             elif self.type_piece == "erronea":
-                piece = WrongPiece(img[0], img[1], self.level)
+                piece = DinamicPiece(img[0], img[1], self.level)
             elif self.type_piece == "face":
                 piece = FacePiece(img[0], img[1], self.level)
             result.append(piece)
@@ -324,7 +285,7 @@ class Dispatcher(object):
         self.robot = robot
         self.hand  = hand
 
-        for p in self.piezas:
+        for p in self.piezas.sprites() + self.piezas_erroneas.sprites():
             p.dispatcher = self
 
         self.mouse_with_piece = False
@@ -339,38 +300,26 @@ class Dispatcher(object):
         ExplosionMedium(self.selected_piece.rect.center)
         self.selected_piece.set_top_position()
 
-    def new_dispatch(self):
-        if self.mouse_with_erronea_piece:
-            return True
-
-        if not self.piezas_activas.sprites():
-            return True
-
-        for p in self.piezas_activas:
-            if p.rect.top < HEIGHT:
-                return False
-        return True
+    def moving_pieces(self):
+        return [x for x in self.piezas.sprites() if x.is_moving()] + \
+               [x for x in self.piezas_erroneas.sprites() if x.is_moving()]
+               
+    def stop_pieces(self):
+        return [x for x in self.piezas.sprites() if not x.is_moving()] + \
+               [x for x in self.piezas_erroneas.sprites() if not x.is_moving()]
 
     def dispatch(self):
-        if not self.new_dispatch():
+
+        if random.choice(range(50)):
             return
 
-        self.piezas_activas.empty()
-        self.mouse_with_erronea_piece = False
+        if len(self.moving_pieces()) > 4:
+            return
 
-        #Agrego las piezas erroneas
-        erroneas_options = self.piezas_erroneas.sprites()
-        for i in range(self.mount):
-            pieza = random.choice(erroneas_options)
-            erroneas_options.remove(pieza)
-            pieza.set_top_position()
-            self.piezas_activas.add(pieza)
-
-        #Agrego la pieza correcta
-        if self.piezas.sprites():
-            pieza          = random.choice(self.piezas.sprites())
-            pieza.set_top_position()
-            self.piezas_activas.add(pieza)
+        if self.stop_pieces():
+            piece = random.choice(self.stop_pieces())
+            piece.set_top_position()
+            piece.move()
 
     def rotate_selected(self, angle):
         if self.mouse_with_piece:
@@ -380,25 +329,23 @@ class Dispatcher(object):
         '''Logica para agarrar o soltar las piezas con el mouse'''
         quepaso = ""
         alguna = False
-        for piece in self.piezas_activas:
+        self.hand.select()
+        sprites = [x for x in self.piezas.sprites() if x.is_moving()] + \
+                  [x for x in self.piezas_erroneas.sprites() if x.is_moving()]
+        for piece in sprites:
             if self.hand.collide(piece):
                 self.selected_piece = piece
                 alguna = True
 
                 #Primer click (agarrar)
                 if not self.mouse_with_piece:
-                    if piece.is_erronea():
-                        ExplosionMedium(piece.rect.center)
-                        self.mouse_with_erronea_piece = True
-                        quepaso = "erronea"
-                    else:
-                        self.mouse_with_piece = True
-                        piece.select(miliseconds=2000)
-                        self.hand.select()
-                        #selecciono una pieza correcta
-                        quepaso = "correcta"
+                    self.mouse_with_piece = True
+                    piece.select(miliseconds=2000)
+                    #selecciono una pieza correcta
+                    quepaso = "correcta"
+
                 #Segundo Click (soltar)
-                elif not piece.is_erronea():
+                else:
                     self.mouse_with_piece = False
                     piece.release()
                     self.hand.release()
@@ -413,10 +360,15 @@ class Dispatcher(object):
                         quepaso = "soltoafuera"
 
                 break
+
         if not alguna:
             quepaso = "clickafuera"
         #click afuera
         return quepaso
+        
+    def soltar(self):
+        if not self.mouse_with_piece:
+            self.hand.release()
             
 
 if __name__ == '__main__':

@@ -98,7 +98,10 @@ class Level(object):
     def update(self):
         '''Actualizar valores de variables y ejecuta los update()
            de los grupos.'''
-        self.piezas_activas.update()
+        #self.piezas_activas.update()
+        self.piezas.update()
+        self.piezas_erroneas.update()
+        
         self.explosions.update()
         self.energy_bar.update()
         self.hand.update()
@@ -112,15 +115,15 @@ class Level(object):
         self.piezas_encajadas.draw(self.screen)
         self.face.draw(self.screen)
         '''Dibuja en pantalla los grupos.'''
-        self.piezas_activas.draw(self.screen)
+        #self.piezas_activas.draw(self.screen)
+        self.piezas.draw(self.screen)
+        self.piezas_erroneas.draw(self.screen)
+
         self.explosions.draw(self.screen)
         self.gadgets.draw(self.screen)
 
-
     def control(self, event):
         if event.type == KEYDOWN:
-            if event.key == K_f:
-                pygame.display.toggle_fullscreen()
             if event.key == K_p:
                 self.paused ^= True
 
@@ -154,6 +157,10 @@ class Level(object):
 
             if event.button == 5:
                 self.dispatcher.rotate_selected(270)
+
+        if event.type == MOUSEBUTTONUP:
+            if event.button == 1:
+                self.dispatcher.soltar()
 
     def finish(self):
         return not self.piezas.sprites()
