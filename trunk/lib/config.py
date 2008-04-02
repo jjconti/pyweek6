@@ -38,8 +38,11 @@ DUDA, ENOJO, FELIZ, FELIZ2, FELIZ3, INCERTIDUMBRE, SORPRESA, MIEDO = range(1,9)
 
 BACK = os.path.join(BACKGROUND, "taller.png")
 
+HAND_AFTER_DRAG = os.path.join(IMGS, "hands/after_drag.png")
+HAND_DRAG = os.path.join(IMGS, "hands/drag.png")
+
 IMAGE_CREDITS = os.path.join(BACKGROUND, "credits2.png")
-HELP = os.path.join(BACKGROUND, "help_inscription.png") 
+HELP = os.path.join(BACKGROUND, "help_inscription.png")
 
 # Font
 FONT_CREDIT = os.path.join(FONTS, "GALACTOS.ttf")
