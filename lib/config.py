@@ -37,7 +37,7 @@ ERRONEAS_LEVEL = {1: os.path.join(LEVEL1, "erroneas"),
 FACES = os.path.join(IMGS, "faces")
 DUDA, ENOJO, FELIZ, FELIZ2, FELIZ3, INCERTIDUMBRE, SORPRESA, MIEDO = range(1,9)
 
-BACK = os.path.join(BACKGROUND, "taller.png")
+BACK = os.path.join(BACKGROUND, "taller.jpg")
 
 HAND_AFTER_DRAG = os.path.join(IMGS, "hands/after_drag.png")
 HAND_DRAG = os.path.join(IMGS, "hands/drag.png")
@@ -75,7 +75,7 @@ MISC = os.path.join(IMGS, "misc")
 MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
 
 #backgrounds
-BACKINTRO_IMAGE = BACKGROUND+"/taller.png"
+BACKINTRO_IMAGE = BACKGROUND+"/taller.jpg"
 BACKMENU_IMAGEN = BACKGROUND+"/menu.png"
 BACKLEVEL_IMAGE = BACKGROUND+"/fondoAzul.png"
 
