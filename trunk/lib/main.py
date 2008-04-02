@@ -1,4 +1,3 @@
-
 import sys
 import pygame
 from pygame.locals import *
@@ -12,7 +11,7 @@ from credits import Credits
 
 from config import *
 import utils
-
+from visual import Visual
 import data
 
 if not pygame.font: print 'Warning, fonts disabled'
@@ -68,6 +67,7 @@ def story(screen):
     text = utils.load_image(STORY, (0,0,0))
     bg.blit(text, (0,0))
     return Visual(screen, bg, -1, menu)
+
 
 def exit():
     sys.exit(0)
