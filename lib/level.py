@@ -99,12 +99,12 @@ class Level(object):
         self.screen.blit(self.background, (0,0) )
         self.robot.draw(self.screen)
         self.piezas_encajadas.draw(self.screen)
+        self.face.draw(self.screen)
         '''Dibuja en pantalla los grupos.'''
         self.piezas_activas.draw(self.screen)
         self.explosions.draw(self.screen)
         self.widgets.draw(self.screen)
-        self.face.draw(self.screen)
-        
+
 
     def control(self, event):
         if event.type == QUIT:
