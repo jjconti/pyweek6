@@ -18,6 +18,7 @@ IMGS = os.path.join(DATA, "imgs")
 FONTS = os.path.join(DATA, "fonts")
 CREDITS = os.path.join(DATA, "credits.txt")
 SOUNDS = os.path.join(DATA, "sounds")
+BACKGROUND = os.path.join(IMGS, "background")
 
 # imagenes
 LEVEL1 = os.path.join(IMGS, "level1")
@@ -31,6 +32,7 @@ ERRONEAS_LEVEL = {1: os.path.join(LEVEL1, "erroneas"),
                   2: os.path.join(LEVEL2, "erroneas"),
                   3: os.path.join(LEVEL3, "erroneas")}
 
+IMAGE_CREDITS = os.path.join(BACKGROUND, "credits.png")
 # Font
 FONT_CREDIT = os.path.join(FONTS, "GALACTOS.ttf")
 
