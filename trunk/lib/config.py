@@ -42,7 +42,7 @@ BACK = os.path.join(BACKGROUND, "taller.jpg")
 HAND_AFTER_DRAG = os.path.join(IMGS, "hands/after_drag.png")
 HAND_DRAG = os.path.join(IMGS, "hands/drag.png")
 
-IMAGE_CREDITS = os.path.join(BACKGROUND, "credits2.png")
+IMAGE_CREDITS = os.path.join(BACKGROUND, "credits.png")
 HELP = os.path.join(BACKGROUND, "help_inscription.png")
 
 # Font
