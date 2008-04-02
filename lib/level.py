@@ -41,7 +41,8 @@ class Level(object):
         self.piezas_erroneas = pygame.sprite.RenderUpdates()
         self.cargar_piezas_erroneas()
         self.piezas_activas = pygame.sprite.RenderUpdates()
-        self.piezas_encajadas = pygame.sprite.RenderUpdates()
+        self.piezas_encajadas_atras = pygame.sprite.RenderUpdates()
+        self.piezas_encajadas_adelante = pygame.sprite.RenderUpdates()
         self.energy_bar = EnergyBar(self.level * 0.05)
         self.hand = Hand()
         self.show_points = Points(0)
@@ -62,7 +63,8 @@ class Level(object):
         self.clock = pygame.time.Clock()
         self.dispatcher = Dispatcher(3, self.piezas_activas, self.piezas, \
                                      self.piezas_erroneas, \
-                                     self.piezas_encajadas, self.robot, self.hand)
+                                     self.piezas_encajadas_atras, self.piezas_encajadas_adelante,
+                                     self.robot, self.hand)
 
         self.totalpiezas = len(self.robot)
         self.points = 0
@@ -109,9 +111,10 @@ class Level(object):
 
     def draw(self):
         self.screen.fill((0,0,0))
-        self.screen.blit(self.background, (210,5) )
+        self.screen.blit(self.background, BACKGROUND_OFFSET)
         self.robot.draw(self.screen)
-        self.piezas_encajadas.draw(self.screen)
+        self.piezas_encajadas_atras.draw(self.screen)
+        self.piezas_encajadas_adelante.draw(self.screen)
         self.face.draw(self.screen)
         '''Dibuja en pantalla los grupos.'''
         #self.piezas_activas.draw(self.screen)

@@ -15,12 +15,9 @@ import data
 from config import *
 import music
 
-from levelposimages import level_pos
+from levelposimages import *
 from explosion import *
 
-
-
-DEBUG_MANUEL = True
 class EnergyBar(pygame.sprite.Sprite):
     '''An energy bar'''
     def __init__(self, energy_leap=0.05):
@@ -117,7 +114,7 @@ class FacePiece(StaticPiece):
         self.rect.topleft = t + ROBOT_OFFSET[0] + 15, l + ROBOT_OFFSET[1] + 10
 
 class DinamicPiece(pygame.sprite.Sprite):
-    functions = [lambda x,direccion: direccion*20*math.sin(x/4),
+    functions = [lambda x,direccion: direccion*20*math.sin(x/2),
                  lambda x,direccion: direccion*20*math.cos(x/2),
                  lambda x,direccion: direccion*x,
                  lambda x,direccion: direccion*x**2/6,
@@ -139,8 +136,11 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.selected_time = 0
         self.desfasaje_rotacion = 0
         self.moving = self.MOVING_STOP
-
+        self.prof = level_pos[self.level].get(self.id, False)
+        if self.prof:
+            self.prof = self.prof[2] # Fix
         self.set_top_position()
+        self.change_function = random.choice(range(HEIGHT))
 
     def release(self):
         music.stop_peep()
@@ -185,7 +185,7 @@ class DinamicPiece(pygame.sprite.Sprite):
     def _velocity(self):
         #largo, ancho = self.rect.size
         #vel = (largo * ancho) / float(500) + 2
-        ##print "Velocidad: ",vel
+        #print "Velocidad: ",vel
         #return min(30, vel)
         return 16
 
@@ -220,6 +220,11 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.rect.left += 1
 
     def update_normal(self):
+
+        if self.rect.y == self.change_function:
+            self.func_x = random.choice(self.functions)
+            #self.num = self.count()
+    
         num = self.num.next()
         num = math.radians(num)
         func_y = 10*num
@@ -244,6 +249,7 @@ class DinamicPiece(pygame.sprite.Sprite):
         while 1:
             x = x+i
             yield x
+
 
 class Pieces(object):
     def __init__(self, level, type_piece="static"):
@@ -290,13 +296,15 @@ class Pieces(object):
         return result
 
 class Dispatcher(object):
-    def __init__(self, mount, piezas_activas, piezas, piezas_erroneas, piezas_encajadas, robot, hand):
+    def __init__(self, mount, piezas_activas, piezas, piezas_erroneas, \
+                piezas_encajadas_atras, piezas_encajadas_adelante, robot, hand):
         #mount es la cantidad de piezas que son despachadas de forma simultanea
         self.mount = mount
         self.piezas_activas   = piezas_activas
         self.piezas           = piezas
         self.piezas_erroneas  = piezas_erroneas
-        self.piezas_encajadas = piezas_encajadas
+        self.piezas_encajadas_atras = piezas_encajadas_atras
+        self.piezas_encajadas_adelante = piezas_encajadas_adelante
         self.robot = robot
         self.hand  = hand
 
@@ -365,7 +373,10 @@ class Dispatcher(object):
                     piece.release()
                     self.hand.release()
                     if self.selected_piece.fit(self.robot):
-                        self.piezas_encajadas.add(self.selected_piece)
+                        if self.selected_piece.prof == ATRAS:
+                            self.piezas_encajadas_atras.add(self.selected_piece)
+                        else:   #ADELANTE
+                            self.piezas_encajadas_adelante.add(self.selected_piece)
                         self.piezas.remove(self.selected_piece)
                         self.piezas_activas.remove(self.selected_piece)
                         #encajo
