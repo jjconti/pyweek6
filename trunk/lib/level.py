@@ -4,6 +4,7 @@
 
 import sys
 from pprint import pprint
+import time
 
 import pygame
 from pygame.locals import *
@@ -26,15 +27,16 @@ class Level(object):
     def __init__(self, screen, father, level=1, total_points=0):
 
         self.screen = screen
+        self.background = utils.load_image(BACK)
         self.father = father
         self.level = level
         self.tics = 0
         self.exit = False
         self.paused = False
         
-        self.robot           = pygame.sprite.RenderUpdates()
+        self.robot = pygame.sprite.RenderUpdates()
         self.cargar_robot()
-        self.piezas          = pygame.sprite.RenderUpdates()
+        self.piezas = pygame.sprite.RenderUpdates()
         self.cargar_piezas()
         self.piezas_erroneas = pygame.sprite.RenderUpdates()
         self.cargar_piezas_erroneas()
@@ -42,12 +44,19 @@ class Level(object):
         self.piezas_encajadas= pygame.sprite.Group()
         self.widgets = pygame.sprite.Group()
         self.widgets.add(EnergyBar())
-        self.explosions      = pygame.sprite.Group()
+        self.explosions = pygame.sprite.Group()
         ExplosionMedium.containers = self.explosions
-
+        #self.face = pygame.sprite.GroupSingle()
+        self.face = pygame.sprite.RenderUpdates()
+        self.last_face = None
+        self.cargar_faces()
+        self.situacion = ""
+        self.facetime = time.time()
         #Create the game clock
         self.clock = pygame.time.Clock()
-        self.dispatcher = Dispatcher(3, self.piezas_activas, self.piezas, self.piezas_erroneas, self.piezas_encajadas, self.robot)
+        self.dispatcher = Dispatcher(3, self.piezas_activas, self.piezas, \
+                                     self.piezas_erroneas, \
+                                     self.piezas_encajadas, self.robot)
         
         
         self.totalpiezas = len(self.robot)
@@ -75,6 +84,7 @@ class Level(object):
             def f(screen):
                 return Level(screen, self.father, self.level + 1)
             return f
+
         if self.exit:
             return self.father
 
@@ -86,28 +96,37 @@ class Level(object):
         self.widgets.update()
 
     def draw(self):
-        self.screen.blit(utils.create_surface((WIDTH, HEIGHT), (100,100,100)), (0,0) )
+        self.screen.blit(self.background, (0,0) )
         self.robot.draw(self.screen)
         self.piezas_encajadas.draw(self.screen)
         '''Dibuja en pantalla los grupos.'''
         self.piezas_activas.draw(self.screen)
         self.explosions.draw(self.screen)
         self.widgets.draw(self.screen)
+        self.face.draw(self.screen)
         
 
     def control(self, event):
         if event.type == QUIT:
             sys.exit(0)
+        
+        if event.type == MOUSEMOTION:
+            self.face_change(event)
 
         if event.type == KEYDOWN:
             if event.key == K_f:
                 pygame.display.toggle_fullscreen()
             if event.key == K_p:
-                self.paused ^= True	
-        
-	if event.type == MOUSEBUTTONDOWN:
+                self.paused ^= True
+            if event.key == K_DOWN:
+                self.dispatcher.rotate_selected(90)
+            if event.key == K_UP:	
+                self.dispatcher.rotate_selected(270)       
+
+        if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
-                self.dispatcher.agarrar_soltar(event.pos)
+                quepaso = self.dispatcher.agarrar_soltar(event.pos)
+                self.face_change(event, quepaso)
 
             if event.button == 2:
                 ExplosionMedium(event.pos)
@@ -146,6 +165,62 @@ class Level(object):
         for s in sets:
             sprites += s.get_all()
         self.piezas_erroneas.add(sprites)
+
+    def cargar_faces(self):
+        sets = [Pieces(type_piece="face", level=self.level) for x in range(1)]
+        sprites = []
+        for s in sets:
+            sprites += s.get_all()
+        self.face_list = sprites
+        feliz = [f for f in self.face_list if f.id == FELIZ3][0]
+        self.face.add(feliz)
+        self.last_face = feliz
+
+    def face_change(self, event, quepaso=""):
+        '''Captura el movimiento del mouse para cambiar la cara del robot.'''
+        x,y = event.pos        
+        limit1 = ROBOT_OFFSET[1] + 150
+        if quepaso: self.situacion = quepaso
+        print self.situacion
+        if self.situacion == "correcto" and y < limit1 and self.face.sprites()[0].id != INCERTIDUMBRE:
+            self.last_face = self.face.sprites()[0]
+            self.face.empty()
+            self.face.add([f for f in self.face_list if f.id == INCERTIDUMBRE])
+
+        elif self.situacion == "correcta" and y >= limit1:
+            self.face.empty()
+            self.face.add(self.last_face)
+
+        elif self.situacion == "encajo":
+            self.last_face = self.face.sprites()[0]
+            self.face.empty()
+            self.face.add([f for f in self.face_list if f.id == FELIZ])
+
+        elif self.situacion == "soltoafuera":
+            self.last_face = self.face.sprites()[0]
+            self.face.empty()
+            self.face.add([f for f in self.face_list if f.id == SORPRESA])
+
+        elif self.situacion == "clickafuera":
+            self.last_face = self.face.sprites()[0]
+            self.face.empty()
+            self.face.add([f for f in self.face_list if f.id == MIEDO])
+
+        elif self.situacion == "erronea" and self.face.sprites()[0].id != SORPRESA:
+            self.last_face = self.face.sprites()[0]
+            self.face.empty()
+            self.face.add([f for f in self.face_list if f.id == SORPRESA])
+            self.facetime = time.time()
+            self.situacion = "volver"
+    
+        elif self.situacion == "volver": # ciertas caras, luego de unos segundos vuelven a la anterior
+            delay = time.time() - self.facetime
+            print delay
+            if delay > 2:
+                self.face.empty()
+                self.face.add(self.last_face)
+                self.situacion = ""
+
 
 def main():
     Level().loop()

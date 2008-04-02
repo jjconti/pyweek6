@@ -24,6 +24,7 @@ BACKGROUND = os.path.join(IMGS, "background")
 LEVEL1 = os.path.join(IMGS, "level1")
 LEVEL2 = os.path.join(IMGS, "level2")
 LEVEL3 = os.path.join(IMGS, "level3")
+
 PIECES_LEVEL = {1: os.path.join(LEVEL1, "pieces"),
                 2: os.path.join(LEVEL2, "pieces"),
                 3: os.path.join(LEVEL3, "pieces")}
@@ -32,7 +33,13 @@ ERRONEAS_LEVEL = {1: os.path.join(LEVEL1, "erroneas"),
                   2: os.path.join(LEVEL2, "erroneas"),
                   3: os.path.join(LEVEL3, "erroneas")}
 
+FACES = os.path.join(IMGS, "faces")
+DUDA, ENOJO, FELIZ, FELIZ2, FELIZ3, INCERTIDUMBRE, SORPRESA, MIEDO = range(1,9)
+
+BACK = os.path.join(BACKGROUND, "taller.png")
+
 IMAGE_CREDITS = os.path.join(BACKGROUND, "credits.png")
+
 # Font
 FONT_CREDIT = os.path.join(FONTS, "GALACTOS.ttf")
 
