@@ -86,4 +86,4 @@ EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
 PEEP = os.path.join(SOUNDS, "peep.ogg")
 
 #backgrounds
-HELPBG = os.path.join(BACKGROUND, "help.png")
+HELPBG = os.path.join(BACKGROUND, "help.jpg")
