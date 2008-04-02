@@ -102,7 +102,7 @@ class Credits(object):
         pygame.display.flip()
 
         # Probemos con dos nomas
-        lista_aux = self.developers[1:4]
+        lista_aux = self.developers#[1:4]
         while True:
             for developer in lista_aux:#self.developers[0:2]:
                 developer = ' '.join(developer)
