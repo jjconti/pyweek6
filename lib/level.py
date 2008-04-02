@@ -12,10 +12,8 @@ from pygame.locals import *
 from config import *
 import utils
 
-from pieces import Pieces
-from pieces import Dispatcher
-from pieces import EnergyBar
-from pieces import Hand
+from pieces import *
+from gadgets import *
 
 from explosion import *
 
@@ -42,16 +40,21 @@ class Level(object):
         self.cargar_piezas()
         self.piezas_erroneas = pygame.sprite.RenderUpdates()
         self.cargar_piezas_erroneas()
-        self.piezas_activas   = pygame.sprite.Group()
-        self.piezas_encajadas = pygame.sprite.Group()
-        self.hand             = Hand()
-        self.widgets = pygame.sprite.Group()
-        self.widgets.add(EnergyBar(self.level * 0.05))
-        self.widgets.add(self.hand)
+        self.piezas_activas = pygame.sprite.RenderUpdates()
+        self.piezas_encajadas = pygame.sprite.RenderUpdates()
+        self.energy_bar = EnergyBar(self.level * 0.05)
+        self.hand = Hand()
+        self.show_points = Points(0)
+        self.level_indicator = LevelIndicator(self.level)
+        self.gadgets = pygame.sprite.RenderUpdates()
+        self.gadgets.add(self.energy_bar)
+        self.gadgets.add(self.hand)
+        self.gadgets.add(self.show_points)
+        self.gadgets.add(self.level_indicator)
         self.face = pygame.sprite.RenderUpdates()
         self.last_face = None
         self.cargar_faces()
-        self.explosions = pygame.sprite.Group()
+        self.explosions = pygame.sprite.RenderUpdates()
         ExplosionMedium.containers = self.explosions
         self.situacion = ""
         self.facetime = time.time()
@@ -97,7 +100,10 @@ class Level(object):
            de los grupos.'''
         self.piezas_activas.update()
         self.explosions.update()
-        self.widgets.update()
+        self.energy_bar.update()
+        self.hand.update()
+        self.show_points.update(0)
+        self.level_indicator.update()
 
     def draw(self):
         self.screen.fill((0,0,0))
@@ -108,7 +114,7 @@ class Level(object):
         '''Dibuja en pantalla los grupos.'''
         self.piezas_activas.draw(self.screen)
         self.explosions.draw(self.screen)
-        self.widgets.draw(self.screen)
+        self.gadgets.draw(self.screen)
 
 
     def control(self, event):
