@@ -4,13 +4,14 @@ import glob
 
 # pantalla
 WINDOW_TITLE = "Ojalata!"
-WIDTH = 780
-HEIGHT = 560
+WIDTH = 960
+HEIGHT = 720
 CENTER = HEIGHT / 2
 
 CLOCK_TICS = 100
 
-ROBOT_OFFSET = (165, 0)
+ROBOT_OFFSET = (WIDTH / 2 - 250, HEIGHT / 2 - 350)
+BACKGROUND_OFFSET = (270,20)
 
 # todos los path
 DATA = os.path.join("data")
