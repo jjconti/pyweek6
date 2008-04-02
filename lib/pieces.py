@@ -42,7 +42,7 @@ class EnergyBar(pygame.sprite.Sprite):
         #font = pygame.font.Font(FONT1, 14)
         #text = font.render("Energy", True, BLACK)
         w = 15
-        h = max(int(WIDTH * self.energy_percent / 100), 0)
+        h = max(int(HEIGHT * self.energy_percent / 100), 0)
 
         if self.energy_percent > 60: 
             color = GREEN

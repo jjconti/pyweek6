@@ -12,8 +12,7 @@ import sys
 
 ##
 # Módulos propios
-from config import FONT_CREDIT, CREDITS, WINDOW_TITLE,IMAGE_CREDITS
-from config import GREY
+from config import *
 
 
 class Credits(object):
@@ -54,7 +53,6 @@ class Credits(object):
 
     def _dibujar_secuencia(self, lista_imagenes, background, topleft):
         """Permitirá mostrar las letras en la secuencia de descenso"""
-        pos_x_inicial = 348
         pos_y = y = topleft[1] + 50
         bandera = False
         clock = pygame.time.Clock()
@@ -63,8 +61,7 @@ class Credits(object):
             clock.tick(1000)
             pygame.display.flip()
             self.screen.blit(background, (0,0))
-            time_loop += 1
-            if time_loop == 1000:
+            if y >= 780:
                 bandera = True
             if self._verifyKey():
                 return self.father #FIXME
@@ -77,9 +74,11 @@ class Credits(object):
                 # get_height()
                 # get_width()
                 for a,b in zip(lista_imagenes[0], lista_imagenes[2]):
+                    xa = WIDTH - a.get_width() / 2 
+                    xb = WIDTH - a.get_width() / 2 
                     self.screen.blit(a, (pos_x_inicial + (b.get_width()/4), y-15))
                     self.screen.blit(b, (pos_x_inicial, y))
-                pygame.time.delay(100)
+                #pygame.time.delay(100)
                 #pass
                 y += 2
             elif y >= 190:
@@ -132,7 +131,7 @@ class Credits(object):
 
 if __name__ == '__main__':
     pygame.init()
-    size = (700,550)
+    size = (780,560)
     screen = pygame.display.set_mode(size)
     credits = Credits(screen)
     credits.loop()
