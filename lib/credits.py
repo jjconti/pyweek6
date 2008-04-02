@@ -27,13 +27,13 @@ class Credits(object):
         """Crea la lista de tamaños de fuentes y la fuente en sí"""
         base = 10
         lista_size = []
-        for num in range(7):
+        for num in range(8):
             lista_size.append(base)
             base+=5
-        lista_size.append(base+20)
-        self.punto_medio = lista_size.index(base+20)
+        lista_size.append(base+10)
+        self.punto_medio = lista_size.index(base+10)
         base-=5
-        for num in range(7):
+        for num in range(8):
             lista_size.append(base)
             base-=5
         #lista_size = [10, 15, 20, 25, 30, 35, 50, 35, 30, 25, 20, 15, 10]
@@ -41,7 +41,7 @@ class Credits(object):
         lista_font = []
         # Gereramos las fuentes
         for size in lista_size:
-            lista_font.append(pygame.font.Font(FONT_CREDIT, size))
+            lista_font.append(pygame.font.Font(None, size))
         return lista_font
 
     def loop(self):
@@ -72,6 +72,7 @@ class Credits(object):
         """Permitirá mostrar las letras en la secuencia de descenso"""
         pos_y = y = topleft[1] + 50
         bandera = False
+        cambiar = False
         clock = pygame.time.Clock()
         time_loop = 0
         #pos_x_inicial = 340
@@ -80,18 +81,23 @@ class Credits(object):
             pygame.display.flip()
             self.screen.blit(background, (0,0))
             time_loop+=1
-            if y >= 780 or time_loop == 1000:
+            print cambiar
+            if cambiar:#y >= 780 or time_loop == 1000:
                 bandera = True
-            if self._verifyKey():
-                return self.father #FIXME
-            for pos, font in enumerate(lista_imagenes):
-                #pos_x_inicial = (WIDTH - font.get_width() / 2)-100
-                pos_x_inicial = (500 - font.get_width() / 2)-100
-                self.screen.blit(font, (pos_x_inicial, y))
-                if pos == self.punto_medio:
-                    pygame.time.delay(500)
-                y += font.get_height()
-                pygame.display.flip()
+            else:
+                if self._verifyKey():
+                    return self.father #FIXME
+                for pos, font in enumerate(lista_imagenes):
+                    #pos_x_inicial = (WIDTH - font.get_width() / 2)-100
+                    pos_x_inicial = (500 - font.get_width() / 2)-100
+                    self.screen.blit(font, (pos_x_inicial, y))
+                    if pos == self.punto_medio:
+                        pygame.time.delay(700)
+                    y += font.get_height()
+                    pygame.display.flip()
+            #import pdb
+            #pdb.set_trace()
+                    cambiar = True
 
     def _draw_screen(self):
         pygame.display.set_caption(WINDOW_TITLE)
