@@ -30,7 +30,7 @@ class Credits(object):
         self._draw_screen()
         pygame.time.delay(200)
         return self.father
-    
+
     def _load_credits(self):
         try:
             credits = csv.reader(open(CREDITS))
@@ -42,7 +42,7 @@ class Credits(object):
 
     def _draw_screen(self):
         pygame.display.set_caption(WINDOW_TITLE)
-        image = '/home/nercof/Proyectos/pyweek6/data/imgs/credits.png'
+        image = '.data/img/credits.png'
         background = pygame.image.load(image)
 
         #title = 'CREDITS'
@@ -54,34 +54,47 @@ class Credits(object):
         clock = pygame.time.Clock()
 
         # Probemos con dos nomas
-        lista_aux = self.developers[0:2]
+        lista_aux = self.developers[1:4]
         while True:
             for developer in lista_aux:#self.developers[0:2]:
                 print "Viene ", developer
                 bandera = False
                 time_loop = 0
-                pos_x_inicial = 200
+                pos_x_inicial = 250
                 pos_y = y = 100#background.get_rect().width/2
                 developer = ' '.join(developer)
+                # genero las imagenes para mostrar
+                imagen_1 = self.font_1.render(developer, True,
+                        (100,100,100))
+                imagen_2 = self.font_2.render(developer, True,
+                        (100,100,100))
+                imagen_3 = self.font_3.render(developer, True,
+                        (100,100,100))
+
                 while not bandera:
                     clock.tick(60)
-                    print time_loop
                     pygame.display.flip()
                     self.screen.blit(background, (0,0))
                     time_loop += 1
                     if time_loop == 60:
                         bandera = True
-                    #print "Person: ", developer
-                    imagen = self.font_1.render(developer, True,
-                            (100,100,100))
-
                     if self._verifyKey():
                         return self.father
                     print 'Posicion Y: ', y
-                    self.screen.blit(imagen, (pos_x_inicial, y)) # dibuja la imagen
-                    y += 0.1
+                    if y >= 190:
+                        # Poner imagen_2
+                        self.screen.blit(imagen_2, (pos_x_inicial, y))
+                        #pass
+                    elif y >= 220:
+                        # Poner imagen_3
+                        self.screen.blit(imagen_3, (pos_x_inicial, y))
+                        pygame.time.delay(100)
+                        #pass
+                    else:
+                        self.screen.blit(imagen_1, (pos_x_inicial, y)) # dibuja la imagen
+                    y += 5
 
-            pygame.time.delay(50)
+            pygame.time.delay(100)
 
     def _developers(self):
         print self.developers
