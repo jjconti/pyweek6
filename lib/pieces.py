@@ -87,9 +87,9 @@ class FacePiece(StaticPiece):
         self.rect.topleft = t + ROBOT_OFFSET[0] + 15, l + ROBOT_OFFSET[1] + 10
 
 class DinamicPiece(pygame.sprite.Sprite):
-    functions = [lambda x: 20*math.sin(x/4),
-                 lambda x: 20*math.cos(x/2),
-                 lambda x: x]
+    functions = [lambda x,direccion: direccion*20*math.sin(x/4),
+                 lambda x,direccion: direccion*20*math.cos(x/2),
+                 lambda x,direccion: direccion*x]
 
     def __init__(self, id, img, level):
         pygame.sprite.Sprite.__init__(self)
@@ -142,8 +142,8 @@ class DinamicPiece(pygame.sprite.Sprite):
             num = self.num.next()
             num = math.radians(num)
             func_y = 10*num
-
-            pos = (self.func_x(num) + self.x, func_y + self.y)
+            direccion = 1
+            pos = (self.func_x(num,direcccion) + self.x, func_y + self.y)
             self.rect.center = pos
             if self.rect.top > HEIGHT:
                 self.rect.move_ip(0, pos[1])
@@ -171,7 +171,8 @@ class WrongPiece(DinamicPiece):
         num = math.radians(num)
         func_y = 10*num
 
-        pos = (self.func_x(num) + self.x, func_y + self.y)
+        direccion = 1
+        pos = (self.func_x(num,direccion) + self.x, func_y + self.y)
         self.rect.center = pos
         if self.rect.top > HEIGHT:
             self.rect.move_ip(0, pos[1])
@@ -226,8 +227,10 @@ class RightPiece(DinamicPiece):
             num = self.num.next()
             num = math.radians(num)
             func_y = 10*num
-
-            pos = (self.func_x(num) + self.x, func_y + self.y)
+            
+            print num
+            direccion = 1
+            pos = (self.func_x(num,direccion) + self.x, func_y + self.y)
             self.rect.center = pos
             if self.rect.top > HEIGHT:
                 self.rect.move_ip(0, pos[1])
