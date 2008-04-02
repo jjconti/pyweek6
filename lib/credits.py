@@ -38,6 +38,7 @@ class Credits(object):
             credits = csv.reader(open(CREDITS))
             for credit in credits:
                 self.developers.append(credit)
+            #self._developers()
         except IOError:
             print 'Cannot open credits file'
 
@@ -69,10 +70,16 @@ class Credits(object):
                 return self.father #FIXME
             if y >= 160:
                 # Poner imagen_2
-                for pos, font in enumerate(lista_imagenes[1]):
-                    self.screen.blit(lista_imagenes[1][pos],
-                            (pos_x_inicial, y))
-                #pygame.time.delay(50)
+                #for pos, font in enumerate(lista_imagenes[1]):
+                #    self.screen.blit(lista_imagenes[1][pos],
+                #            (pos_x_inicial, y))
+                # Surface
+                # get_height()
+                # get_width()
+                for a,b in zip(lista_imagenes[0], lista_imagenes[2]):
+                    self.screen.blit(a, (pos_x_inicial + (b.get_width()/4), y-15))
+                    self.screen.blit(b, (pos_x_inicial, y))
+                pygame.time.delay(100)
                 #pass
                 y += 2
             elif y >= 190:
@@ -86,7 +93,7 @@ class Credits(object):
                 # Palabras pequeñas
                 for pos, font in enumerate(lista_imagenes[0]):
                     self.screen.blit(lista_imagenes[0][pos],
-                            (pos_x_inicial, y))
+                           (pos_x_inicial, y))
                 y += 2
 
     def _draw_screen(self):
