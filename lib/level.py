@@ -29,7 +29,7 @@ class Level(object):
 
         self.screen = screen
         pygame.mouse.set_visible(False)
-        self.background = utils.load_image(BACK)
+        self.background = utils.load_image(BACKLEVEL_IMAGE)
         self.father = father
         self.level = level
         self.tics = 0
