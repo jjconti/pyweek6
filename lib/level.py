@@ -15,6 +15,7 @@ import utils
 from pieces import Pieces
 from pieces import Dispatcher
 from pieces import EnergyBar
+from pieces import Hand
 
 from explosion import *
 
@@ -27,41 +28,41 @@ class Level(object):
     def __init__(self, screen, father, level=1, points=0):
 
         self.screen = screen
-        self.background = utils.load_image(BACKLEVEL_IMAGE)
+        pygame.mouse.set_visible(False)
+        self.background = utils.load_image(BACK)
         self.father = father
         self.level = level
         self.tics = 0
         self.exit = False
         self.paused = False
-        
+
         self.robot = pygame.sprite.RenderUpdates()
         self.cargar_robot()
         self.piezas = pygame.sprite.RenderUpdates()
         self.cargar_piezas()
         self.piezas_erroneas = pygame.sprite.RenderUpdates()
         self.cargar_piezas_erroneas()
-        self.piezas_activas  = pygame.sprite.Group()
-        self.piezas_encajadas= pygame.sprite.Group()
+        self.piezas_activas   = pygame.sprite.Group()
+        self.piezas_encajadas = pygame.sprite.Group()
+        self.hand             = Hand()
         self.widgets = pygame.sprite.Group()
         self.widgets.add(EnergyBar(self.level * 0.05))
-        self.explosions = pygame.sprite.Group()
-        ExplosionMedium.containers = self.explosions
-        #self.face = pygame.sprite.GroupSingle()
+        self.widgets.add(self.hand)
         self.face = pygame.sprite.RenderUpdates()
         self.last_face = None
         self.cargar_faces()
+        self.explosions = pygame.sprite.Group()
+        ExplosionMedium.containers = self.explosions
         self.situacion = ""
         self.facetime = time.time()
         #Create the game clock
         self.clock = pygame.time.Clock()
         self.dispatcher = Dispatcher(3, self.piezas_activas, self.piezas, \
                                      self.piezas_erroneas, \
-                                     self.piezas_encajadas, self.robot)
-        
-        
+                                     self.piezas_encajadas, self.robot, self.hand)
+
         self.totalpiezas = len(self.robot)
         self.points = 0
-        
 
     def loop(self):  
         #music.play_music(PLAYMUSIC)
@@ -82,7 +83,7 @@ class Level(object):
             pygame.display.flip()
 
         self.points = 0 #Actualizar
-    
+
         if self.level < 3:
             def f(screen):
                 return Level(screen, self.father, self.level + 1, self.points)
@@ -192,7 +193,7 @@ class Level(object):
         x,y = event.pos        
         limit1 = ROBOT_OFFSET[1]
         if quepaso: self.situacion = quepaso
-        
+
         if self.situacion == "correcto" and y < limit1 and self.face.sprites()[0].id != INCERTIDUMBRE:
             self.last_face = self.face.sprites()[0]
             self.face.empty()
@@ -223,15 +224,14 @@ class Level(object):
             self.face.add([f for f in self.face_list if f.id == SORPRESA])
             self.facetime = time.time()
             self.situacion = "volver"
-    
+
         elif self.situacion == "volver": # ciertas caras, luego de unos segundos vuelven a la anterior
             delay = time.time() - self.facetime
-            
+
             if delay > 2:
                 self.face.empty()
                 self.face.add(self.last_face)
                 self.situacion = ""
-
 
 def main():
     Level().loop()

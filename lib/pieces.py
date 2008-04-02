@@ -44,7 +44,7 @@ class EnergyBar(pygame.sprite.Sprite):
         w = 15
         h = max(int(HEIGHT * self.energy_percent / 100), 0)
 
-        if self.energy_percent > 60: 
+        if self.energy_percent > 60:
             color = GREEN
         elif self.energy_percent > 30:
             color = ORANGE
@@ -57,6 +57,33 @@ class EnergyBar(pygame.sprite.Sprite):
             #img.blit(text, (w1 - w2, 0))
         return img
 
+class Hand(pygame.sprite.Sprite):
+    '''An energy bar'''
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.catched = False
+        self.image = self._image()
+        self.rect = self.image.get_rect()
+
+    def update(self):
+        self.image = self._image()
+        self.rect.center   = pygame.mouse.get_pos()
+
+    def _image(self):
+        if self.catched:
+            return utils.load_image_alpha(HAND_DRAG, -1)
+
+        return utils.load_image_alpha(HAND_AFTER_DRAG, -1)
+    
+    def select(self):
+        self.catched = True
+        
+    def release(self):
+        self.catched = False
+        
+    def collide(self, piece):
+        return self.rect.colliderect(piece.rect)
+        
 
 class StaticPiece(pygame.sprite.Sprite):
     def __init__(self, id, img, level):
@@ -247,7 +274,7 @@ class Pieces(object):
         self.images = self.load_images()
 
     def load_images(self):
-        if self.type_piece in ("static", "dinamic"): 
+        if self.type_piece in ("static", "dinamic"):
             result = []
             for pathfile in glob.glob(os.path.join(PIECES_LEVEL[self.level], '*.png')):
                 myFile = os.path.basename(pathfile)
@@ -285,7 +312,7 @@ class Pieces(object):
         return result
 
 class Dispatcher(object):
-    def __init__(self, mount, piezas_activas, piezas, piezas_erroneas, piezas_encajadas, robot):
+    def __init__(self, mount, piezas_activas, piezas, piezas_erroneas, piezas_encajadas, robot, hand):
         #mount es la cantidad de piezas que son despachadas de forma simultanea
         self.mount = mount
         self.piezas_activas   = piezas_activas
@@ -293,6 +320,7 @@ class Dispatcher(object):
         self.piezas_erroneas  = piezas_erroneas
         self.piezas_encajadas = piezas_encajadas
         self.robot = robot
+        self.hand  = hand
 
         for p in self.piezas:
             p.dispatcher = self
@@ -303,6 +331,7 @@ class Dispatcher(object):
     def selected_explosion(self):
         music.stop_peep()
         self.selected_piece.selected = False
+        self.hand.release()
         self.mouse_with_piece = False
         self.piezas_activas.remove(self.selected_piece)
         ExplosionMedium(self.selected_piece.rect.center)
@@ -350,7 +379,7 @@ class Dispatcher(object):
         quepaso = ""
         alguna = False
         for piece in self.piezas_activas:
-            if piece.rect.collidepoint(pos):
+            if self.hand.collide(piece):
                 self.selected_piece = piece
                 alguna = True
 
@@ -363,12 +392,14 @@ class Dispatcher(object):
                     else:
                         self.mouse_with_piece = True
                         piece.select(miliseconds=2000)
+                        self.hand.select()
                         #selecciono una pieza correcta
                         quepaso = "correcta"
                 #Segundo Click (soltar)
                 elif not piece.is_erronea():
                     self.mouse_with_piece = False
                     piece.release()
+                    self.hand.release()
                     if self.selected_piece.fit(self.robot):
                         self.piezas_encajadas.add(self.selected_piece)
                         self.piezas.remove(self.selected_piece)
@@ -378,8 +409,10 @@ class Dispatcher(object):
                     #solto afuera
                     else:
                         quepaso = "soltoafuera"
+
+                break
         if not alguna:
-            quepaso = "clickafuera"        
+            quepaso = "clickafuera"
         #click afuera
         return quepaso
             
