@@ -52,6 +52,7 @@ class EnergyBar(pygame.sprite.Sprite):
         #w2 = text.get_rect().width
         #if w1 > 1.2 * w2:        
             #img.blit(text, (w1 - w2, 0))
+        img.set_alpha(100)
         return img
 
 class Hand(pygame.sprite.Sprite):
