@@ -20,7 +20,6 @@ class Credits(object):
     def __init__(self, screen, father=None):
         self.screen = screen
         self.father = father
-        print "Padre: ", self.father
         self.developers = []
         self.font = []
         self.font = self.generar_fuentes()
@@ -38,7 +37,6 @@ class Credits(object):
         for num in range(8):
             lista_size.append(base)
             base-=5
-        print "Lista size: ", lista_size
         lista_font = []
         # Gereramos las fuentes
         for size in lista_size:
@@ -68,7 +66,6 @@ class Credits(object):
                     self.developers.append(credit)
                 else:
                     self.developers.append(credit)
-            self._developers()
         except IOError:
             print 'Cannot open credits file'
 
@@ -100,8 +97,6 @@ class Credits(object):
                 for pos, font in enumerate(lista_imagenes):
                     pos_x_inicial = (WIDTH / 2 - font.get_width() / 2)
                     self.screen.blit(font, (pos_x_inicial, y))
-                    #if pos == self.punto_medio:
-                    #    pygame.time.delay(1000)
                     pygame.time.delay(800)
                     y += font.get_height()
                     pygame.display.flip()
