@@ -221,7 +221,7 @@ class DinamicPiece(pygame.sprite.Sprite):
                self.update_falling()
 
     def update_cinta(self):
-        self.rect.left += 1
+        self.rect.left += 2
 
     def update_falling(self):
         self.rect.top += 4
@@ -241,12 +241,12 @@ class DinamicPiece(pygame.sprite.Sprite):
             self.rect.move_ip(0, pos[1])
             self.num = self.count()
             self.y = 0
- 
+
     def is_moving(self):
-        return self.moving in (self.MOVING_NORMAL, self.MOVING_CINTA)
-    
+        return self.moving in (self.MOVING_NORMAL, self.MOVING_CINTA, self.MOVING_FALLING)
+
     def is_falling(self):
-        return self.moving == self.MOVING_NORMAL
+        return self.moving in (self.MOVING_NORMAL, self.MOVING_FALLING)
 
     def move(self):
         self.moving = self.MOVING_NORMAL
@@ -257,7 +257,6 @@ class DinamicPiece(pygame.sprite.Sprite):
         while 1:
             x = x+i
             yield x
-
 
 class Pieces(object):
     def __init__(self, level, type_piece="static"):
