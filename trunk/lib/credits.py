@@ -40,7 +40,7 @@ class Credits(object):
         lista_font = []
         # Gereramos las fuentes
         for size in lista_size:
-            lista_font.append(pygame.font.Font(None, size))
+            lista_font.append(pygame.font.Font(FONT_CREDITS, size))
         return lista_font
 
     def loop(self):
@@ -57,9 +57,9 @@ class Credits(object):
             lista_nombre = []
             for pos, credit in enumerate(credits):
                 print pos, credit
-                if pos < 8 and pos > 0 and len(credit) == 2:
+                if 0 < pos < 8 and len(credit) == 2:
                     lista_nombre.append(credit)
-                elif pos==8:
+                elif pos == 8:
                     random.shuffle(lista_nombre)
                     for gente in lista_nombre:
                         self.developers.append(gente)
@@ -79,13 +79,13 @@ class Credits(object):
 
     def _dibujar_secuencia(self, lista_imagenes, background, topleft):
         """Permitirá mostrar las letras en la secuencia de descenso"""
-        pos_y = y = topleft[1] + 50
+        pos_y = y = topleft[1] + 110
         bandera = False
         cambiar = False
         clock = pygame.time.Clock()
         time_loop = 0
         while not bandera:
-            clock.tick(1000)
+            clock.tick(CLOCK_TICS)
             pygame.display.flip()
             self.screen.blit(background, (0,0))
             time_loop+=1
@@ -97,7 +97,7 @@ class Credits(object):
                 for pos, font in enumerate(lista_imagenes):
                     pos_x_inicial = (WIDTH / 2 - font.get_width() / 2)
                     self.screen.blit(font, (pos_x_inicial, y))
-                    pygame.time.delay(800)
+                    pygame.time.delay(80)
                     y += font.get_height()
                     pygame.display.flip()
                     cambiar = True
