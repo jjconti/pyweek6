@@ -10,8 +10,8 @@ CENTER = HEIGHT / 2
 
 CLOCK_TICS = 100
 
-ROBOT_OFFSET = (WIDTH / 2 - 250, HEIGHT / 2 - 350)
-BACKGROUND_OFFSET = (270,20)
+ROBOT_OFFSET = (WIDTH / 2 - 265, HEIGHT / 2 - 340)
+#BACKGROUND_OFFSET = (270,20)
 
 # todos los path
 DATA = os.path.join("data")
@@ -78,6 +78,7 @@ MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
 BACKINTRO_IMAGE = BACKGROUND+"/taller.jpg"
 BACKMENU_IMAGEN = BACKGROUND+"/menu.jpg"
 BACKLEVEL_IMAGE = BACKGROUND+"/fondoAzul.png"
+BACKLEVEL_IMAGE = BACKGROUND+"/nivel1.png"
 
 #musicas
 MENUMUSIC = os.path.join(SOUNDS, "menu.ogg")
