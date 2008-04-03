@@ -329,13 +329,20 @@ class Dispatcher(object):
     def moving_pieces(self):
         return [x for x in self.piezas.sprites() if x.is_moving()] + \
                [x for x in self.piezas_erroneas.sprites() if x.is_moving()]
+
     def falling_pieces(self):
         return [x for x in self.piezas.sprites() if x.is_falling()] + \
                [x for x in self.piezas_erroneas.sprites() if x.is_falling()]
 
+    def falling_right_pieces(self):
+        return [x for x in self.piezas.sprites() if x.is_falling()]
+
     def stop_pieces(self):
         return [x for x in self.piezas.sprites() if not x.is_moving()] + \
                [x for x in self.piezas_erroneas.sprites() if not x.is_moving()]
+               
+    def stop_right_pieces(self):
+        return [x for x in self.piezas.sprites() if not x.is_moving()]
 
     def dispatch(self):
         if random.choice(range(50)):
@@ -345,7 +352,10 @@ class Dispatcher(object):
             return
 
         if self.stop_pieces():
-            piece = random.choice(self.stop_pieces())
+            if self.falling_right_pieces():
+                piece = random.choice(self.stop_pieces())
+            else:
+                piece = random.choice(self.stop_right_pieces())
             piece.set_top_position()
             piece.move()
 
