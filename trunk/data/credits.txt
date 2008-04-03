@@ -6,5 +6,7 @@ Manuel,Kaufmann
 Pedro, Prez
 Gustavo, Bellino
 Guillermo, Heizenreder
-Music by
-David Capello
+Backgrounds by
+Pablo, Martinez
+Music by,
+David, Capello
