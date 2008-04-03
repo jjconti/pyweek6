@@ -6,6 +6,8 @@ import glob
 import utils
 from config import WIDTH, HEIGHT, INTRO, INTRO_XY,BACKINTRO_IMAGE
 
+ROBOT_OFFSET = (100, 80)
+
 class Intro(object):
     def __init__(self, screen, func=None, loopear=False):
         self.screen = screen
@@ -48,7 +50,7 @@ class Intro(object):
                 #si se le pone una imagen de fondo hay que sacar este "fill"
                 #self.screen.fill((0,0,0))
                 self.screen.blit(self.background, (0, 0))
-                self.screen.blit(image[1], INTRO_XY[image[0]])
+                self.screen.blit(image[1], (INTRO_XY[image[0]][0]+ROBOT_OFFSET[0], INTRO_XY[image[0]][1]+ROBOT_OFFSET[1]))
                 pygame.display.flip()
                 i = 1
                 while i < time_sleep:
