@@ -125,6 +125,8 @@ class Menu(object):
         self.done = True
 
     def _draw_items(self):
+        """Hace la magia de las apariciones de las imagenes.
+        """
         rects = []
         y = self.hor_step + 50 # Tune this value as you need
         for i in range(len(self.items)):
@@ -139,9 +141,9 @@ class Menu(object):
             
             if (self.state == 0) and (i%2 == 0):
                 x1 = x2 - (600 * (50 - self.timeloop) / 50)
-            elif (self.state == 0) and (i%2 == 1): 
+            elif (self.state == 0) and (i%2 == 1):
                 x1 = x2 + (600 * (50 - self.timeloop) / 50)
-            else:  
+            else:
                 x1 = x2
                 self.draw_end = True
             x = (x1+(x2-x1)*(1-exp(-self.timeloop/20.0)))
