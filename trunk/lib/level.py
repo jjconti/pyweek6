@@ -118,7 +118,7 @@ class Level(object):
 
     def draw(self):
         self.screen.fill((0,0,0))
-        self.screen.blit(self.background, BACKGROUND_OFFSET)
+        self.screen.blit(self.background, (0,0))
         self.robot.draw(self.screen)
         self.piezas_encajadas_atras.draw(self.screen)
         self.piezas_encajadas_adelante.draw(self.screen)
