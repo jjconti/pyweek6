@@ -27,9 +27,9 @@ class Level(object):
 
         self.screen = screen
         pygame.mouse.set_visible(False)
-        self.background = utils.load_image(BACKLEVEL_IMAGE)
         self.father = father
         self.level = level
+        self.background = utils.load_image(BACKLEVEL[self.level])
         self.tics = 0
         self.totaltime = t
         self.exit = False
@@ -172,6 +172,7 @@ class Level(object):
 
             if event.button == 2:
                 ExplosionMedium(event.pos)
+                print "Easter egg"
 
             if event.button == 4:
                 self.dispatcher.rotate_selected(90)
@@ -275,7 +276,7 @@ class Level(object):
         elif self.situacion == "volver": # ciertas caras, luego de unos segundos vuelven a la anterior
             delay = time.time() - self.facetime
 
-            if delay > 2:
+            if delay > 1:
                 self.face.empty()
                 self.face.add(self.last_face)
                 self.situacion = ""

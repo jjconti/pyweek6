@@ -451,7 +451,7 @@ class Dispatcher(object):
 
     def agarrar(self):
         quepaso = ""
-
+        alguna = False
         for piece in self.falling_pieces():
             if self.hand.collide(piece):
                 alguna = True
@@ -463,6 +463,8 @@ class Dispatcher(object):
                     else:
                         quepaso = "correcta"
                     self.selected_piece = piece
+        if not alguna:
+            quepaso = "clickafuera"
         return quepaso
 
 if __name__ == '__main__':
