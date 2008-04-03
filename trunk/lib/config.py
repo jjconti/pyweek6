@@ -85,6 +85,7 @@ MENUMUSIC = os.path.join(SOUNDS, "menu.ogg")
 #sonidos
 EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
 PEEP = os.path.join(SOUNDS, "peep.ogg")
+ALARM = os.path.join(SOUNDS, "alarm_beeps.wav")
 
 #backgrounds
 HELPBG = os.path.join(BACKGROUND, "help.jpg")
