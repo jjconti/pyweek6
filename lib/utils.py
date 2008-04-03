@@ -5,7 +5,6 @@ from pygame.locals import *
 import os
 
 def load_image(fullname, colorkey=None):
-
     try:
         image = pygame.image.load(fullname)
     except pygame.error, message:
