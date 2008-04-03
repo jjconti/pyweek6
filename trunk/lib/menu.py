@@ -26,8 +26,7 @@ class Menu(object):
         self.unselected_imgs2 = [font1.render(text, True, BLACK) for text in self.items]
         self.unselected_rects = None
         self.timeloop = 0
-        self.state = 0 
-        
+        self.state = 0
         self.background = utils.load_image(BACKMENU_IMAGEN)
         title_img = font1.render(title, True, YELLOW)
         title_img2 = font1.render(title, True, RED)
@@ -60,7 +59,6 @@ class Menu(object):
             self.timeloop += 1
             if self.timeloop == 50:
                 self.state=1
-        
         self.draw_end = False
         while not self.done: # menu draw only if some key is pressed
 
@@ -78,7 +76,6 @@ class Menu(object):
             self.timeloop += 1
             if self.timeloop == 50:
                 self.state=1
-        
         return self.returns[self.index]
 
     def control(self, event):
@@ -114,7 +111,7 @@ class Menu(object):
                 if r.collidepoint(x,y):
                     self.select()
                     return
-                
+
     def set_index(self, index):
         if self.index != index:
             #self.sounds["snd1"].play()
@@ -123,6 +120,11 @@ class Menu(object):
     def select(self):
         #self.sounds["snd2"].play()
         self.done = True
+
+    def _draw_items_nuevo(self):
+        """Nuevo efecto
+        """
+        pass
 
     def _draw_items(self):
         """Hace la magia de las apariciones de las imagenes.
@@ -136,13 +138,11 @@ class Menu(object):
             else:
                 img = self.unselected_imgs[i]
                 img2 = self.unselected_imgs2[i]
-            
             x2 = self.screen.get_width()/2
-            
             if (self.state == 0) and (i%2 == 0):
-                x1 = x2 - (600 * (50 - self.timeloop) / 50)
+                x1 = x2 - (WIDTH * (50 - self.timeloop) / 50)
             elif (self.state == 0) and (i%2 == 1):
-                x1 = x2 + (600 * (50 - self.timeloop) / 50)
+                x1 = x2 + (WIDTH * (50 - self.timeloop) / 50)
             else:
                 x1 = x2
                 self.draw_end = True
