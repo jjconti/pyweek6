@@ -9,6 +9,7 @@ from pygame.locals import *
 from time import sleep
 import csv
 import sys
+import random
 
 ##
 # Módulos propios
@@ -50,10 +51,24 @@ class Credits(object):
         self._draw_screen()
 
     def _load_credits(self):
+        """Carga el archivo credits.txt. Con los nombres hace un shuffle para
+        que cada vez que se muestre esta seccion sea distinto el orden de
+        aparición."""
         try:
             credits = csv.reader(open(CREDITS))
-            for credit in credits:
-                self.developers.append(credit)
+            lista_nombre = []
+            for pos, credit in enumerate(credits):
+                print pos, credit
+                if pos < 8 and pos > 0 and len(credit) == 2:
+                    lista_nombre.append(credit)
+                elif pos==8:
+                    random.shuffle(lista_nombre)
+                    for gente in lista_nombre:
+                        self.developers.append(gente)
+                    self.developers.append(credit)
+                else:
+                    self.developers.append(credit)
+            self._developers()
         except IOError:
             print 'Cannot open credits file'
 
@@ -81,11 +96,8 @@ class Credits(object):
                 bandera = True
             else:
                 if self._verifyKey():#FIXME
-                    print "Quiero salir!"
                     return self.father
                 for pos, font in enumerate(lista_imagenes):
-                    #pos_x_inicial = (400 - font.get_width() / 2)
-                    #print "Pos_x_inicial: ", pos_x_inicial
                     pos_x_inicial = (WIDTH / 2 - font.get_width() / 2)
                     self.screen.blit(font, (pos_x_inicial, y))
                     #if pos == self.punto_medio:
@@ -131,7 +143,6 @@ class Credits(object):
         return False
 
 if __name__ == '__main__':
-    print "Paso algo..."
     pygame.init()
     size = (WIDTH, HEIGHT)
     screen = pygame.display.set_mode(size)
