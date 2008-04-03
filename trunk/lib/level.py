@@ -36,6 +36,8 @@ class Level(object):
 
         self.robot = pygame.sprite.RenderUpdates()
         self.cargar_robot()
+        self.mini_robot = pygame.sprite.RenderUpdates()
+        self.cargar_mini_robot()
         self.piezas = pygame.sprite.RenderUpdates()
         self.cargar_piezas()
         self.piezas_erroneas = pygame.sprite.RenderUpdates()
@@ -64,7 +66,7 @@ class Level(object):
         self.dispatcher = Dispatcher(3, self.piezas_activas, self.piezas, \
                                      self.piezas_erroneas, \
                                      self.piezas_encajadas_atras, self.piezas_encajadas_adelante,
-                                     self.robot, self.hand)
+                                     self.robot, self.mini_robot, self.hand)
 
         self.totalpiezas = len(self.robot)
         self.points = 0
@@ -119,7 +121,9 @@ class Level(object):
     def draw(self):
         self.screen.fill((0,0,0))
         self.screen.blit(self.background, (0,0))
+	self.mini_robot.draw(self.screen)
         self.robot.draw(self.screen)
+	
         self.piezas_encajadas_atras.draw(self.screen)
         self.piezas_encajadas_adelante.draw(self.screen)
         self.face.draw(self.screen)
@@ -185,6 +189,17 @@ class Level(object):
             piece.image.set_colorkey((255,255,255), RLEACCEL)
             piece.image.set_alpha(50)
 
+    def cargar_mini_robot(self):
+        '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
+        p = Pieces(type_piece="mini_robot", level=self.level)
+
+        self.mini_robot.add(p.get_all())
+
+        for piece in self.mini_robot:
+            piece.image = piece.image.convert()
+            piece.image.set_colorkey((255,255,255), RLEACCEL)
+            piece.image.set_alpha(100)
+	    
     def cargar_piezas(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
         sets = [Pieces(type_piece="dinamic", level=self.level) for x in range(1)]

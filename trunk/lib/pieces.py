@@ -110,6 +110,42 @@ class StaticPiece(pygame.sprite.Sprite):
     def __str__(self):
         return "Pieza %d" % (self.id,)
 
+class MiniRobotPiece(pygame.sprite.Sprite):
+    def __init__(self, id, img, level):
+        pygame.sprite.Sprite.__init__(self)
+	self.factor = .4
+	(w, h) = img.get_width() * self.factor, img.get_height()* self.factor
+	print (w, h)
+        self.image = pygame.transform.scale(img, (w, h))
+	
+        self.rect = self.image.get_rect()
+
+        self.level = level
+        self.id = id
+
+        self.set_position()
+        self.fill_no_alpha((0,255,0))
+
+    def set_position(self):
+        t,l = level_pos[self.level][self.id][:2]
+        self.rect.topleft = self.factor*t + MINI_ROBOT_OFFSET[0], self.factor*l + MINI_ROBOT_OFFSET[1]
+        self.image = self.image.convert()
+        self.image.set_colorkey((255,255,255), RLEACCEL)
+        self.image.set_alpha(50)
+   
+    def fill_no_alpha(self, color):
+        for w in range(self.image.get_width()):
+            for h in range(self.image.get_height()):
+		print self.image.get_at((w, h))
+                if self.image.get_at((w, h))[:3] != (255,255,255):
+                    self.image.set_at((w, h), color) 
+
+    def select(self):   
+        self.fill_no_alpha((0,0,0))
+
+    def __str__(self):
+        return "Pieza %d" % (self.id,)
+
 class FacePiece(StaticPiece):
 
     def set_position(self):
@@ -163,7 +199,7 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.selected = True
         self.selected_time = (miliseconds * CLOCK_TICS) / 1000
 
-    def fit(self, robot):
+    def fit(self, robot, mini_robot):
         #print self.desfasaje_rotacion
         if self.desfasaje_rotacion:
             return False
@@ -174,6 +210,8 @@ class DinamicPiece(pygame.sprite.Sprite):
 
         if target:
             self.rect.topleft = target[0].rect.topleft
+	    mini_robot_piece = [x for x in mini_robot if x.id == self.id][0]
+            mini_robot_piece.select()
             return True
         return False
 
@@ -271,7 +309,7 @@ class Pieces(object):
         self.images = self.load_images()
 
     def load_images(self):
-        if self.type_piece in ("static", "dinamic"):
+        if self.type_piece in ("static", "dinamic", "mini_robot"):
             result = []
             for pathfile in glob.glob(os.path.join(PIECES_LEVEL[self.level], '*.png')):
                 myFile = os.path.basename(pathfile)
@@ -299,6 +337,8 @@ class Pieces(object):
         for img in self.images:
             if self.type_piece == "static":
                 piece = StaticPiece(img[0], img[1], self.level)
+            elif self.type_piece == "mini_robot":
+                piece = MiniRobotPiece(img[0], img[1], self.level)
             elif self.type_piece == "dinamic":
                 piece = DinamicPiece(img[0], img[1], self.level)
             elif self.type_piece == "erronea":
@@ -310,7 +350,7 @@ class Pieces(object):
 
 class Dispatcher(object):
     def __init__(self, mount, piezas_activas, piezas, piezas_erroneas, \
-                piezas_encajadas_atras, piezas_encajadas_adelante, robot, hand):
+                piezas_encajadas_atras, piezas_encajadas_adelante, robot, mini_robot, hand):
         #mount es la cantidad de piezas que son despachadas de forma simultanea
         self.mount = mount
         self.piezas_activas   = piezas_activas
@@ -319,6 +359,7 @@ class Dispatcher(object):
         self.piezas_encajadas_atras = piezas_encajadas_atras
         self.piezas_encajadas_adelante = piezas_encajadas_adelante
         self.robot = robot
+        self.mini_robot = mini_robot
         self.hand  = hand
         self.selected_piece = None
 
@@ -360,7 +401,7 @@ class Dispatcher(object):
         if self.stop_pieces():
             if self.falling_right_pieces():
                 piece = random.choice(self.stop_pieces())
-            else:
+            elif self.stop_right_pieces():
                 piece = random.choice(self.stop_right_pieces())
             piece.set_top_position()
             piece.move()
@@ -389,7 +430,7 @@ class Dispatcher(object):
         self.selected_piece.release()
         self.hand.release()
 
-        if self.selected_piece.fit(self.robot):
+        if self.selected_piece.fit(self.robot, self.mini_robot):
             if self.selected_piece.prof == ATRAS:
                 self.piezas_encajadas_atras.add(self.selected_piece)
             else:   #ADELANTE
