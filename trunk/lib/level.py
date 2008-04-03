@@ -12,6 +12,7 @@ from pygame.locals import *
 from config import *
 import utils
 
+from dispatcher import Dispatcher
 from pieces import *
 from gadgets import *
 from music import *
@@ -41,9 +42,10 @@ class Level(object):
         self.cargar_mini_robot()
         self.piezas = pygame.sprite.RenderUpdates()
         self.cargar_piezas()
+        self.golden_piezas = pygame.sprite.RenderUpdates()
+        self.cargar_golden_piezas()
         self.piezas_erroneas = pygame.sprite.RenderUpdates()
         self.cargar_piezas_erroneas()
-        self.piezas_activas = pygame.sprite.RenderUpdates()
         self.piezas_encajadas_atras = pygame.sprite.RenderUpdates()
         self.piezas_encajadas_adelante = pygame.sprite.RenderUpdates()
         self.energy_bar = EnergyBar()
@@ -64,7 +66,7 @@ class Level(object):
         self.facetime = time.time()
         #Create the game clock
         self.clock = pygame.time.Clock()
-        self.dispatcher = Dispatcher(3, self.piezas_activas, self.piezas, \
+        self.dispatcher = Dispatcher(3, self.piezas, self.golden_piezas, \
                                      self.piezas_erroneas, \
                                      self.piezas_encajadas_atras, self.piezas_encajadas_adelante,
                                      self.robot, self.mini_robot, self.hand)
@@ -81,8 +83,7 @@ class Level(object):
         pygame.time.delay(2000)
         while not self.finish():
             self.tics += 1
-            print self.tics
-   
+
             if not self.paused:
                 self.dispatcher.dispatch()
                 self.update()
@@ -115,7 +116,6 @@ class Level(object):
     def update(self):
         '''Actualizar valores de variables y ejecuta los update()
            de los grupos.'''
-        #self.piezas_activas.update()
         self.piezas.update()
         self.piezas_erroneas.update()
         
@@ -138,7 +138,6 @@ class Level(object):
         self.piezas_encajadas_adelante.draw(self.screen)
         self.face.draw(self.screen)
         '''Dibuja en pantalla los grupos.'''
-        #self.piezas_activas.draw(self.screen)
         self.piezas.draw(self.screen)
         self.piezas_erroneas.draw(self.screen)
 
@@ -193,25 +192,13 @@ class Level(object):
     def cargar_robot(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
         p = Pieces(type_piece="static", level=self.level)
-
         self.robot.add(p.get_all())
-
-        for piece in self.robot:
-            piece.image = piece.image.convert()
-            piece.image.set_colorkey((255,255,255), RLEACCEL)
-            piece.image.set_alpha(50)
 
     def cargar_mini_robot(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
         p = Pieces(type_piece="mini_robot", level=self.level)
-
         self.mini_robot.add(p.get_all())
 
-        for piece in self.mini_robot:
-            piece.image = piece.image.convert()
-            piece.image.set_colorkey((255,255,255), RLEACCEL)
-            piece.image.set_alpha(100)
-	    
     def cargar_piezas(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
         sets = [Pieces(type_piece="dinamic", level=self.level) for x in range(1)]
@@ -219,9 +206,17 @@ class Level(object):
         for s in sets:
             sprites += s.get_all()
         self.piezas.add(sprites)
+        
+    def cargar_golden_piezas(self):
+        '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
+        sets = [Pieces(type_piece="golden", level=self.level) for x in range(1)]
+        sprites = []
+        for s in sets:
+            sprites += s.get_all()
+        self.piezas.add(sprites)
 
     def cargar_piezas_erroneas(self):
-        sets = [Pieces(type_piece="erronea", level=self.level) for x in range(1)]
+        sets = [Pieces(type_piece="erronea", level=self.level) for x in range(3)]
         sprites = []
         for s in sets:
             sprites += s.get_all()
