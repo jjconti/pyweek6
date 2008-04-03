@@ -146,6 +146,9 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.set_top_position()
         self.change_function = random.choice(range(HEIGHT))
 
+    def is_wrong(self):
+        return not (1 <= self.id <= 50)
+
     def release(self):
         music.stop_peep()
         self.selected = False
@@ -414,8 +417,11 @@ class Dispatcher(object):
                 alguna = True
                 if not self.selected_piece:
                     piece.select(miliseconds=2000)
-                    #selecciono una pieza correcta
-                    quepaso = "correcta"
+                    #selecciono una pieza
+                    if piece.is_wrong():
+                        quepaso = "erronea"
+                    else:
+                        quepaso = "correcta"
                     self.selected_piece = piece
         return quepaso
 
