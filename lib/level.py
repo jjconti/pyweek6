@@ -14,7 +14,7 @@ import utils
 
 from pieces import *
 from gadgets import *
-
+from music import *
 from explosion import *
 
 if not pygame.font: print 'Warning, fonts disabled'
@@ -68,6 +68,7 @@ class Level(object):
 
         self.totalpiezas = len(self.robot)
         self.points = 0
+        self.alarm_play = False
 
     def loop(self):  
         #music.play_music(PLAYMUSIC)
@@ -108,6 +109,9 @@ class Level(object):
         if self.energy_bar.count() == 0:
             import sys
             sys.exit()
+        if self.energy_bar.count() < 10 and not self.alarm_play:
+            self.alarm_play = True
+            play_alarm()
         self.hand.update()
         self.show_points.update(0)
         self.level_indicator.update()

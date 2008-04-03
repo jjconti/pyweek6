@@ -8,10 +8,11 @@ pygame.mixer.init()
 SOUNDS = {}
 SOUNDS['explosion'] = utils.load_sound(EXPLOSION)
 SOUNDS['peep'] = utils.load_sound(PEEP)
+SOUNDS['alarm'] = utils.load_sound(ALARM)
+
 last_music = None
 
 def play_explosion():
-    print dir(SOUNDS['explosion'])
     SOUNDS['explosion'].play()
 
 def play_peep():
@@ -20,7 +21,8 @@ def play_peep():
 def stop_peep():
     SOUNDS['peep'].stop()
     
-    
+def play_alarm():
+    SOUNDS['alarm'].play()
 
 def play_countdown(times=0, start=0.0):
     SOUNDS['countdown'].play(loops=times)
