@@ -138,6 +138,9 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.selected = True
         self.selected_time = (miliseconds * CLOCK_TICS) / 1000
 
+    def fall(self):
+        self.moving = self.MOVING_FALLING
+
     def fit(self, robot, mini_robot):
         if self.desfasaje_rotacion:
             return False
