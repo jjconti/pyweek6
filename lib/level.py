@@ -75,6 +75,10 @@ class Level(object):
 
     def loop(self):  
         #music.play_music(PLAYMUSIC)
+
+        self.screen.blit(utils.load_image(CARTELBACKLEVEL[self.level]), (0,0))
+        pygame.display.flip()
+        pygame.time.delay(2000)
         while not self.finish():
             self.tics += 1
             print self.tics
@@ -129,7 +133,7 @@ class Level(object):
     def draw(self):
         self.screen.fill((0,0,0))
         self.screen.blit(self.background, (0,0))
-	self.mini_robot.draw(self.screen)
+        self.mini_robot.draw(self.screen)
         self.robot.draw(self.screen)
 	
         self.piezas_encajadas_atras.draw(self.screen)
