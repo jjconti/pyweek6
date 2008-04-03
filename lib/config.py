@@ -3,7 +3,7 @@ import glob
 # configuraciones
 
 # pantalla
-WINDOW_TITLE = "Ojalata!"
+WINDOW_TITLE = "Robot Factory"
 WIDTH = 960
 HEIGHT = 720
 CENTER = HEIGHT / 2
