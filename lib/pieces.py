@@ -27,6 +27,9 @@ class EnergyBar(pygame.sprite.Sprite):
         self.image = self._image()
         self.rect = self.image.get_rect(right=WIDTH-10, bottom=HEIGHT)
 
+    def count(self):
+        return max(0, self.energy_percent)
+
     def update(self):
         self.energy_percent -= self.energy_leap
         self.image = self._image()
