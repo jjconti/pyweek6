@@ -24,7 +24,7 @@ if not pygame.mixer: print 'Warning, sound disabled'
 class Level(object):
     '''Ojalata level'''
 
-    def __init__(self, screen, father, level=1, points=0, t=5000):
+    def __init__(self, screen, father, level=1, points=0, t=1000):#t=5000):
 
         self.screen = screen
         pygame.mouse.set_visible(False)
@@ -72,7 +72,8 @@ class Level(object):
                                      self.robot, self.mini_robot, self.hand)
 
         self.totalpiezas = len(self.robot)
-        self.points = 0
+        self.points = points
+        self.bonus = 0
         self.alarm_play = False
 
     def loop(self):  
@@ -96,7 +97,6 @@ class Level(object):
             self.clock.tick(CLOCK_TICS)
             pygame.display.flip()
 
-        self.points = 0 #Actualizar
 
         if self.level == 1:     #pasamos al 2
             def f(screen):
@@ -122,12 +122,12 @@ class Level(object):
         self.explosions.update()
         self.energy_bar.update(100 * (float(self.tics) / self.totaltime))
         if self.energy_bar.count() == 0:
-            sys.exit()
-        if self.energy_bar.count() < 10 and not self.alarm_play:
+            self.gameover()
+        if self.totaltime - self.tics < CLOCK_TICS * 2 and not self.alarm_play:
             self.alarm_play = True
             play_alarm()
         self.hand.update()
-        self.indicator.update(0,0,9)
+        self.indicator.update(self.points, self.bonus, self.dispatcher.explosions)
 
     def draw(self):
         self.screen.fill((0,0,0))
@@ -170,6 +170,8 @@ class Level(object):
         if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
                 quepaso = self.dispatcher.agarrar_soltar(event.pos)
+                if quepaso == "encajo":
+                    self.points += 10
                 self.face_change(event, quepaso)
 
             if event.button == 2:
@@ -278,6 +280,15 @@ class Level(object):
                 self.face.empty()
                 self.face.add(self.last_face)
                 self.situacion = ""
+
+    def gameover(self):
+        for p in self.piezas_encajadas_atras.sprites() + self.piezas_encajadas_adelante.sprites():
+            self.robot.remove(p)
+            p.fall()
+            self.piezas.add(p)  
+            self.dispatcher.stop()
+  
+        return self.father
 
 def main():
     Level().loop()

@@ -15,6 +15,7 @@ class Dispatcher(object):
     def __init__(self, mount, piezas, golden_piezas, piezas_erroneas, \
                 piezas_encajadas_atras, piezas_encajadas_adelante, robot, mini_robot, hand):
         #mount es la cantidad de piezas que son despachadas de forma simultanea
+        self.explosions = 0
         self.mount = mount
         self.piezas           = piezas
         self.golden_piezas     = golden_piezas
@@ -25,12 +26,14 @@ class Dispatcher(object):
         self.mini_robot = mini_robot
         self.hand  = hand
         self.selected_piece = None
+        self.stoped = False
 
         for p in self.piezas.sprites() + self.piezas_erroneas.sprites():
             p.dispatcher = self
 
     def selected_explosion(self):
         ExplosionMedium(self.selected_piece.rect.center)
+        self.explosions += 1
         self.selected_piece.release()
         self.selected_piece.set_top_position()
         self.selected_piece = None
@@ -54,8 +57,11 @@ class Dispatcher(object):
     def stop_right_pieces(self):
         return [x for x in self.piezas.sprites() if not x.is_moving()]
 
+    def stop(self):
+        self.stoped = True
+ 
     def dispatch(self):
-        if random.choice(range(25)):
+        if self.stoped or random.choice(range(25)):
             return
 
         if len(self.falling_pieces()) > 8:
