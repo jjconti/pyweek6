@@ -26,17 +26,20 @@ class Credits(object):
 
     def generar_fuentes(self):
         """Crea la lista de tamaños de fuentes y la fuente en sí"""
-        base = 10
+        #base = 10
+        sizes = [16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
         lista_size = []
-        for num in range(8):
-            lista_size.append(base)
-            base+=5
+        for num in range(16):
+            lista_size.append(num*sizes[num])
+            #base+=1
+        """
         lista_size.append(base+10)
         self.punto_medio = lista_size.index(base+10)
         base-=5
         for num in range(8):
             lista_size.append(base)
             base-=5
+        """
         lista_font = []
         # Gereramos las fuentes
         for size in lista_size:
@@ -95,6 +98,7 @@ class Credits(object):
                 if self._verifyKey():#FIXME
                     return self.father
                 for pos, font in enumerate(lista_imagenes):
+                    self.screen.blit(background, (0,0))
                     pos_x_inicial = (WIDTH / 2 - font.get_width() / 2)
                     self.screen.blit(font, (pos_x_inicial, y))
                     pygame.time.delay(80)
