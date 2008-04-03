@@ -76,7 +76,7 @@ MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
 
 #backgrounds
 BACKINTRO_IMAGE = BACKGROUND+"/taller.jpg"
-BACKMENU_IMAGEN = BACKGROUND+"/menu.png"
+BACKMENU_IMAGEN = BACKGROUND+"/menu.jpg"
 BACKLEVEL_IMAGE = BACKGROUND+"/fondoAzul.png"
 
 #musicas
