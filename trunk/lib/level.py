@@ -23,7 +23,7 @@ if not pygame.mixer: print 'Warning, sound disabled'
 class Level(object):
     '''Ojalata level'''
 
-    def __init__(self, screen, father, level=1, points=0):
+    def __init__(self, screen, father, level=1, points=0, t=5000):
 
         self.screen = screen
         pygame.mouse.set_visible(False)
@@ -31,6 +31,7 @@ class Level(object):
         self.father = father
         self.level = level
         self.tics = 0
+        self.totaltime = t
         self.exit = False
         self.paused = False
 
@@ -45,7 +46,7 @@ class Level(object):
         self.piezas_activas = pygame.sprite.RenderUpdates()
         self.piezas_encajadas_atras = pygame.sprite.RenderUpdates()
         self.piezas_encajadas_adelante = pygame.sprite.RenderUpdates()
-        self.energy_bar = EnergyBar(self.level * 0.05)
+        self.energy_bar = EnergyBar()
         self.hand = Hand()
         self.show_points = Points(0)
         self.level_indicator = LevelIndicator(self.level)
@@ -76,6 +77,7 @@ class Level(object):
         #music.play_music(PLAYMUSIC)
         while not self.finish():
             self.tics += 1
+            print self.tics
    
             if not self.paused:
                 self.dispatcher.dispatch()
@@ -91,10 +93,17 @@ class Level(object):
 
         self.points = 0 #Actualizar
 
-        if self.level < 3:
+        if self.level == 1:     #pasamos al 2
             def f(screen):
-                return Level(screen, self.father, self.level + 1, self.points)
+                return Level(screen, self.father, self.level + 1, self.points, t=6500)
             return f
+        elif self.level == 2:   #pasamos al 3
+            def f(screen):
+                return Level(screen, self.father, self.level + 1, self.points, t=7500)
+            return f
+        elif self.level == 3:   #fina del juego
+            print "Ganaste"
+            sys.exit()
 
         if self.exit:
             return self.father
@@ -107,9 +116,8 @@ class Level(object):
         self.piezas_erroneas.update()
         
         self.explosions.update()
-        self.energy_bar.update()
+        self.energy_bar.update(100 * (float(self.tics) / self.totaltime))
         if self.energy_bar.count() == 0:
-            import sys
             sys.exit()
         if self.energy_bar.count() < 10 and not self.alarm_play:
             self.alarm_play = True

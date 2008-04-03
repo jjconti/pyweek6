@@ -20,9 +20,8 @@ from explosion import *
 
 class EnergyBar(pygame.sprite.Sprite):
     '''An energy bar'''
-    def __init__(self, energy_leap=0.05):
+    def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.energy_leap = energy_leap
         self.energy_percent = 100 #percent remanding of time
         self.image = self._image()
         self.rect = self.image.get_rect(right=WIDTH-10, bottom=HEIGHT)
@@ -30,13 +29,11 @@ class EnergyBar(pygame.sprite.Sprite):
     def count(self):
         return max(0, self.energy_percent)
 
-    def update(self):
-        self.energy_percent -= self.energy_leap
+    def update(self, perc):
+        print "Percent ", perc
+        self.energy_percent = 100 - perc
         self.image = self._image()
         self.rect = self.image.get_rect(right=WIDTH-10, bottom=HEIGHT)
-
-    def add_energy(self, add_percent):
-        self.energy_percent = min(100, add_percent + self.energy_percent)
         
     def _image(self):
         #font = pygame.font.Font(FONT1, 14)
