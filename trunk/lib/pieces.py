@@ -117,14 +117,14 @@ class MiniRobotPiece(pygame.sprite.Sprite):
 	(w, h) = img.get_width() * self.factor, img.get_height()* self.factor
 	print (w, h)
         self.image = pygame.transform.scale(img, (w, h))
+        self.image = self.fill_no_alpha((0, 255, 0))
+        self.selected_image = self.fill_no_alpha((0, 0, 0))
 	
         self.rect = self.image.get_rect()
-
         self.level = level
         self.id = id
 
         self.set_position()
-        self.fill_no_alpha((0,255,0))
 
     def set_position(self):
         t,l = level_pos[self.level][self.id][:2]
@@ -134,14 +134,15 @@ class MiniRobotPiece(pygame.sprite.Sprite):
         self.image.set_alpha(50)
    
     def fill_no_alpha(self, color):
-        for w in range(self.image.get_width()):
-            for h in range(self.image.get_height()):
-		print self.image.get_at((w, h))
-                if self.image.get_at((w, h))[:3] != (255,255,255):
-                    self.image.set_at((w, h), color) 
+        temp = self.image.copy()
+        for w in range(temp.get_width()):
+            for h in range(temp.get_height()):
+                if temp.get_at((w, h))[:3] != (255,255,255):
+                    temp.set_at((w, h), color) 
+        return temp
 
     def select(self):   
-        self.fill_no_alpha((0,0,0))
+        self.image = self.selected_image
 
     def __str__(self):
         return "Pieza %d" % (self.id,)
