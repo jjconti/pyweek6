@@ -213,10 +213,10 @@ class Level(object):
     def face_change(self, event, quepaso=""):
         '''Captura el movimiento del mouse para cambiar la cara del robot.'''
         x,y = event.pos        
-        limit1 = ROBOT_OFFSET[1]
+        limit1 = ROBOT_OFFSET[1] + 80
         if quepaso: self.situacion = quepaso
 
-        if self.situacion == "correcto" and y < limit1 and self.face.sprites()[0].id != INCERTIDUMBRE:
+        if self.situacion == "correcta" and y < limit1 and self.face.sprites()[0].id != INCERTIDUMBRE:
             self.last_face = self.face.sprites()[0]
             self.face.empty()
             self.face.add([f for f in self.face_list if f.id == INCERTIDUMBRE])
@@ -235,10 +235,12 @@ class Level(object):
             self.face.empty()
             self.face.add([f for f in self.face_list if f.id == SORPRESA])
 
-        elif self.situacion == "clickafuera":
+        elif self.situacion == "clickafuera" and self.face.sprites()[0].id != MIEDO:
             self.last_face = self.face.sprites()[0]
             self.face.empty()
             self.face.add([f for f in self.face_list if f.id == MIEDO])
+            self.facetime = time.time()
+            self.situacion = "volver"
 
         elif self.situacion == "erronea" and self.face.sprites()[0].id != SORPRESA:
             self.last_face = self.face.sprites()[0]
