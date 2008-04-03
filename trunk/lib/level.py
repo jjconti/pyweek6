@@ -105,6 +105,9 @@ class Level(object):
         
         self.explosions.update()
         self.energy_bar.update()
+        if self.energy_bar.count() == 0:
+            import sys
+            sys.exit()
         self.hand.update()
         self.show_points.update(0)
         self.level_indicator.update()
