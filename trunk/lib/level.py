@@ -48,13 +48,13 @@ class Level(object):
         self.piezas_encajadas_adelante = pygame.sprite.RenderUpdates()
         self.energy_bar = EnergyBar()
         self.hand = Hand()
-        self.show_points = Points(0)
-        self.level_indicator = LevelIndicator(self.level)
+        #self.show_points = Points(0)
+        self.indicator = Indicator(150, 90, 30)
         self.gadgets = pygame.sprite.RenderUpdates()
         self.gadgets.add(self.energy_bar)
         self.gadgets.add(self.hand)
-        self.gadgets.add(self.show_points)
-        self.gadgets.add(self.level_indicator)
+        #self.gadgets.add(self.show_points)
+        self.gadgets.add(self.indicator)
         self.face = pygame.sprite.RenderUpdates()
         self.last_face = None
         self.cargar_faces()
@@ -127,13 +127,11 @@ class Level(object):
             self.alarm_play = True
             play_alarm()
         self.hand.update()
-        self.show_points.update(0)
-        self.level_indicator.update()
+        self.indicator.update(0,0,9)
 
     def draw(self):
         self.screen.fill((0,0,0))
         self.screen.blit(self.background, (0,0))
-        self.mini_robot.draw(self.screen)
         self.robot.draw(self.screen)
 	
         self.piezas_encajadas_atras.draw(self.screen)
@@ -146,6 +144,7 @@ class Level(object):
 
         self.explosions.draw(self.screen)
         self.gadgets.draw(self.screen)
+        self.mini_robot.draw(self.screen)
 
     def control(self, event):
         if event.type == KEYDOWN:
