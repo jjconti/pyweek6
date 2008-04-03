@@ -112,11 +112,10 @@ class MiniRobotPiece(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 	self.factor = .4
 	(w, h) = img.get_width() * self.factor, img.get_height()* self.factor
-	print (w, h)
         self.image = pygame.transform.scale(img, (w, h))
         self.image = self.fill_no_alpha((0, 255, 0))
         self.selected_image = self.fill_no_alpha((0, 0, 0))
-	
+
         self.rect = self.image.get_rect()
         self.level = level
         self.id = id
@@ -127,18 +126,20 @@ class MiniRobotPiece(pygame.sprite.Sprite):
         t,l = level_pos[self.level][self.id][:2]
         self.rect.topleft = self.factor*t + MINI_ROBOT_OFFSET[0], self.factor*l + MINI_ROBOT_OFFSET[1]
         self.image = self.image.convert()
-        self.image.set_colorkey((255,255,255), RLEACCEL)
-        self.image.set_alpha(50)
-   
+
+
     def fill_no_alpha(self, color):
         temp = self.image.copy()
         for w in range(temp.get_width()):
             for h in range(temp.get_height()):
                 if temp.get_at((w, h))[:3] != (255,255,255):
                     temp.set_at((w, h), color) 
+
+        temp.set_colorkey((255,255,255), RLEACCEL)
+        temp.set_alpha(50)
         return temp
 
-    def select(self):   
+    def select(self):
         self.image = self.selected_image
 
     def __str__(self):
@@ -263,10 +264,10 @@ class DinamicPiece(pygame.sprite.Sprite):
                self.update_falling()
 
     def update_cinta(self):
-        self.rect.left += 2
+        self.rect.left += 4
 
     def update_falling(self):
-        self.rect.top += 4
+        self.rect.top += 5
 
     def update_normal(self):
         if self.rect.y == self.change_function:
@@ -397,10 +398,10 @@ class Dispatcher(object):
             return
 
         if self.stop_pieces():
-            if self.falling_right_pieces():
-                piece = random.choice(self.stop_pieces())
-            elif self.stop_right_pieces():
+            if not self.falling_right_pieces() and self.stop_right_pieces():
                 piece = random.choice(self.stop_right_pieces())
+            else:
+                piece = random.choice(self.stop_pieces())
             piece.set_top_position()
             piece.move()
 
