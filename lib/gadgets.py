@@ -1,8 +1,76 @@
 import pygame
 from config import *
+import utils
+
+
+class EnergyBar(pygame.sprite.Sprite):
+    '''An energy bar'''
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.energy_percent = 100 #percent remanding of time
+        self.image = self._image()
+        self.rect = self.image.get_rect(right=WIDTH-10, bottom=HEIGHT)
+
+    def count(self):
+        return max(0, self.energy_percent)
+
+    def update(self, perc):
+        self.energy_percent = 100 - perc
+        self.image = self._image()
+        self.rect = self.image.get_rect(right=WIDTH-10, bottom=HEIGHT)
+
+    def _image(self):
+        #font = pygame.font.Font(FONT1, 14)
+        #text = font.render("Energy", True, BLACK)
+        w = 15
+        h = max(int(HEIGHT * self.energy_percent / 100), 0)
+
+        if self.energy_percent > 60:
+            color = GREEN
+        elif self.energy_percent > 30:
+            color = ORANGE
+        else:
+            color = RED
+        img = utils.create_surface((w,h), color)
+        #w1 = img.get_rect().width
+        #w2 = text.get_rect().width
+        #if w1 > 1.2 * w2:        
+            #img.blit(text, (w1 - w2, 0))
+        return img
+
+class Hand(pygame.sprite.Sprite):
+    '''An energy bar'''
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.catched = False
+        self.image = self._image()
+        self.rect = self.image.get_rect()
+
+    def update(self):
+        self.image = self._image()
+        self.rect.center   = pygame.mouse.get_pos()
+
+    def _image(self):
+        if self.catched:
+            return utils.load_image_alpha(HAND_DRAG, -1)
+
+        return utils.load_image_alpha(HAND_AFTER_DRAG, -1)
+
+    def toggle(self):
+        self.catched ^= True
+
+    def select(self):
+        self.catched = True
+
+    def release(self):
+        self.catched = False
+
+    def collide(self, piece):
+        return self.rect.colliderect(piece.rect)
+
 
 class Indicator(pygame.sprite.Sprite):
-    
+
     def __init__(self, w, h, fsize):
         pygame.sprite.Sprite.__init__(self)
         self.size = w,h

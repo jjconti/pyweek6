@@ -16,87 +16,24 @@ from config import *
 import music
 
 from levelposimages import *
-from explosion import *
-
-class EnergyBar(pygame.sprite.Sprite):
-    '''An energy bar'''
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.energy_percent = 100 #percent remanding of time
-        self.image = self._image()
-        self.rect = self.image.get_rect(right=WIDTH-10, bottom=HEIGHT)
-
-    def count(self):
-        return max(0, self.energy_percent)
-
-    def update(self, perc):
-        print "Percent ", perc
-        self.energy_percent = 100 - perc
-        self.image = self._image()
-        self.rect = self.image.get_rect(right=WIDTH-10, bottom=HEIGHT)
-        
-    def _image(self):
-        #font = pygame.font.Font(FONT1, 14)
-        #text = font.render("Energy", True, BLACK)
-        w = 15
-        h = max(int(HEIGHT * self.energy_percent / 100), 0)
-
-        if self.energy_percent > 60:
-            color = GREEN
-        elif self.energy_percent > 30:
-            color = ORANGE
-        else:
-            color = RED
-        img = utils.create_surface((w,h), color)
-        #w1 = img.get_rect().width
-        #w2 = text.get_rect().width
-        #if w1 > 1.2 * w2:        
-            #img.blit(text, (w1 - w2, 0))
-        img.set_alpha(100)
-        return img
-
-class Hand(pygame.sprite.Sprite):
-    '''An energy bar'''
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.catched = False
-        self.image = self._image()
-        self.rect = self.image.get_rect()
-
-    def update(self):
-        self.image = self._image()
-        self.rect.center   = pygame.mouse.get_pos()
-
-    def _image(self):
-        if self.catched:
-            return utils.load_image_alpha(HAND_DRAG, -1)
-
-        return utils.load_image_alpha(HAND_AFTER_DRAG, -1)
-    
-    def toggle(self):
-        self.catched ^= True
-    
-    def select(self):
-        self.catched = True
-        
-    def release(self):
-        self.catched = False
-        
-    def collide(self, piece):
-        return self.rect.colliderect(piece.rect)
-        
 
 class StaticPiece(pygame.sprite.Sprite):
     def __init__(self, id, img, level):
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = img
+        self.image = self._image(img)
         self.rect = self.image.get_rect()
 
         self.level = level
         self.id = id
 
         self.set_position()
+        
+    def _image(self, img):
+        img = img.convert()
+        img.set_colorkey((255,255,255), RLEACCEL)
+        img.set_alpha(50)
+        return img
 
     def set_position(self):
         t,l = level_pos[self.level][self.id][:2]
@@ -136,8 +73,9 @@ class MiniRobotPiece(pygame.sprite.Sprite):
                 if temp.get_at((w, h))[:3] != (255,255,255):
                     temp.set_at((w, h), color) 
 
+        temp = temp.convert()
         temp.set_colorkey((255,255,255), RLEACCEL)
-        temp.set_alpha(50)
+        temp.set_alpha(100)
         return temp
 
     def select(self):
@@ -151,6 +89,7 @@ class FacePiece(StaticPiece):
     def set_position(self):
         t,l = level_pos[self.level][2][:2]  #2 es la cara en todos los niveles
         self.rect.topleft = t + ROBOT_OFFSET[0] + 15, l + ROBOT_OFFSET[1] + 10
+
 
 class DinamicPiece(pygame.sprite.Sprite):
     functions = [lambda x,direccion: direccion*20*math.sin(x/2),
@@ -200,7 +139,6 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.selected_time = (miliseconds * CLOCK_TICS) / 1000
 
     def fit(self, robot, mini_robot):
-        #print self.desfasaje_rotacion
         if self.desfasaje_rotacion:
             return False
 
@@ -231,9 +169,8 @@ class DinamicPiece(pygame.sprite.Sprite):
     def _velocity(self):
         #largo, ancho = self.rect.size
         #vel = (largo * ancho) / float(500) + 2
-        #print "Velocidad: ",vel
-        #return min(30, vel)
-        return 16
+        #return min(50, vel)
+        return random.choice(range(20, 35))
 
     def rotate(self, angle):
         self.image = pygame.transform.rotate(self.image, angle)
@@ -302,6 +239,31 @@ class DinamicPiece(pygame.sprite.Sprite):
             x = x+i
             yield x
 
+class GoldenPiece(DinamicPiece):
+
+    MOVING_CINTA   = 0
+    MOVING_NORMAL  = 1
+    MOVING_FALLING = 2
+    MOVING_STOP    = 3
+
+    def __init__(self, id, img, level):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = img
+        self.rect = self.image.get_rect()
+
+        self.level = level
+        self.id = id
+        self.selected = False
+        self.selected_time = 0
+        self.desfasaje_rotacion = 0
+        self.moving = self.MOVING_STOP
+        self.prof = level_pos[self.level].get(self.id, False)
+        if self.prof:
+            self.prof = self.prof[2] # Fix
+        self.set_top_position()
+        self.change_function = random.choice(range(HEIGHT))
+
 class Pieces(object):
     def __init__(self, level, type_piece="static"):
         self.level = level
@@ -323,6 +285,13 @@ class Pieces(object):
                 myId = myFile[:-4]
                 image = utils.load_image_alpha(pathfile, -1)
                 result.append((int(myId), image))
+        elif self.type_piece == "golden":
+            result = []
+            for pathfile in glob.glob(os.path.join(GOLDEN_LEVEL[self.level], '*.png')):
+                myFile = os.path.basename(pathfile)
+                myId = myFile[:-4]
+                image = utils.load_image_alpha(pathfile, -1)
+                result.append((int(myId), image))
         elif self.type_piece == "face":
             result = []
             for pathfile in glob.glob(os.path.join(FACES, '*.png')):
@@ -339,134 +308,15 @@ class Pieces(object):
                 piece = StaticPiece(img[0], img[1], self.level)
             elif self.type_piece == "mini_robot":
                 piece = MiniRobotPiece(img[0], img[1], self.level)
-            elif self.type_piece == "dinamic":
+            elif self.type_piece in ("dinamic", "erronea"):
                 piece = DinamicPiece(img[0], img[1], self.level)
-            elif self.type_piece == "erronea":
-                piece = DinamicPiece(img[0], img[1], self.level)
+            elif self.type_piece == "golden":
+                piece = GoldenPiece(img[0], img[1], self.level)
             elif self.type_piece == "face":
                 piece = FacePiece(img[0], img[1], self.level)
             result.append(piece)
         return result
 
-class Dispatcher(object):
-    def __init__(self, mount, piezas_activas, piezas, piezas_erroneas, \
-                piezas_encajadas_atras, piezas_encajadas_adelante, robot, mini_robot, hand):
-        #mount es la cantidad de piezas que son despachadas de forma simultanea
-        self.mount = mount
-        self.piezas_activas   = piezas_activas
-        self.piezas           = piezas
-        self.piezas_erroneas  = piezas_erroneas
-        self.piezas_encajadas_atras = piezas_encajadas_atras
-        self.piezas_encajadas_adelante = piezas_encajadas_adelante
-        self.robot = robot
-        self.mini_robot = mini_robot
-        self.hand  = hand
-        self.selected_piece = None
-
-        for p in self.piezas.sprites() + self.piezas_erroneas.sprites():
-            p.dispatcher = self
-
-    def selected_explosion(self):
-        ExplosionMedium(self.selected_piece.rect.center)
-        self.selected_piece.release()
-        self.selected_piece.set_top_position()
-        self.selected_piece = None
-        self.hand.release()
-
-    def moving_pieces(self):
-        return [x for x in self.piezas.sprites() if x.is_moving()] + \
-               [x for x in self.piezas_erroneas.sprites() if x.is_moving()]
-
-    def falling_pieces(self):
-        return [x for x in self.piezas.sprites() if x.is_falling()] + \
-               [x for x in self.piezas_erroneas.sprites() if x.is_falling()]
-
-    def falling_right_pieces(self):
-        return [x for x in self.piezas.sprites() if x.is_falling()]
-
-    def stop_pieces(self):
-        return [x for x in self.piezas.sprites() if not x.is_moving()] + \
-               [x for x in self.piezas_erroneas.sprites() if not x.is_moving()]
-               
-    def stop_right_pieces(self):
-        return [x for x in self.piezas.sprites() if not x.is_moving()]
-
-    def dispatch(self):
-        if random.choice(range(50)):
-            return
-
-        if len(self.moving_pieces()) > 8:
-            return
-
-        if self.stop_pieces():
-            if not self.falling_right_pieces() and self.stop_right_pieces():
-                piece = random.choice(self.stop_right_pieces())
-            else:
-                piece = random.choice(self.stop_pieces())
-            piece.set_top_position()
-            piece.move()
-
-    def rotate_selected(self, angle):
-        if self.selected_piece:
-            self.selected_piece.rotate(angle)
-
-    def agarrar_soltar(self, pos):
-        '''Logica para agarrar o soltar las piezas con el mouse'''
-        quepaso = ""
-        alguna = False
-        self.hand.select()
-
-        if self.selected_piece:
-            quepaso = self.soltar2()
-        else:
-            quepaso = self.agarrar()
-
-        if quepaso == "":
-            quepaso = "clickafuera"
-        #click afuera
-        return quepaso
-
-    def soltar2(self):
-        self.selected_piece.release()
-        self.hand.release()
-
-        if self.selected_piece.fit(self.robot, self.mini_robot):
-            if self.selected_piece.prof == ATRAS:
-                self.piezas_encajadas_atras.add(self.selected_piece)
-            else:   #ADELANTE
-                self.piezas_encajadas_adelante.add(self.selected_piece)
-            self.piezas.remove(self.selected_piece)
-            self.piezas_activas.remove(self.selected_piece)
-            #encajo
-            quepaso = "encajo"
-        #solto afuera
-        else:
-            quepaso = "soltoafuera"
-
-        self.selected_piece = None
-        return quepaso
-
-    def soltar(self):
-        if not self.selected_piece:
-            self.hand.release()
-
-    def agarrar(self):
-        quepaso = ""
-        alguna = False
-        for piece in self.falling_pieces():
-            if self.hand.collide(piece):
-                alguna = True
-                if not self.selected_piece:
-                    piece.select(miliseconds=2000)
-                    #selecciono una pieza
-                    if piece.is_wrong():
-                        quepaso = "erronea"
-                    else:
-                        quepaso = "correcta"
-                    self.selected_piece = piece
-        if not alguna:
-            quepaso = "clickafuera"
-        return quepaso
 
 if __name__ == '__main__':
     pygame.init()

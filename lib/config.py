@@ -35,6 +35,11 @@ ERRONEAS_LEVEL = {1: os.path.join(LEVEL1, "erroneas"),
                   2: os.path.join(LEVEL2, "erroneas"),
                   3: os.path.join(LEVEL3, "erroneas")}
 
+GOLDEN_LEVEL =   {1: os.path.join(LEVEL1, "golden"),
+                  2: os.path.join(LEVEL2, "golden"),
+                  3: os.path.join(LEVEL3, "golden")}
+
+
 FACES = os.path.join(IMGS, "faces")
 DUDA, ENOJO, FELIZ, FELIZ2, FELIZ3, INCERTIDUMBRE, SORPRESA, MIEDO = range(1,9)
 
