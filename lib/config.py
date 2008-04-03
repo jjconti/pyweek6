@@ -77,8 +77,8 @@ MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
 #backgrounds
 BACKINTRO_IMAGE = BACKGROUND+"/taller.jpg"
 BACKMENU_IMAGEN = BACKGROUND+"/menu.jpg"
-BACKLEVEL_IMAGE = BACKGROUND+"/fondoAzul.png"
-BACKLEVEL_IMAGE = BACKGROUND+"/nivel1.png"
+#BACKLEVEL_IMAGE = BACKGROUND+"/fondoAzul.png"
+BACKLEVEL_IMAGE = BACKGROUND+"/nivel1.jpg"
 
 #musicas
 MENUMUSIC = os.path.join(SOUNDS, "menu.ogg")
