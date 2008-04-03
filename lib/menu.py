@@ -18,10 +18,11 @@ class Menu(object):
         self.done = False
         self.separator = 2
         font1 = pygame.font.Font(FONT_MENU, 50)
-        self.hor_step = font1.get_height() + 10
+        font2 = pygame.font.Font(FONT_MENU, 100)
+        self.hor_step = font2.get_height() - 15
         self.clock = pygame.time.Clock()
-        self.selected_imgs = [font1.render(text, True, RED) for text in self.items]
-        self.selected_imgs2 = [font1.render(text, True, BLACK) for text in self.items]
+        self.selected_imgs = [font2.render(text, True, RED) for text in self.items]
+        self.selected_imgs2 = [font2.render(text, True, BLACK) for text in self.items]
         self.unselected_imgs = [font1.render(text, True, GREY) for text in self.items]
         self.unselected_imgs2 = [font1.render(text, True, BLACK) for text in self.items]
         self.unselected_rects = None
@@ -138,6 +139,7 @@ class Menu(object):
             else:
                 img = self.unselected_imgs[i]
                 img2 = self.unselected_imgs2[i]
+            """
             x2 = self.screen.get_width()/2
             if (self.state == 0) and (i%2 == 0):
                 x1 = x2 - (WIDTH * (50 - self.timeloop) / 50)
@@ -148,6 +150,8 @@ class Menu(object):
                 self.draw_end = True
             x = (x1+(x2-x1)*(1-exp(-self.timeloop/20.0)))
             x -= img.get_width() / 2
+            """
+            x = (WIDTH / 2 - img2.get_width() / 2)
             self.screen.blit(img2, (x-self.separator,y-self.separator))
             self.screen.blit(img, (x,y))
 
