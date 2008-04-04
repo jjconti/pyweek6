@@ -50,7 +50,7 @@ class Intro(object):
                 #si se le pone una imagen de fondo hay que sacar este "fill"
                 #self.screen.fill((0,0,0))
                 self.screen.blit(self.background, (0, 0))
-                self.screen.blit(image[1], (INTRO_XY[image[0]][0]+ROBOT_OFFSET[0], INTRO_XY[image[0]][1]+ROBOT_OFFSET[1]))
+                self.screen.blit(image[1], (INTRO_XY[image[0]][0]+ROBOT_OFFSET[self.level][0], INTRO_XY[image[0]][1]+ROBOT_OFFSET[self.level][1]))
                 pygame.display.flip()
                 i = 1
                 while i < time_sleep:
