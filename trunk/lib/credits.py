@@ -93,10 +93,14 @@ class Credits(object):
             pygame.display.flip()
             self.screen.blit(background, (0,0))
             time_loop+=1
-            if cambiar or time_loop==1000:#y >= 780 or time_loop == 1000:
+            if cambiar or time_loop==1000:
                 bandera = True
+            elif self._verifyKey():
+                return self.father
+                print "Devolver padre"
             else:
                 if self._verifyKey():#FIXME now
+                    print "Deolver padre"
                     return self.father
                 for pos, font in enumerate(lista_imagenes):
                     self.screen.blit(background, (0,0))
@@ -109,12 +113,12 @@ class Credits(object):
                         pygame.time.delay(1000)
                     pygame.display.flip()
                     cambiar = True
-                pygame.time.delay(1000)
+                #pygame.time.delay(1000)
 
     def _draw_screen(self):
         pygame.display.set_caption(WINDOW_TITLE)
-        image = IMAGE_CREDITS
-        background = pygame.image.load(image)
+        lista_fondos = IMAGE_CREDITS
+        background = pygame.image.load(random.choice(lista_fondos))
 
         title = 'CREDITS'
         title_img = self.font[10].render(title, True, (100, 100, 100))
@@ -127,16 +131,15 @@ class Credits(object):
         lista_aux = self.developers
         while True:
             for developer in lista_aux:
-                """
-                if 'Guillermo' in developer:
-                    developer = '\n'.join(developer)
-                    print developer
-                else:
-                """
                 developer = ' '.join(developer)
                 # genero las imagenes para mostrar
                 lista_imagenes = self._generar_imagenes(developer)
                 self._dibujar_secuencia(lista_imagenes, background, topleft)
+                if self._verifyKey():
+                    #music.stop_music()
+                    print "Devolver 1"
+                    return self.father
+            pygame.time.delay(200)
 
     def _developers(self):
         print self.developers

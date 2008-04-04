@@ -46,13 +46,13 @@ def stop_music():
 def is_playing_music():
     return last_music != None
 
-def play_level():
-    music = MUSIC_LEVEL[1]
+def play_level(level):
+    music = MUSIC_LEVEL[level]
     level_mus = pygame.mixer.Sound(music['loop'])
     level_mus.play(-1)
 
-def play_intro():
-    music = MUSIC_LEVEL[1]
+def play_intro(level):
+    music = MUSIC_LEVEL[level]
     a  = utils.load_sound(music['intro'])
     music_channel = pygame.mixer.Channel(0)
     music_channel.play(a)

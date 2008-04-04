@@ -83,7 +83,7 @@ class Level(object):
         self.bonus = 0
         self.alarm_play = False
         #music.level(self.level, False)
-        music.play_intro()
+        music.play_intro(self.level)
 
     def loop(self):  
         #music.play_music(PLAYMUSIC)
@@ -195,7 +195,7 @@ class Level(object):
 
         if event.type == events.INTRO:
            print "TERMINO INTRO"
-           music.play_level()
+           music.play_level(self.level)
 
         if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
