@@ -3,6 +3,7 @@ from config import *
 import utils
 import pygame
 from pygame.locals import USEREVENT
+import events
 pygame.init()
 pygame.mixer.init()
 
@@ -27,6 +28,8 @@ def play_alarm():
 
 def play_countdown(times=0, start=0.0):
     SOUNDS['countdown'].play(loops=times)
+    e = pygame.event.Event(events.INTRO, {})
+    pygame.event.post(e)
 
 def play_music(music_name, times=-1):
     global last_music
@@ -43,7 +46,21 @@ def stop_music():
 def is_playing_music():
     return last_music != None
 
+def play_level():
+    music = MUSIC_LEVEL[1]
+    level_mus = pygame.mixer.Sound(music['loop'])
+    level_mus.play(-1)
 
+def play_intro():
+    music = MUSIC_LEVEL[1]
+    a  = utils.load_sound(music['intro'])
+    music_channel = pygame.mixer.Channel(0)
+    music_channel.play(a)
+
+    e = pygame.event.Event(events.INTRO, {})
+    music_channel.set_endevent(88)
+
+    #pygame.event.post(e)
 
 def level(level, stop):
     music = MUSIC_LEVEL[level]

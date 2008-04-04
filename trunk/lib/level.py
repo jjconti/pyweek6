@@ -79,7 +79,8 @@ class Level(object):
         self.points = points
         self.bonus = 0
         self.alarm_play = False
-        music.level(self.level, False)
+        #music.level(self.level, False)
+        music.play_intro()
 
     def loop(self):  
         #music.play_music(PLAYMUSIC)
@@ -152,6 +153,11 @@ class Level(object):
         self.explosions.draw(self.screen)
         self.gadgets.draw(self.screen)
         self.mini_robot.draw(self.screen)
+        
+        rect = self.mini_robot.sprites()[0].rect
+
+        #pygame.draw.circle(self.screen, (0,0,0), (200, 200), 150, 0)
+        pygame.draw.arc(self.screen, (0,0,0), rect, 0, 3, 0)
 
     def control(self, event):
         if event.type == KEYDOWN:
@@ -182,6 +188,10 @@ class Level(object):
 
         if event.type == events.EXPLOSION:
            self.dispatcher.explosion()
+
+        if event.type == events.INTRO:
+           print "TERMINO INTRO"
+           music.play_level()
 
         if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
