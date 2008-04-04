@@ -171,7 +171,7 @@ class Level(object):
             if event.key == K_DOWN:
                 self.dispatcher.rotate_selected(90)
             if event.key == K_UP:	
-                self.dispatcher.rotate_selected(270)       
+                self.dispatcher.rotate_selected(270)
 
         #if event.type == events.EXPLOSION:
         #    self.dispatcher.explosion()
