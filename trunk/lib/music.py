@@ -47,7 +47,6 @@ def stop_music():
 def is_playing_music():
     return last_music != None
 
-
 def play_level(level):
     global playing
     music = MUSIC_LEVEL[level]
@@ -60,6 +59,13 @@ def stop_level():
     global playing
     playing.stop()
 
+def pause_level():
+    global playing
+    playing.pause()
+
+def unpause_level():
+    global playing
+    playing.unpause()
 
 def play_intro(level):
     music = MUSIC_LEVEL[level]
