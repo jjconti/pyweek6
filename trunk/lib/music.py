@@ -13,6 +13,7 @@ SOUNDS['peep'] = utils.load_sound(PEEP)
 SOUNDS['alarm'] = utils.load_sound(ALARM)
 
 last_music = None
+playing = None
 
 def play_explosion():
     SOUNDS['explosion'].play()
@@ -46,10 +47,19 @@ def stop_music():
 def is_playing_music():
     return last_music != None
 
+
 def play_level(level):
+    global playing
     music = MUSIC_LEVEL[level]
+
     level_mus = pygame.mixer.Sound(music['loop'])
+    playing = level_mus
     level_mus.play(-1)
+
+def stop_level():
+    global playing
+    playing.stop()
+
 
 def play_intro(level):
     music = MUSIC_LEVEL[level]
@@ -59,29 +69,3 @@ def play_intro(level):
 
     e = pygame.event.Event(events.INTRO, {})
     music_channel.set_endevent(88)
-
-    #pygame.event.post(e)
-
-def level(level, stop):
-    music = MUSIC_LEVEL[level]
-    intro_mus = pygame.mixer.Sound(music['intro'])
-    level_mus = pygame.mixer.Sound(music['loop'])
-
-    pygame.mixer.set_reserved(1)
-    music_channel = pygame.mixer.Channel(0)
-    music_vol = 1.0
-
-    #pygame.event.clear()
-    #if loop:
-        #music_channel.play(level_mus)
-    #else:
-        #music_channel.play(intro_mus)
-        #music_channel.set_endevent(USEREVENT)
-        #music_channel.set_volume(music_vol)
-
-    if stop:
-        music_channel.stop()
-    else:
-        music_channel.play(intro_mus)
-        for c in xrange(5000):
-            music_channel.queue(level_mus)

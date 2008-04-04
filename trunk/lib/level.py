@@ -41,6 +41,7 @@ class Level(object):
         self.totaltime = t
         self.exit = False
         self.paused = False
+        self.volver = False
 
         self.robot = pygame.sprite.RenderUpdates()
         self.cargar_robot()
@@ -106,6 +107,9 @@ class Level(object):
             self.clock.tick(CLOCK_TICS)
             pygame.display.flip()
 
+        if self.volver: #Volver al menu principal
+            music.stop_level()
+            return self.father
 
         if self.level == 1:     #pasamos al 2
             def f(screen):
@@ -183,6 +187,8 @@ class Level(object):
             self.face_change(event)
 
         if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                self.volver = True
             if event.key == K_f:
                 pygame.display.toggle_fullscreen()
             if event.key == K_DOWN:
@@ -219,7 +225,7 @@ class Level(object):
                 self.dispatcher.soltar()
 
     def finish(self):
-        return not self.piezas.sprites()
+        return not self.piezas.sprites() or self.volver
 
     def cargar_robot(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
