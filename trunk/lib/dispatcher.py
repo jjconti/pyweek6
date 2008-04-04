@@ -7,7 +7,7 @@ import utils
 from config import *
 
 from levelposimages import *
-from explosion import *
+
 
 
 
@@ -32,8 +32,7 @@ class Dispatcher(object):
         for p in self.piezas.sprites() + self.piezas_erroneas.sprites() + self.golden_piezas.sprites():
             p.dispatcher = self
 
-    def selected_explosion(self):
-        ExplosionMedium(self.selected_piece.rect.center)
+    def explosion(self):
         self.explosions += 1
         self.selected_piece.release()
         self.selected_piece.set_top_position()

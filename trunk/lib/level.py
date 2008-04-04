@@ -18,6 +18,8 @@ from gadgets import *
 from music import *
 from explosion import *
 
+import events
+
 if not pygame.font: print 'Warning, fonts disabled'
 if not pygame.mixer: print 'Warning, sound disabled'
 
@@ -170,6 +172,9 @@ class Level(object):
                 self.dispatcher.rotate_selected(90)
             if event.key == K_UP:	
                 self.dispatcher.rotate_selected(270)       
+
+        if event.type == events.EXPLOSION:
+            self.dispatcher.explosion()
 
         if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
