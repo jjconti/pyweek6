@@ -9,7 +9,8 @@ class EnergyBar(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.energy_percent = 100 #percent remanding of time
         self.image = self._image()
-        self.rect = self.image.get_rect(right=WIDTH-10, bottom=HEIGHT)
+        self.rect = self.image.get_rect()
+        self.rect.topleft = BAR_OFFSET
 
     def count(self):
         return max(0, self.energy_percent)
@@ -17,13 +18,14 @@ class EnergyBar(pygame.sprite.Sprite):
     def update(self, perc):
         self.energy_percent = 100 - perc
         self.image = self._image()
-        self.rect = self.image.get_rect(right=WIDTH-10, bottom=HEIGHT)
+        self.rect = self.image.get_rect()
+        self.rect.bottomleft = BAR_OFFSET
 
     def _image(self):
         #font = pygame.font.Font(FONT1, 14)
         #text = font.render("Energy", True, BLACK)
         w = 15
-        h = max(int(HEIGHT * self.energy_percent / 100), 0)
+        h = max(int(200 * self.energy_percent / 100), 0)
 
         if self.energy_percent > 60:
             color = GREEN

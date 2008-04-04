@@ -46,9 +46,6 @@ def is_playing_music():
 
 
 def level(level, stop):
-    # QUITAR CUANDO ESTE LA MUSICA DEL LEVEL 3
-    if level == 3:
-        return
     music = MUSIC_LEVEL[level]
     intro_mus = pygame.mixer.Sound(music['intro'])
     level_mus = pygame.mixer.Sound(music['loop'])
@@ -69,5 +66,5 @@ def level(level, stop):
         music_channel.stop()
     else:
         music_channel.play(intro_mus)
-        for c in range(0, 1000):
+        for c in xrange(5000):
             music_channel.queue(level_mus)
