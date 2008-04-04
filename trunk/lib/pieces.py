@@ -24,10 +24,11 @@ class StaticPiece(pygame.sprite.Sprite):
     def __init__(self, id, img, level):
         pygame.sprite.Sprite.__init__(self)
 
+        self.level = level
         self.image = self._image(img)
         self.rect = self.image.get_rect()
 
-        self.level = level
+        
         self.id = id
 
         self.set_position()
@@ -35,7 +36,7 @@ class StaticPiece(pygame.sprite.Sprite):
     def _image(self, img):
         img = img.convert()
         img.set_colorkey((255,255,255), RLEACCEL)
-        img.set_alpha(50)
+        img.set_alpha(ALPHA_ROBOT[self.level])
         return img
 
     def set_position(self):
@@ -43,7 +44,7 @@ class StaticPiece(pygame.sprite.Sprite):
         self.rect.topleft = t + ROBOT_OFFSET[self.level][0], l + ROBOT_OFFSET[self.level][1]
         self.image = self.image.convert()
         self.image.set_colorkey((255,255,255), RLEACCEL)
-        self.image.set_alpha(50)
+        self.image.set_alpha(ALPHA_ROBOT[self.level])
 
     def __str__(self):
         return "Pieza %d" % (self.id,)
