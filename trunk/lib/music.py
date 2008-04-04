@@ -60,12 +60,10 @@ def stop_level():
     playing.stop()
 
 def pause_level():
-    global playing
-    playing.pause()
+    pygame.mixer.music.pause()
 
 def unpause_level():
-    global playing
-    playing.unpause()
+    pygame.mixer.music.unpause()
 
 def play_intro(level):
     music = MUSIC_LEVEL[level]
