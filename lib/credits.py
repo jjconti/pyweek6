@@ -27,7 +27,7 @@ class Credits(object):
     def generar_fuentes(self):
         """Crea la lista de tamaños de fuentes y la fuente en sí"""
         #base = 10
-        sizes = [16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+        sizes = [25, 22, 20, 18, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
         lista_size = []
         for num in range(16):
             lista_size.append(num*sizes[num])
@@ -82,7 +82,8 @@ class Credits(object):
 
     def _dibujar_secuencia(self, lista_imagenes, background, topleft):
         """Permitirá mostrar las letras en la secuencia de descenso"""
-        pos_y = y = topleft[1] + 110
+        y = (WIDTH / 2) - 300 
+        print y
         bandera = False
         cambiar = False
         clock = pygame.time.Clock()
