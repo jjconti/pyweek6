@@ -142,11 +142,13 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.moving = self.MOVING_FALLING
 
     def fit(self, robot, mini_robot):
+        print self.id
+        print self.desfasaje_rotacion
         if self.desfasaje_rotacion:
             return False
 
         collideds = pygame.sprite.spritecollide(self, robot, False)
-
+        print [x.id for x in collideds]
         target = [x for x in collideds if x.id == self.id ]
 
         if target:
@@ -189,7 +191,7 @@ class DinamicPiece(pygame.sprite.Sprite):
             self.moving = self.MOVING_CINTA
 
         if self.rect.left > WIDTH:
-            self.moving = self.MOVING_STOP
+            self.stop()
 
         if self.selected:
             self.rect.center   = pygame.mouse.get_pos()
@@ -226,6 +228,9 @@ class DinamicPiece(pygame.sprite.Sprite):
             self.num = self.count()
             self.y = 0
 
+    def stop(self):
+        self.moving = self.MOVING_STOP
+
     def is_moving(self):
         return self.moving in (self.MOVING_NORMAL, self.MOVING_CINTA, self.MOVING_FALLING)
 
@@ -241,6 +246,9 @@ class DinamicPiece(pygame.sprite.Sprite):
         while 1:
             x = x+i
             yield x
+            
+    def is_golden(self):
+        return False
 
 class GoldenPiece(DinamicPiece):
 
@@ -266,6 +274,12 @@ class GoldenPiece(DinamicPiece):
             self.prof = self.prof[2] # Fix
         self.set_top_position()
         self.change_function = random.choice(range(HEIGHT))
+
+    def stop(self):
+        self.kill()
+
+    def is_golden(self):
+        return True
 
 class Pieces(object):
     def __init__(self, level, type_piece="static"):

@@ -24,7 +24,7 @@ if not pygame.mixer: print 'Warning, sound disabled'
 class Level(object):
     '''Ojalata level'''
 
-    def __init__(self, screen, father, level=1, points=0, t=1000):#t=5000):
+    def __init__(self, screen, father, level=1, points=0, t=5000):#t=5000):
 
         self.screen = screen
         pygame.mouse.set_visible(False)
@@ -42,6 +42,7 @@ class Level(object):
         self.cargar_mini_robot()
         self.piezas = pygame.sprite.RenderUpdates()
         self.cargar_piezas()
+        self.golden_piezas_used = pygame.sprite.RenderUpdates()
         self.golden_piezas = pygame.sprite.RenderUpdates()
         self.cargar_golden_piezas()
         self.piezas_erroneas = pygame.sprite.RenderUpdates()
@@ -66,7 +67,7 @@ class Level(object):
         self.facetime = time.time()
         #Create the game clock
         self.clock = pygame.time.Clock()
-        self.dispatcher = Dispatcher(3, self.piezas, self.golden_piezas, \
+        self.dispatcher = Dispatcher(3, self.piezas, self.golden_piezas, self.golden_piezas,  \
                                      self.piezas_erroneas, \
                                      self.piezas_encajadas_atras, self.piezas_encajadas_adelante,
                                      self.robot, self.mini_robot, self.hand)
@@ -118,7 +119,8 @@ class Level(object):
            de los grupos.'''
         self.piezas.update()
         self.piezas_erroneas.update()
-        
+        self.golden_piezas.update()
+
         self.explosions.update()
         self.energy_bar.update(100 * (float(self.tics) / self.totaltime))
         if self.energy_bar.count() == 0:
@@ -140,6 +142,8 @@ class Level(object):
         '''Dibuja en pantalla los grupos.'''
         self.piezas.draw(self.screen)
         self.piezas_erroneas.draw(self.screen)
+        self.golden_piezas.draw(self.screen)
+        self.golden_piezas_used.draw(self.screen)
 
         self.explosions.draw(self.screen)
         self.gadgets.draw(self.screen)
@@ -215,7 +219,7 @@ class Level(object):
         sprites = []
         for s in sets:
             sprites += s.get_all()
-        self.piezas.add(sprites)
+        self.golden_piezas.add(sprites)
 
     def cargar_piezas_erroneas(self):
         sets = [Pieces(type_piece="erronea", level=self.level) for x in range(3)]
