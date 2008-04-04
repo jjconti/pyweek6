@@ -14,7 +14,7 @@ import utils
 import data
 from config import *
 import music
-import events
+#import events
 from explosion import *
 
 from levelposimages import *
@@ -198,10 +198,10 @@ class DinamicPiece(pygame.sprite.Sprite):
         if self.selected:
             self.rect.center   = pygame.mouse.get_pos()
             self.selected_time -= 1
-            if self.selected_time == 0:
-                ExplosionMedium(self.rect.center)
-                e = pygame.event.Event(events.EXPLOSION, {})
-                pygame.event.post(e)
+#            if self.selected_time == 0:
+#                ExplosionMedium(self.rect.center)
+#                e = pygame.event.Event(events.EXPLOSION, {})
+#                pygame.event.post(e)
         else:
             if self.moving == self.MOVING_CINTA:
                 self.update_cinta()

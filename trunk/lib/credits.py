@@ -111,7 +111,7 @@ class Credits(object):
 # ****************************************************************************************************
 
     def _dibujar_secuencia(self, lista_imagenes, background, topleft):
-        """Permitirá mostrar las letras en la secuencia de descenso"""
+        """Permitirá mostrar las letras en la secuencia de descenso
         pos_y = y = topleft[1] + 110
         bandera = False
         cambiar = False
@@ -141,7 +141,40 @@ class Credits(object):
                     y += font.get_height()
                     pygame.display.flip()
                     cambiar = True
+                pygame.time.delay(1000)"""
+
+        pos_y = y = topleft[1] + 110
+        bandera = False
+        cambiar = False
+        clock = pygame.time.Clock()
+        time_loop = 0
+        while not bandera:
+            clock.tick(CLOCK_TICS)
+            pygame.display.flip()
+            self.screen.blit(background, (0,0))
+            if self._verifyKey():
+                self.flag = False
+                return
+            time_loop+=1
+            if cambiar or time_loop==1000:#y >= 780 or time_loop == 1000:
+                bandera = True
+            else:
+                if self._verifyKey():#FIXME
+                    self.flag = False
+                    return
+                for pos, font in enumerate(lista_imagenes):
+                    if self._verifyKey():
+                        self.flag = False
+                        return
+                    self.screen.blit(background, (0,0))
+                    pos_x_inicial = (WIDTH / 2 - font.get_width() / 2)
+                    self.screen.blit(font, (pos_x_inicial, y))
+                    pygame.time.delay(80)
+                    y += font.get_height()
+                    pygame.display.flip()
+                    cambiar = True
                 pygame.time.delay(1000)
+
 
 # ****************************************************************************************************
 
