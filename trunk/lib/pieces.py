@@ -51,8 +51,8 @@ class StaticPiece(pygame.sprite.Sprite):
 class MiniRobotPiece(pygame.sprite.Sprite):
     def __init__(self, id, img, level):
         pygame.sprite.Sprite.__init__(self)
-	self.factor = .4
-	(w, h) = img.get_width() * self.factor, img.get_height()* self.factor
+        self.factor = .4
+        (w, h) = img.get_width() * self.factor, img.get_height()* self.factor
         self.image = pygame.transform.scale(img, (int(w), int(h)))
         self.image = self.fill_no_alpha((0, 255, 0))
         self.selected_image = self.fill_no_alpha((0, 0, 0))
@@ -100,7 +100,8 @@ class DinamicPiece(pygame.sprite.Sprite):
                  #lambda x,direccion: direccion*x,
                  #lambda x,direccion: direccion*x**2/6,
                  #lambda x,direccion: -direccion*x**2/6]
-    functions = [func.a, func.b, func.c, func.d, func.e]
+    functions = [func.a, func.b, func.c, func.d, func.e, func.f]
+    #functions = [func.a]
 
     MOVING_CINTA   = 0
     MOVING_NORMAL  = 1
@@ -189,6 +190,8 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.desfasaje_rotacion = (self.desfasaje_rotacion + angle) % 360
 
     def update(self):
+
+        #self.rotate(5)
 
         if self.moving == self.MOVING_STOP:
             return
