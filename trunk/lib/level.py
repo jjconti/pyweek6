@@ -27,7 +27,7 @@ if not pygame.mixer: print 'Warning, sound disabled'
 class Level(object):
     '''Ojalata level'''
 
-    def __init__(self, screen, father, level=1, points=0, t=5000):#t=5000):
+    def __init__(self, screen, father, level=1, points=0, t=TIME_LEVEL1):
 
         self.screen = screen
         pygame.mouse.set_visible(False)
@@ -55,7 +55,7 @@ class Level(object):
         self.energy_bar = EnergyBar()
         self.hand = Hand()
         #self.show_points = Points(0)
-        self.indicator = Indicator(150, 90, 30)
+        self.indicator = Indicator(150, 120, 30, self.level)
         self.gadgets = pygame.sprite.RenderUpdates()
         self.gadgets.add(self.energy_bar)
         self.gadgets.add(self.hand)
@@ -105,11 +105,11 @@ class Level(object):
 
         if self.level == 1:     #pasamos al 2
             def f(screen):
-                return Level(screen, self.father, self.level + 1, self.points, t=6500)
+                return Level(screen, self.father, self.level + 1, self.points, t=TIME_LEVEL2)
             return f
         elif self.level == 2:   #pasamos al 3
             def f(screen):
-                return Level(screen, self.father, self.level + 1, self.points, t=7500)
+                return Level(screen, self.father, self.level + 1, self.points, t=TIME_LEVEL3)
             return f
         elif self.level == 3:   #fina del juego
             print "Ganaste"

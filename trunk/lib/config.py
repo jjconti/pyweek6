@@ -23,6 +23,11 @@ CREDITS = os.path.join(DATA, "credits.txt")
 SOUNDS = os.path.join(DATA, "sounds")
 BACKGROUND = os.path.join(IMGS, "background")
 
+# tiempo que duran los niveles
+TIME_LEVEL1 = 5000  #50 segundos
+TIME_LEVEL1 = 6500  #65 segundos
+TIME_LEVEL1 = 7500  #75 segundos
+
 # imagenes
 LEVEL1 = os.path.join(IMGS, "level1")
 LEVEL2 = os.path.join(IMGS, "level2")
