@@ -10,7 +10,9 @@ CENTER = HEIGHT / 2
 
 CLOCK_TICS = 100
 
-ROBOT_OFFSET = (WIDTH / 2 - 265, HEIGHT / 2 - 340)
+ROBOT_OFFSET = {1: (WIDTH / 2 - 265, HEIGHT / 2 - 340),
+                2: (WIDTH / 2 - 265, HEIGHT / 2 - 340),
+                3: (WIDTH / 2 - 265, HEIGHT / 2 - 340)}
 MINI_ROBOT_OFFSET = (WIDTH - 170, 0)
 #BACKGROUND_OFFSET = (270,20)
 BAR_OFFSET = (WIDTH - 30, 220)
@@ -59,7 +61,8 @@ HELP = os.path.join(BACKGROUND, "help_inscription.png")
 
 # Font
 #FONT_CREDITS = os.path.join(FONTS, "GALACTOS.ttf")
-FONT_CREDITS = os.path.join(FONTS, "robot.ttf")
+FONT_CREDITS = os.path.join(FONTS, "Retro 2.ttf")
+#FONT_CREDITS = os.path.join(FONTS, "robot.ttf")
 
 #FONT_MENU = os.path.join(FONTS, "VeraBd.ttf") #de momento pongo esta hasta que encuentre alguna buena
 FONT_MENU = os.path.join(FONTS, "Borobots.ttf") #de momento pongo esta hasta que encuentre alguna buena

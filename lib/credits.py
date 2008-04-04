@@ -10,6 +10,7 @@ from time import sleep
 import csv
 import sys
 import random
+import math
 
 ##
 # Módulos propios
@@ -27,7 +28,8 @@ class Credits(object):
     def generar_fuentes(self):
         """Crea la lista de tamaños de fuentes y la fuente en sí"""
         #base = 10
-        sizes = [25, 22, 20, 18, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+        sizes = [x for x in xrange(1, 35)]
+        # Probando los sizes
         lista_size = []
         for num in range(16):
             lista_size.append(num*sizes[num])
@@ -43,7 +45,7 @@ class Credits(object):
         lista_font = []
         # Gereramos las fuentes
         for size in lista_size:
-            lista_font.append(pygame.font.Font(None, size))
+            lista_font.append(pygame.font.Font(FONT_CREDITS, size))
         return lista_font
 
     def loop(self):
@@ -59,7 +61,6 @@ class Credits(object):
             credits = csv.reader(open(CREDITS))
             lista_nombre = []
             for pos, credit in enumerate(credits):
-                print pos, credit
                 if 0 < pos < 8 and len(credit) == 2:
                     lista_nombre.append(credit)
                 elif pos == 8:
@@ -82,8 +83,7 @@ class Credits(object):
 
     def _dibujar_secuencia(self, lista_imagenes, background, topleft):
         """Permitirá mostrar las letras en la secuencia de descenso"""
-        y = (WIDTH / 2) - 300 
-        print y
+        y = (WIDTH / 2) - 250 #posicion inicio palabra
         bandera = False
         cambiar = False
         clock = pygame.time.Clock()
@@ -96,14 +96,17 @@ class Credits(object):
             if cambiar or time_loop==1000:#y >= 780 or time_loop == 1000:
                 bandera = True
             else:
-                if self._verifyKey():#FIXME
+                if self._verifyKey():#FIXME now
                     return self.father
                 for pos, font in enumerate(lista_imagenes):
                     self.screen.blit(background, (0,0))
                     pos_x_inicial = (WIDTH / 2 - font.get_width() / 2)
                     self.screen.blit(font, (pos_x_inicial, y))
                     pygame.time.delay(80)
-                    y += font.get_height() - 50
+                    #y += math.sin(font.get_height() - 50)
+                    y += font.get_height() - (50 * 0.25)
+                    if y >= 700 and y <= 800:
+                        pygame.time.delay(1000)
                     pygame.display.flip()
                     cambiar = True
                 pygame.time.delay(1000)
@@ -114,7 +117,7 @@ class Credits(object):
         background = pygame.image.load(image)
 
         title = 'CREDITS'
-        title_img = self.font[7].render(title, True, (100, 100, 100))
+        title_img = self.font[10].render(title, True, (100, 100, 100))
         topleft = (background.get_rect().width - title_img.get_rect().width) / 2, 30
         background.blit(title_img, topleft)
         self.screen.blit(background, (0,0))
@@ -124,6 +127,12 @@ class Credits(object):
         lista_aux = self.developers
         while True:
             for developer in lista_aux:
+                """
+                if 'Guillermo' in developer:
+                    developer = '\n'.join(developer)
+                    print developer
+                else:
+                """
                 developer = ' '.join(developer)
                 # genero las imagenes para mostrar
                 lista_imagenes = self._generar_imagenes(developer)
