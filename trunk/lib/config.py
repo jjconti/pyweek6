@@ -42,7 +42,7 @@ GOLDEN_LEVEL =   {1: os.path.join(LEVEL1, "golden"),
 
 FACES = os.path.join(IMGS, "faces")
 DUDA, ENOJO, FELIZ, FELIZ2, FELIZ3, INCERTIDUMBRE, SORPRESA, MIEDO = range(1,9)
-
+HISCORES = os.path.join(DATA, "scores.dat")
 BACK = os.path.join(BACKGROUND, "taller.jpg")
 
 HAND_AFTER_DRAG = os.path.join(IMGS, "hands/after_drag.png")
@@ -52,8 +52,8 @@ IMAGE_CREDITS = os.path.join(BACKGROUND, "credits.png")
 HELP = os.path.join(BACKGROUND, "help_inscription.png")
 
 # Font
-FONT_CREDITS = os.path.join(FONTS, "GALACTOS.ttf")
-#FONT_CREDITS = os.path.join(FONTS, "VerdaBd.ttf")
+#FONT_CREDITS = os.path.join(FONTS, "GALACTOS.ttf")
+FONT_CREDITS = os.path.join(FONTS, "robot.ttf")
 
 #FONT_MENU = os.path.join(FONTS, "VeraBd.ttf") #de momento pongo esta hasta que encuentre alguna buena
 FONT_MENU = os.path.join(FONTS, "Borobots.ttf") #de momento pongo esta hasta que encuentre alguna buena
@@ -86,9 +86,9 @@ MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
 BACKINTRO_IMAGE = BACKGROUND+"/taller.jpg"
 BACKMENU_IMAGEN = BACKGROUND+"/taller.jpg"
 #BACKLEVEL_IMAGE = BACKGROUND+"/fondoAzul.png"
-BACKLEVEL1 = BACKGROUND+"/nivel1.jpg"
-BACKLEVEL2 = BACKGROUND+"/nivel1.jpg"
-BACKLEVEL3 = BACKGROUND+"/nivel3.jpg"
+BACKLEVEL1 = BACKGROUND+"/nivel1.png"
+BACKLEVEL2 = BACKGROUND+"/nivel1.png"
+BACKLEVEL3 = BACKGROUND+"/nivel1.png"
 BACKLEVEL = {1: BACKLEVEL1, 2:BACKLEVEL2, 3:BACKLEVEL3}
 CARTELBACKLEVEL1 = BACKGROUND+"/cartel_nivel1.jpg"
 CARTELBACKLEVEL2 = BACKGROUND+"/cartel_nivel2.jpg"
@@ -97,12 +97,6 @@ CARTELBACKLEVEL = {1: CARTELBACKLEVEL1, 2:CARTELBACKLEVEL2, 3:CARTELBACKLEVEL3}
 
 #musicas
 MENUMUSIC = os.path.join(SOUNDS, "menu.ogg")
-MUSIC_LEVEL = {1: {'intro': os.path.join(SOUNDS, "level1_intro.ogg"),
-                   'loop': os.path.join(SOUNDS, "level1.ogg")},
-               2: {'intro': os.path.join(SOUNDS, "level2_intro.ogg"),
-                   'loop': os.path.join(SOUNDS, "level2.ogg")},
-               3: {'intro': os.path.join(SOUNDS, "level3_intro.ogg"),
-                   'loop': os.path.join(SOUNDS, "level3.ogg")}}
 
 #sonidos
 EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
