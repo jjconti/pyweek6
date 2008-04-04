@@ -34,6 +34,9 @@ class Level(object):
         self.father = father
         self.level = level
         self.background = utils.load_image(BACKLEVEL[self.level])
+        self.cinta = Cinta(self.background)
+        self.cinta_group = pygame.sprite.RenderUpdates()
+        self.cinta_group.add(self.cinta)
         self.tics = 0
         self.totaltime = t
         self.exit = False
@@ -125,7 +128,8 @@ class Level(object):
         self.piezas.update()
         self.piezas_erroneas.update()
         self.golden_piezas.update()
-
+        
+        self.cinta_group.update()
         self.explosions.update()
         self.energy_bar.update(100 * (float(self.tics) / self.totaltime))
         if self.energy_bar.count() == 0:
@@ -139,8 +143,8 @@ class Level(object):
     def draw(self):
         self.screen.fill((0,0,0))
         self.screen.blit(self.background, (0,0))
+    	self.cinta_group.draw(self.screen)
         self.robot.draw(self.screen)
-	
         self.piezas_encajadas_atras.draw(self.screen)
         self.piezas_encajadas_adelante.draw(self.screen)
         self.face.draw(self.screen)
@@ -315,6 +319,26 @@ class Level(object):
             self.dispatcher.stop()
   
         return self.father
+
+
+class Cinta(pygame.sprite.Sprite):
+    '''Cinta transportadora'''
+    def __init__(self, bg):
+        pygame.sprite.Sprite.__init__(self)
+        self.cinta = pygame.Surface((WIDTH * 2, CINTA_LEN))
+        self.cinta.blit(bg,(0, CINTA_LEN - HEIGHT))
+        self.cinta.blit(bg,(WIDTH, CINTA_LEN - HEIGHT))
+        #self.cinta.fill(BLACK)
+        self.image = self.cinta
+        self.rect = self.image.get_rect()
+        self.rect.top = HEIGHT - CINTA_LEN
+        self.rect.left = - WIDTH
+
+    def update(self):
+        if self.rect.left >= 0:
+            self.rect.left = - WIDTH
+        else:   #self.x == 0
+            self.rect.left += 4
 
 def main():
     Level().loop()
