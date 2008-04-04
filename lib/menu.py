@@ -139,7 +139,7 @@ class Menu(object):
             else:
                 img = self.unselected_imgs[i]
                 img2 = self.unselected_imgs2[i]
-            """
+            """Efecto anterior
             x2 = self.screen.get_width()/2
             if (self.state == 0) and (i%2 == 0):
                 x1 = x2 - (WIDTH * (50 - self.timeloop) / 50)
