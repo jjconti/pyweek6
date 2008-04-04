@@ -17,6 +17,10 @@ MINI_ROBOT_OFFSET = (WIDTH - 170, 0)
 #BACKGROUND_OFFSET = (270,20)
 BAR_OFFSET = (WIDTH - 30, 220)
 
+ALPHA_ROBOT = {1: 50,
+               2: 50,
+               3: 150}
+
 # todos los path
 DATA = os.path.join("data")
 IMGS = os.path.join(DATA, "imgs")
