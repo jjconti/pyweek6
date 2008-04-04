@@ -12,13 +12,14 @@ from explosion import *
 
 
 class Dispatcher(object):
-    def __init__(self, mount, piezas, golden_piezas, piezas_erroneas, \
+    def __init__(self, mount, piezas, golden_piezas, golden_piezas_used, piezas_erroneas, \
                 piezas_encajadas_atras, piezas_encajadas_adelante, robot, mini_robot, hand):
         #mount es la cantidad de piezas que son despachadas de forma simultanea
         self.explosions = 0
         self.mount = mount
         self.piezas           = piezas
         self.golden_piezas     = golden_piezas
+        self.golden_piezas_used     = golden_piezas_used
         self.piezas_erroneas  = piezas_erroneas
         self.piezas_encajadas_atras = piezas_encajadas_atras
         self.piezas_encajadas_adelante = piezas_encajadas_adelante
@@ -28,7 +29,7 @@ class Dispatcher(object):
         self.selected_piece = None
         self.stoped = False
 
-        for p in self.piezas.sprites() + self.piezas_erroneas.sprites():
+        for p in self.piezas.sprites() + self.piezas_erroneas.sprites() + self.golden_piezas.sprites():
             p.dispatcher = self
 
     def selected_explosion(self):
@@ -41,19 +42,35 @@ class Dispatcher(object):
 
     def moving_pieces(self):
         return [x for x in self.piezas.sprites() if x.is_moving()] + \
-               [x for x in self.piezas_erroneas.sprites() if x.is_moving()]
+               [x for x in self.piezas_erroneas.sprites() if x.is_moving()] + \
+               [x for x in self.golden_pieces.sprites() if x.is_moving()]
+
+    def moving_right_pieces(self):
+        return [x for x in self.piezas.sprites() if x.is_moving()]
+
+    def moving_golden_pieces(self):
+        return [x for x in self.golden_piezas.sprites() if x.is_moving()]
 
     def falling_pieces(self):
         return [x for x in self.piezas.sprites() if x.is_falling()] + \
-               [x for x in self.piezas_erroneas.sprites() if x.is_falling()]
+               [x for x in self.piezas_erroneas.sprites() if x.is_falling()] + \
+               [x for x in self.golden_piezas.sprites() if x.is_falling()]
 
     def falling_right_pieces(self):
         return [x for x in self.piezas.sprites() if x.is_falling()]
 
     def stop_pieces(self):
         return [x for x in self.piezas.sprites() if not x.is_moving()] + \
+               [x for x in self.piezas_erroneas.sprites() if not x.is_moving()] + \
+               [x for x in self.golden_piezas.sprites() if not x.is_moving()]
+
+    def stop_without_golden_pieces(self):
+        return [x for x in self.piezas.sprites() if not x.is_moving()] + \
                [x for x in self.piezas_erroneas.sprites() if not x.is_moving()]
-               
+
+    def stop_golden_pieces(self):
+        return [x for x in self.golden_piezas.sprites() if not x.is_moving()]
+
     def stop_right_pieces(self):
         return [x for x in self.piezas.sprites() if not x.is_moving()]
 
@@ -67,14 +84,26 @@ class Dispatcher(object):
         if len(self.falling_pieces()) > 8:
             return
 
-        print len(self.golden_piezas)
+        print len(self.stop_golden_pieces())
+
         if self.stop_pieces():
-            if not self.falling_right_pieces() and self.stop_right_pieces():
-                piece = random.choice(self.stop_right_pieces())
+            golden_ids  = [x.id for x in self.moving_golden_pieces()]
+            valid_right = [x for x in self.stop_right_pieces() if x.id not in golden_ids]
+
+            right_ids = [x.id for x in self.moving_right_pieces()]
+            valid_golden = [x for x in self.stop_golden_pieces() if x.id not in right_ids]
+
+            if not self.falling_right_pieces() and valid_right:
+                piece = random.choice(valid_right)
+            elif self.moving_golden_pieces():
+                piece = random.choice(self.stop_without_golden_pieces())
             else:
-                piece = random.choice(self.stop_pieces())
+                right_ids = [x.id for x in self.moving_right_pieces()]
+                piece = random.choice(self.stop_without_golden_pieces() + valid_golden)
+
             piece.set_top_position()
             piece.move()
+
 
     def rotate_selected(self, angle):
         if self.selected_piece:
@@ -101,11 +130,22 @@ class Dispatcher(object):
         self.hand.release()
 
         if self.selected_piece.fit(self.robot, self.mini_robot):
+            if self.selected_piece.is_golden():
+                self.golden_piezas.remove(self.selected_piece)
+                p = [x for x in self.piezas.sprites() if x.id == self.selected_piece.id]
+                self.piezas.remove(p)
+            else:
+                self.piezas.remove(self.selected_piece)
+                p = [x for x in self.golden_piezas.sprites() if x.id == self.selected_piece.id]
+                self.golden_piezas.remove(p)
+
+
             if self.selected_piece.prof == ATRAS:
                 self.piezas_encajadas_atras.add(self.selected_piece)
             else:   #ADELANTE
                 self.piezas_encajadas_adelante.add(self.selected_piece)
-            self.piezas.remove(self.selected_piece)
+            #self.piezas.remove(self.selected_piece)
+
             #encajo
             quepaso = "encajo"
         #solto afuera
