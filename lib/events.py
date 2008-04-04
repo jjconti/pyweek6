@@ -1,1 +1,2 @@
 EXPLOSION = 77
+INTRO = 88
