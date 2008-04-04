@@ -46,6 +46,9 @@ def is_playing_music():
 
 
 def level(level, loop):
+    # QUITAR CUANDO ESTE LA MUSICA DEL LEVEL 3
+    if level == 3:
+        return
     music = MUSIC_LEVEL[level]
     intro_mus = pygame.mixer.Sound(music['intro'])
     level_mus = pygame.mixer.Sound(music['loop'])
