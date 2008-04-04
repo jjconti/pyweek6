@@ -41,6 +41,9 @@ LEVEL1 = os.path.join(IMGS, "level1")
 LEVEL2 = os.path.join(IMGS, "level2")
 LEVEL3 = os.path.join(IMGS, "level3")
 
+#dance
+DANCE_IMAGE = sorted(glob.glob('data/imgs/baile/*.png'))
+
 PIECES_LEVEL = {1: os.path.join(LEVEL1, "pieces"),
                 2: os.path.join(LEVEL2, "pieces"),
                 3: os.path.join(LEVEL3, "pieces")}

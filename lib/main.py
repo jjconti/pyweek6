@@ -8,6 +8,7 @@ from menu import Menu
 from intro import Intro
 #from help import Help
 from credits import Credits
+from dance import HappyDance
 
 from config import *
 import utils
@@ -43,9 +44,12 @@ def main():
 	
 	
 def menu(screen):
-    options = [("Play", play), ("Story", story), ("Help", help), \
+    options = [("Play", play), ("Story", story), ("Help", help), ("Happy Dance", happy_dance), \
                ("High Scores", scores), ("Credits", credits), ("Exit",  exit)]
     return Menu(screen, options, WINDOW_TITLE)
+
+def happy_dance(screen):
+    return HappyDance(screen, menu)
 
 def play(screen):
     return Level(screen, menu, 1, 0)
