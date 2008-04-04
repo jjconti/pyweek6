@@ -73,10 +73,11 @@ class Hand(pygame.sprite.Sprite):
 
 class Indicator(pygame.sprite.Sprite):
 
-    def __init__(self, w, h, fsize):
+    def __init__(self, w, h, fsize, level):
         pygame.sprite.Sprite.__init__(self)
         self.size = w,h
         self.fsize = fsize
+        self.level = level
         self.font = pygame.font.Font(None, fsize)
         #self.image = self._image()
         #self.rect = self.image.get_rect(50, 50)
@@ -91,15 +92,17 @@ class Indicator(pygame.sprite.Sprite):
         img.fill(BLACK)
         img.convert()
         img.set_alpha(100)
+        level = self.font.render("Level: " + str(self.level), True, WHITE, BLACK)
         points = self.font.render("Points: " + str(points), True, WHITE, BLACK)
         points.set_colorkey(BLACK)
         bonus = self.font.render("Bonus: " + str(bonus), True, WHITE, BLACK)
         bonus.set_colorkey(BLACK)
         explosions = self.font.render("Explosions: " + str(explosions), True, WHITE, BLACK) 
         explosions.set_colorkey(BLACK)
-        img.blit(points, (5,5))
-        img.blit(bonus, (5,self.fsize + 5))
-        img.blit(explosions, (5,2*self.fsize + 5))
+        img.blit(level, (self.size[0] / 2 - level.get_rect().width / 2, 5))
+        img.blit(points, (5,self.fsize + 5))
+        img.blit(bonus, (5,2*self.fsize + 5))
+        img.blit(explosions, (5,3*self.fsize + 5))
         return img
 
 
