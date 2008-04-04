@@ -2,6 +2,7 @@ import random
 from config import *
 import utils
 import pygame
+from pygame.locals import USEREVENT
 pygame.init()
 pygame.mixer.init()
 
@@ -41,3 +42,22 @@ def stop_music():
 
 def is_playing_music():
     return last_music != None
+
+
+
+def level(level, loop):
+    music = MUSIC_LEVEL[level]
+    intro_mus = pygame.mixer.Sound(music['intro'])
+    level_mus = pygame.mixer.Sound(music['loop'])
+
+    pygame.mixer.set_reserved(1)
+    music_channel = pygame.mixer.Channel(0)
+    music_vol = 1.0
+
+    #pygame.event.clear()
+    if loop:
+        music_channel.play(level_mus)
+    else:
+        music_channel.play(intro_mus)
+        music_channel.set_endevent(USEREVENT)
+        music_channel.set_volume(music_vol)

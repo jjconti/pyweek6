@@ -97,6 +97,12 @@ CARTELBACKLEVEL = {1: CARTELBACKLEVEL1, 2:CARTELBACKLEVEL2, 3:CARTELBACKLEVEL3}
 
 #musicas
 MENUMUSIC = os.path.join(SOUNDS, "menu.ogg")
+MUSIC_LEVEL = {1: {'intro': os.path.join(SOUNDS, "level1_intro.ogg"),
+                   'loop': os.path.join(SOUNDS, "level1.ogg")},
+               2: {'intro': os.path.join(SOUNDS, "level2_intro.ogg"),
+                   'loop': os.path.join(SOUNDS, "level2.ogg")},
+               3: {'intro': os.path.join(SOUNDS, "level3_intro.ogg"),
+                   'loop': os.path.join(SOUNDS, "level3.ogg")}}
 
 #sonidos
 EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")

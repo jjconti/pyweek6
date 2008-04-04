@@ -80,7 +80,7 @@ class Dispatcher(object):
         if len(self.falling_pieces()) > 8:
             return
 
-        print len(self.stop_golden_pieces())
+        #print len(self.stop_golden_pieces())
 
         if self.stop_pieces():
             golden_ids  = [x.id for x in self.moving_golden_pieces()]
