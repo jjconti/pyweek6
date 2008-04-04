@@ -19,6 +19,7 @@ from music import *
 from explosion import *
 
 import events
+import music
 
 if not pygame.font: print 'Warning, fonts disabled'
 if not pygame.mixer: print 'Warning, sound disabled'
@@ -78,6 +79,7 @@ class Level(object):
         self.points = points
         self.bonus = 0
         self.alarm_play = False
+        music.level(self.level, 0)
 
     def loop(self):  
         #music.play_music(PLAYMUSIC)
@@ -159,6 +161,11 @@ class Level(object):
         if self.paused:
             return
 
+        if event.type == USEREVENT:
+            #music_channel.play(level_mus, -1)
+            # entra/reproduce el loop
+            music.level(self.level, 1)
+
         if event.type == QUIT:
             sys.exit(0)
 
@@ -185,7 +192,7 @@ class Level(object):
 
             if event.button == 2:
                 ExplosionMedium(event.pos)
-                print "Easter egg"
+                #print "Easter egg"
 
             if event.button == 4:
                 self.dispatcher.rotate_selected(90)

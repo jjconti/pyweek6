@@ -52,7 +52,7 @@ class MiniRobotPiece(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 	self.factor = .4
 	(w, h) = img.get_width() * self.factor, img.get_height()* self.factor
-        self.image = pygame.transform.scale(img, (w, h))
+        self.image = pygame.transform.scale(img, (int(w), int(h)))
         self.image = self.fill_no_alpha((0, 255, 0))
         self.selected_image = self.fill_no_alpha((0, 0, 0))
 
@@ -144,13 +144,13 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.moving = self.MOVING_FALLING
 
     def fit(self, robot, mini_robot):
-        print self.id
-        print self.desfasaje_rotacion
+        #print self.id
+        #print self.desfasaje_rotacion
         if self.desfasaje_rotacion:
             return False
 
         collideds = pygame.sprite.spritecollide(self, robot, False)
-        print [x.id for x in collideds]
+        #print [x.id for x in collideds]
         target = [x for x in collideds if x.id == self.id ]
 
         if target:
