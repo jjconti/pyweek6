@@ -45,7 +45,7 @@ def is_playing_music():
 
 
 
-def level(level, loop):
+def level(level, stop):
     # QUITAR CUANDO ESTE LA MUSICA DEL LEVEL 3
     if level == 3:
         return
@@ -58,9 +58,16 @@ def level(level, loop):
     music_vol = 1.0
 
     #pygame.event.clear()
-    if loop:
-        music_channel.play(level_mus)
+    #if loop:
+        #music_channel.play(level_mus)
+    #else:
+        #music_channel.play(intro_mus)
+        #music_channel.set_endevent(USEREVENT)
+        #music_channel.set_volume(music_vol)
+
+    if stop:
+        music_channel.stop()
     else:
         music_channel.play(intro_mus)
-        music_channel.set_endevent(USEREVENT)
-        music_channel.set_volume(music_vol)
+        for c in range(0, 1000):
+            music_channel.queue(level_mus)
