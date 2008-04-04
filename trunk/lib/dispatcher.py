@@ -29,9 +29,6 @@ class Dispatcher(object):
         self.selected_piece = None
         self.stoped = False
 
-        for p in self.piezas.sprites() + self.piezas_erroneas.sprites() + self.golden_piezas.sprites():
-            p.dispatcher = self
-
     def explosion(self):
         self.explosions += 1
         self.selected_piece.release()
@@ -115,7 +112,7 @@ class Dispatcher(object):
         self.hand.select()
 
         if self.selected_piece:
-            quepaso = self.soltar2()
+            quepaso = self.soltar_selected()
         else:
             quepaso = self.agarrar()
 
@@ -124,20 +121,22 @@ class Dispatcher(object):
         #click afuera
         return quepaso
 
-    def soltar2(self):
+    def _remove_fitted_piece(self):
+        if self.selected_piece.is_golden():
+            self.golden_piezas.remove(self.selected_piece)
+            p = [x for x in self.piezas.sprites() if x.id == self.selected_piece.id]
+            self.piezas.remove(p)
+        else:
+            self.piezas.remove(self.selected_piece)
+            p = [x for x in self.golden_piezas.sprites() if x.id == self.selected_piece.id]
+            self.golden_piezas.remove(p)
+
+    def soltar_selected(self):
         self.selected_piece.release()
         self.hand.release()
 
         if self.selected_piece.fit(self.robot, self.mini_robot):
-            if self.selected_piece.is_golden():
-                self.golden_piezas.remove(self.selected_piece)
-                p = [x for x in self.piezas.sprites() if x.id == self.selected_piece.id]
-                self.piezas.remove(p)
-            else:
-                self.piezas.remove(self.selected_piece)
-                p = [x for x in self.golden_piezas.sprites() if x.id == self.selected_piece.id]
-                self.golden_piezas.remove(p)
-
+            self._remove_fitted_piece()
 
             if self.selected_piece.prof == ATRAS:
                 self.piezas_encajadas_atras.add(self.selected_piece)

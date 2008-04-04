@@ -279,6 +279,9 @@ class GoldenPiece(DinamicPiece):
         self.set_top_position()
         self.change_function = random.choice(range(HEIGHT))
 
+    def update_normal(self):
+        self.rect.top += 5
+
     def stop(self):
         self.kill()
 
