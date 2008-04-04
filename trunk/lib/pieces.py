@@ -16,6 +16,7 @@ from config import *
 import music
 import events
 from explosion import *
+import func
 
 from levelposimages import *
 
@@ -94,11 +95,12 @@ class FacePiece(StaticPiece):
 
 
 class DinamicPiece(pygame.sprite.Sprite):
-    functions = [lambda x,direccion: direccion*20*math.sin(x/2),
-                 lambda x,direccion: direccion*20*math.cos(x/2),
-                 lambda x,direccion: direccion*x,
-                 lambda x,direccion: direccion*x**2/6,
-                 lambda x,direccion: -direccion*x**2/6]
+    #functions = [lambda x,direccion: direccion*20*math.sin(x/2),
+                 #lambda x,direccion: direccion*20*math.cos(x/2),
+                 #lambda x,direccion: direccion*x,
+                 #lambda x,direccion: direccion*x**2/6,
+                 #lambda x,direccion: -direccion*x**2/6]
+    functions = [func.a, func.b, func.c, func.d, func.e]
 
     MOVING_CINTA   = 0
     MOVING_NORMAL  = 1
@@ -163,6 +165,7 @@ class DinamicPiece(pygame.sprite.Sprite):
     def set_top_position(self):
         self.num = self.count()
         self.func_x = random.choice(self.functions)
+        #print self.functions.index(self.func_x)
         angle = random.choice([90, 180, 270])
         self.rotate(angle)
         self.rect.bottom = 0
@@ -177,7 +180,8 @@ class DinamicPiece(pygame.sprite.Sprite):
         #largo, ancho = self.rect.size
         #vel = (largo * ancho) / float(500) + 2
         #return min(50, vel)
-        return random.choice(range(20, 35))
+        #return random.choice(range(20, 35))
+        return random.choice(range(1, 2))
 
     def rotate(self, angle):
         self.image = pygame.transform.rotate(self.image, angle)
@@ -222,11 +226,12 @@ class DinamicPiece(pygame.sprite.Sprite):
             self.func_x = random.choice(self.functions)
 
         num = self.num.next()
-        num = math.radians(num)
+        #num = round(math.radians(num), 6)
         func_y = 10*num
 
         direccion = 1
-        pos = (self.func_x(num,direccion) + self.x, func_y + self.y)
+        #print self.func_x[num]
+        pos = (self.func_x[num] + self.x, func_y + self.y)
         self.rect.center = pos
         if self.rect.top > HEIGHT:
             self.rect.move_ip(0, pos[1])
