@@ -48,7 +48,7 @@ def menu(screen):
     return Menu(screen, options, WINDOW_TITLE)
 
 def play(screen):
-    return Level(screen, menu, 1, 0)
+    return Level(screen, menu, 3, 0)
 
 def scores(screen):
     return HighScores(screen,menu)

@@ -12,7 +12,7 @@ CLOCK_TICS = 100
 
 ROBOT_OFFSET = {1: (WIDTH / 2 - 265, HEIGHT / 2 - 340),
                 2: (WIDTH / 2 - 265, HEIGHT / 2 - 340),
-                3: (WIDTH / 2 - 265, HEIGHT / 2 - 340)}
+                3: (WIDTH / 2 - 265 + 27, HEIGHT / 2 - 340)}
 MINI_ROBOT_OFFSET = (WIDTH - 170, 0)
 #BACKGROUND_OFFSET = (270,20)
 BAR_OFFSET = (WIDTH - 30, 220)
