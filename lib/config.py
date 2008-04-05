@@ -125,6 +125,7 @@ BACKLEVEL = {1: BACKLEVEL1, 2:BACKLEVEL2, 3:BACKLEVEL3}
 
 #musicas
 MENUMUSIC = os.path.join(SOUNDS, "menu.ogg")
+BAILEMUSIC = os.path.join(SOUNDS, "el_martillo.ogg")
 #musicas de los niveles
 MUSIC_LEVEL = {1: {'intro': os.path.join(SOUNDS, "level1_intro.ogg"),
                    'loop': os.path.join(SOUNDS, "level1.ogg")},

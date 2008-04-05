@@ -1,6 +1,7 @@
 from visual import Visual
 from config import *
 import utils
+import music
 import pygame
 from pygame.locals import *
 
@@ -22,10 +23,13 @@ class HappyDance(object):
         self.visual = Visual(screen, images, times, menu, loopear=False, pos=(0,210), bg=bg)
 
     def loop(self):
+        music.play_music(BAILEMUSIC)
         while True:
             f = self.visual.loop()
             if f.teclaapretada:
+                music.stop_music()
                 return f
             f = self.visual.loop(reverse=True)
             if f.teclaapretada:
+                music.stop_music()                
                 return f
