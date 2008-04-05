@@ -191,17 +191,9 @@ class Credits(object):
     def _developers(self):
         print self.developers
 
-    def _verifyKey(self):
-        if pygame.event.peek([KEYDOWN, KEYUP, QUIT]):
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    return self.father
-                if event.type == KEYDOWN and \
-                    (event.key in [K_ESCAPE, K_RETURN, K_KP_ENTER]):
-                    return True
-        return False
-
     def control(self, event):
+        if event.type == QUIT:
+            sys.exit(0)
         if event.type == KEYDOWN and event.key in (K_ESCAPE, K_KP_ENTER):
             music.stop_music()
             return True
