@@ -117,19 +117,20 @@ class Credits(object):
         pygame.display.set_caption(WINDOW_TITLE)
         image = random.choice(IMAGE_CREDITS)
         self.background = pygame.image.load(image)
-
+        """
         title = 'CREDITS'
         title_img = self.font[10].render(title, True, WHITE)
         topleft = (self.background.get_rect().width - title_img.get_rect().width) / 2, 30
         self.background.blit(title_img, topleft)
-
+        """
 
         # Probemos con dos nomas
         lista_aux = self.developers
         while True:
             self.credit_dispatcher.dispatch()
             for event in pygame.event.get():
-                self.control(event)
+                if self.control(event):
+                    return self.father
             self.update()
             self.draw()
             self.clock.tick(100)
@@ -167,6 +168,12 @@ class Credits(object):
         self.piezas.update()
         self.piezas_erroneas.update()
         self.golden_piezas.update()
+        #Probando credits
+        title = 'CREDITS'
+        title_img = self.font[10].render(title, True, WHITE)
+        topleft = (self.background.get_rect().width - title_img.get_rect().width) / 2, 30
+        self.background.blit(title_img, topleft)
+
         self.textos.update()
 
 
@@ -184,24 +191,20 @@ class Credits(object):
         if pygame.event.peek([KEYDOWN, KEYUP, QUIT]):
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    sys.exit(0)
+                    return self.father
                 if event.type == KEYDOWN and \
                     (event.key in [K_ESCAPE, K_RETURN, K_KP_ENTER]):
                     return True
         return False
-                
-                
+
     def control(self, event):
-        if event.type == KEYDOWN and event.key == K_ESCAPE:
-            sys.exit(0)
-            print "QUIT"
-            
+        if event.type == KEYDOWN and event.key in (K_ESCAPE, K_KP_ENTER):
+            return True
+            #sys.exit(0)
         if event.type == events.NUEVO_TEXTO:
             self.numero_texto = (self.numero_texto + 1) % len(self.developers)
             self.textos.sprites()[self.numero_texto].alive()
-            #print "NUEVO NUMERO", self.numero_texto
 
-                
     def cargar_piezas(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
         sets = [Pieces(type_piece="credit", level=self.level) for x in range(1)]
