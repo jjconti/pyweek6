@@ -133,8 +133,8 @@ MUSIC_LEVEL = {1: {'intro': os.path.join(SOUNDS, "level1_intro.ogg"),
                    'loop': os.path.join(SOUNDS, "level1.ogg")},
                2: {'intro': os.path.join(SOUNDS, "level2_intro.ogg"),
                    'loop': os.path.join(SOUNDS, "level2.ogg")},
-               3: {'intro': os.path.join(SOUNDS, "level3.ogg"),
-                   'loop': os.path.join(SOUNDS, "level3_intro.ogg")}}
+               3: {'intro': os.path.join(SOUNDS, "level3_intro.ogg"),
+                   'loop': os.path.join(SOUNDS, "level3.ogg")}}
 
 MUSIC_CREDITS = {'intro': os.path.join(SOUNDS, "credits_intro.ogg"),
                  'loop': os.path.join(SOUNDS, "credits_loop.ogg")}
