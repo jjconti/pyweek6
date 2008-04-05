@@ -172,7 +172,7 @@ STORY = [
 'Pedro is a modest man.',
 'One day, he read a book by Isaac Asimov',
 'and began to dream about robots (Robot Dreams).',
-'Time later, Pedro invested his money in a Robot Factory',
+'Afterwards, Pedro invested his money in a Robot Factory',
 'called "Pedro\'s Robot Factory" (of course) and you',
 'are his roboticist (Sorry).',
 'Pedro developed the "Funnelhead" model',
