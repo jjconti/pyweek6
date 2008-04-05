@@ -176,11 +176,6 @@ class Level(object):
         if self.paused:
             return
 
-        #if event.type == USEREVENT:
-            ##music_channel.play(level_mus, -1)
-            ## entra/reproduce el loop
-            #music.level(self.level, 1)
-
         if event.type == QUIT:
             sys.exit(0)
 
@@ -192,9 +187,9 @@ class Level(object):
                 self.volver = True
             if event.key == K_f:
                 pygame.display.toggle_fullscreen()
-            if event.key == K_DOWN:
+            if event.key in (K_DOWN, K_a):
                 self.dispatcher.rotate_selected(90)
-            if event.key == K_UP:	
+            if event.key in (K_UP, K_d, K_z, K_SPACE):	
                 self.dispatcher.rotate_selected(270)
 
         if event.type == events.EXPLOSION:
