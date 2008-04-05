@@ -42,6 +42,7 @@ class Level(object):
         self.exit = False
         self.paused = False
         self.volver = False
+        self.over = False
 
         self.robot = pygame.sprite.RenderUpdates()
         self.cargar_robot()
@@ -70,9 +71,15 @@ class Level(object):
         self.cargar_faces()
         self.explosions = pygame.sprite.RenderUpdates()
         ExplosionMedium.containers = self.explosions
+
+        self.ass = Ass()
+        self.asses= pygame.sprite.RenderUpdates()
+        self.asses.add(self.ass)
+        
         self.situacion = ""
         self.facetime = time.time()
         #Create the game clock
+
         self.clock = pygame.time.Clock()
         self.dispatcher = Dispatcher(3, self.piezas, self.golden_piezas, self.golden_piezas,  \
                                      self.piezas_erroneas, \
@@ -151,6 +158,7 @@ class Level(object):
     def draw(self):
         self.screen.fill((0,0,0))
         self.screen.blit(self.background, (0,0))
+
     	self.cinta_group.draw(self.screen)
         self.robot.draw(self.screen)
         self.piezas_encajadas_atras.draw(self.screen)
@@ -165,12 +173,11 @@ class Level(object):
         self.explosions.draw(self.screen)
         self.gadgets.draw(self.screen)
         self.mini_robot.draw(self.screen)
-        
+
         rect = self.mini_robot.sprites()[0].rect
 
-        #pygame.draw.circle(self.screen, (0,0,0), (200, 200), 150, 0)
-        pygame.draw.arc(self.screen, (0,0,0), rect, 0, 3, 0)
-
+        #self.asses.draw(self.screen)
+        
     def control(self, event):
         if event.type == KEYDOWN:
             if event.key == K_p:
@@ -207,6 +214,9 @@ class Level(object):
 
         if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
+                if self.ass.rect.collidepoint(event.pos):
+                    music.play_fart()
+                
                 quepaso = self.dispatcher.agarrar_soltar(event.pos)
                 if quepaso == "encajo":
                     self.points += 10
@@ -322,10 +332,14 @@ class Level(object):
                 self.situacion = ""
 
     def gameover(self):
+        if self.over:
+            return
+        
+        self.over = True
         for p in self.piezas_encajadas_atras.sprites() + self.piezas_encajadas_adelante.sprites():
             self.robot.remove(p)
             p.fall()
-            self.piezas.add(p)  
+            self.piezas.add(p)
             self.dispatcher.stop()
   
         return self.father
