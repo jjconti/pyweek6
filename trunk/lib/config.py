@@ -79,7 +79,7 @@ FONTG = FONT_CREDITS
 IMG_PLAY = os.path.join(IMGS, "menu/pedro.png")
 IMG_STORY = os.path.join(IMGS, "menu/cesar_bn.png")
 IMG_HELP = os.path.join(IMGS, "menu/juanjo.png")
-IMG_DANCE = os.path.join(IMGS, "menu/juanjo.png")
+IMG_DANCE = os.path.join(IMGS, "menu/guille.png")
 IMG_SCORES = os.path.join(IMGS, "menu/gush.png")
 IMG_CREDITS = os.path.join(IMGS, "menu/juanjo.png")
 IMG_EXIT = os.path.join(IMGS, "menu/humitos.png")
@@ -190,6 +190,14 @@ HELP = [
 'P key for pause.',
 'Special pieces gives you',
 'bonus points!']
+
+THANKS = [
+'PyAr',
+'PyWeek',
+'',
+'before everything the mate tea',
+'and all the coffe that made us awake'
+]
 
 MESSAGE = [
 'Sorry, you didn\'t win this game yet.',
