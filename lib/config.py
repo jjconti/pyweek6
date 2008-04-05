@@ -8,7 +8,7 @@ WIDTH = 960
 HEIGHT = 720
 CENTER = HEIGHT / 2
 
-CLOCK_TICS = 100
+CLOCK_TICS = 50
 
 ROBOT_OFFSET = {1: (WIDTH / 2 - 265, HEIGHT / 2 - 340),
                 2: (WIDTH / 2 - 265, HEIGHT / 2 - 340),
