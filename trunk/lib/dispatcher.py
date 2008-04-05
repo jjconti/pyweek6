@@ -7,7 +7,7 @@ import utils
 from config import *
 
 from levelposimages import *
-
+import music
 
 
 
@@ -136,6 +136,7 @@ class Dispatcher(object):
         self.hand.release()
 
         if self.selected_piece.fit(self.robot, self.mini_robot):
+            music.play_hammer()
             self._remove_fitted_piece()
 
             if self.selected_piece.prof == ATRAS:
