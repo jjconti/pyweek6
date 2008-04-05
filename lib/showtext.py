@@ -21,6 +21,8 @@ class ShowText(object):
         step = 60
         bg = utils.load_image(background)
         self.screen.blit(bg, (0,0))
+        if self.image:
+            self.screen.blit(self.image, (0,0))
         font1 = pygame.font.Font(FONTG, 35)
         for linea in text:
             myText = font1.render(linea, True, self.color)

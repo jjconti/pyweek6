@@ -59,8 +59,7 @@ def menu(screen):
 
 def happy_dance(screen):
     if not os.path.exists('.youwon'):
-        image = []
-        image.append(random.choice(list_robot))
+        image = random.choice(list_robot)
         background = random.choice(IMAGE_GENERIC)
         return ShowText(screen, menu, MESSAGE, WHITE, background, image, 0, 240)
     return HappyDance(screen, menu)
@@ -73,14 +72,13 @@ def scores(screen):
     return HighScores(screen,menu)
 
 def help(screen):
-    return ShowText(screen,menu,HELP, BLACK,HELPBG,None,35,200)
+    return ShowText(screen,menu,HELP,BLACK,HELPBG,None,35,200)
 
 def credits(screen):
     return Credits(screen,menu)
 
 def story(screen):
-    image = []
-    image.append(random.choice(list_robot))
+    image = random.choice(list_robot)
     background = random.choice(IMAGE_GENERIC)
     return ShowText(screen,menu,STORY,WHITE,background,image,0,40)
 
