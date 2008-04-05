@@ -145,7 +145,10 @@ class Dispatcher(object):
             #self.piezas.remove(self.selected_piece)
 
             #encajo
-            quepaso = "encajo"
+            if self.selected_piece.is_golden():
+                quepaso = "encajogolden"
+            else:
+                quepaso = "encajo"
         #solto afuera
         else:
             quepaso = "soltoafuera"
