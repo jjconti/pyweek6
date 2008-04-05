@@ -15,11 +15,11 @@ import random
 
 
 funciones = [
-    lambda x,d: math.sin(x*.05) * 60,
+    lambda x,d: math.sin(x*.05) * 50,
     lambda x,direccion: direccion*1.5*x,
-    lambda x,direccion: direccion*12*x**2/200,
-    lambda x,direccion: -1*12*x**2/200,
-    lambda x,d: x*3*math.sin(x*.05),
+    lambda x,direccion: direccion*10*x**2/200,
+    lambda x,direccion: -1*7*x**2/200,
+    lambda x,d: x*2*math.sin(x*.05),
 ]
 
 
