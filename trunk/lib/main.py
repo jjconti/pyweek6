@@ -71,7 +71,7 @@ def credits(screen):
 
 def story(screen):
     bg = utils.load_image(STORYBG)
-    text = utils.load_image(STORY, (0,0,0))
+    text = utils.load_image(STORY, (0,0,0,255))
     bg.blit(text, (0,0))
     return Visual(screen, bg, -1, menu)
 
