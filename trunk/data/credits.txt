@@ -4,9 +4,10 @@ Mariano,Galan
 Cesar,Portela
 Manuel,Kaufmann
 Pedro, Prez
-Gustavo, Bellino
+Gush, Bellino
 Guille, Heizenreder
 Backgrounds by
+Maxi, Peralta
 Pablo, Martinez
 Music by,
 David, Capello
