@@ -145,7 +145,7 @@ class Credits(object):
         que cada vez que se muestre esta seccion sea distinto el orden de
         aparición."""
         try:
-            credits = csv.reader(open(CREDITS))
+            credits = csv.reader(open(STORY))
             lista_nombre = []
             for pos, credit in enumerate(credits):
                 if 0 < pos < 8 and len(credit) == 2:
