@@ -11,6 +11,7 @@ import csv
 import sys
 import random
 import math
+import music
 
 from pieces import Pieces
 from dispatcher import DispatcherCredit
@@ -86,6 +87,9 @@ class Credits(object):
         self.textos.sprites()[0].alive()
 
         self.clock = pygame.time.Clock()
+        e = pygame.event.Event(events.END_INTRO, {})
+        pygame.mixer.music.set_endevent(events.END_INTRO)
+        music.play_music(MUSIC_CREDITS['intro'], 1)
 
         self.credit_dispatcher = DispatcherCredit(self.piezas, self.golden_piezas, self.piezas_erroneas)
 
@@ -199,11 +203,15 @@ class Credits(object):
 
     def control(self, event):
         if event.type == KEYDOWN and event.key in (K_ESCAPE, K_KP_ENTER):
+            music.stop_music()
             return True
             #sys.exit(0)
         if event.type == events.NUEVO_TEXTO:
             self.numero_texto = (self.numero_texto + 1) % len(self.developers)
             self.textos.sprites()[self.numero_texto].alive()
+
+        if event.type == events.END_INTRO:
+            music.play_music(MUSIC_CREDITS['loop'])
 
     def cargar_piezas(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
