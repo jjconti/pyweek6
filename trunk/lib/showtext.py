@@ -8,6 +8,7 @@ import pygame
 from pygame.locals import *
 import utils
 from config import  *
+import events
 
 class ShowText(object):
     def __init__(self, screen, func, text, color, background, image = None, offset = 0, y = 40):
@@ -31,20 +32,20 @@ class ShowText(object):
             pygame.display.flip()
 
     def loop(self, reverse=False):
-        while not self._verifyKey():
-            pass
-        return self.func
-
-    def _verifyKey(self):
-        if pygame.event.peek([KEYDOWN, KEYUP, QUIT]):
+        while True:
             for event in pygame.event.get():
-                if event.type == QUIT:
-                    sys.exit(0)
-                if event.type == KEYDOWN and \
-                    (event.key in [K_ESCAPE, K_RETURN, K_KP_ENTER]):
-                    return True
-        return False
-                       
+                if self.control(event):
+                    return self.func
+
+    def control(self, event):
+        if event.type == QUIT:
+            sys.exit(0)
+        if event.type == KEYDOWN or event.key in (K_ESCAPE, K_KP_ENTER):
+            return True
+        if event.type == events.NUEVO_TEXTO:
+            self.numero_texto = (self.numero_texto + 1) % len(self.developers)
+            self.textos.sprites()[self.numero_texto].alive()
+            
 if __name__ == '__main__':
     print 'main'
     def myTest():
