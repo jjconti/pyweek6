@@ -69,11 +69,9 @@ IMAGE_CREDITS = os.path.join(BACKGROUND, "credits.png")
 HELP = os.path.join(BACKGROUND, "help_inscription.png")
 
 # Font
-#FONT_CREDITS = os.path.join(FONTS, "GALACTOS.ttf")
 FONT_CREDITS = os.path.join(FONTS, "Retro 2.ttf")
 #FONT_CREDITS = os.path.join(FONTS, "robot.ttf")
 
-#FONT_MENU = os.path.join(FONTS, "VeraBd.ttf") #de momento pongo esta hasta que encuentre alguna buena
 FONT_MENU = os.path.join(FONTS, "Retro 2.ttf") #de momento pongo esta hasta que encuentre alguna buena
 FONTG = FONT_CREDITS 
 
