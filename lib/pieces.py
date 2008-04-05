@@ -294,6 +294,10 @@ class GoldenPiece(DinamicPiece):
     def is_golden(self):
         return True
 
+class CreditPiece(DinamicPiece):
+        def update_cinta(self):
+            self.update_normal()
+
 class Pieces(object):
     def __init__(self, level, type_piece="static"):
         self.level = level
@@ -301,14 +305,14 @@ class Pieces(object):
         self.images = self.load_images()
 
     def load_images(self):
-        if self.type_piece in ("static", "dinamic", "mini_robot"):
+        if self.type_piece in ("static", "dinamic", "mini_robot", "credit"):
             result = []
             for pathfile in glob.glob(os.path.join(PIECES_LEVEL[self.level], '*.png')):
                 myFile = os.path.basename(pathfile)
                 myId = myFile[:-4]
                 image = utils.load_image_alpha(pathfile, -1)
                 result.append((int(myId), image))
-        elif self.type_piece == "erronea":
+        elif self.type_piece in ("erronea", "erronea_credit"):
             result = []
             for pathfile in glob.glob(os.path.join(ERRONEAS_LEVEL[self.level], '*.png')):
                 myFile = os.path.basename(pathfile)
@@ -340,6 +344,8 @@ class Pieces(object):
                 piece = MiniRobotPiece(img[0], img[1], self.level)
             elif self.type_piece in ("dinamic", "erronea"):
                 piece = DinamicPiece(img[0], img[1], self.level)
+            elif self.type_piece in ("credit", "erronea_credit"):
+                piece = CreditPiece(img[0], img[1], self.level)
             elif self.type_piece == "golden":
                 piece = GoldenPiece(img[0], img[1], self.level)
             elif self.type_piece == "face":

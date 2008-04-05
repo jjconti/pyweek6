@@ -175,3 +175,11 @@ class Dispatcher(object):
                         quepaso = "correcta"
                     self.selected_piece = piece
         return quepaso
+                    
+class DispatcherCredit(Dispatcher):                    
+    def __init__(self, piezas, golden_piezas, piezas_erroneas):
+        #mount es la cantidad de piezas que son despachadas de forma simultanea
+        self.piezas           = piezas
+        self.golden_piezas     = golden_piezas
+        self.piezas_erroneas  = piezas_erroneas
+        self.stoped = False

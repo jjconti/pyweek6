@@ -12,10 +12,47 @@ import sys
 import random
 import math
 
+from pieces import Pieces
+from dispatcher import DispatcherCredit
 ##
 # Módulos propios
 from config import *
+import events
 
+
+class Texto(pygame.sprite.Sprite):
+    def __init__(self, lista_imagenes):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.lista_imagenes = lista_imagenes
+        self.life = 0
+        self.mod = round(self.life / len(self.lista_imagenes))
+        self.image = self.lista_imagenes[0]
+        self.rect = self.image.get_rect()
+        
+        self.rect.left = (WIDTH / 2 - self.image.get_width() / 2)
+
+
+    def update(self):
+        self.life -= 1
+        if self.life > 0:
+            self.image = self._image()
+            self.rect.left = (WIDTH / 2 - self.image.get_width() / 2) 
+        if self.life == 0:
+            e = pygame.event.Event(events.NUEVO_TEXTO, {})
+            pygame.event.post(e)
+
+    def _image(self):
+        if not self.life % 5:
+            self.proxima_imagen += 1
+            self.rect.top += self.image.get_height()- (50 * .25)
+
+        return self.lista_imagenes[self.proxima_imagen]
+        
+    def alive(self):
+        self.rect.top = (WIDTH / 2) - 250 
+        self.life = 75
+        self.proxima_imagen = 0
 
 class Credits(object):
     def __init__(self, screen, father=None):
@@ -24,6 +61,27 @@ class Credits(object):
         self.developers = []
         self.font = []
         self.font = self.generar_fuentes()
+        self.level = 1
+
+        self._load_credits()
+
+        self.piezas = pygame.sprite.RenderUpdates()
+        self.cargar_piezas()
+        self.golden_piezas_used = pygame.sprite.RenderUpdates()
+        self.golden_piezas = pygame.sprite.RenderUpdates()
+        self.cargar_golden_piezas()
+        self.piezas_erroneas = pygame.sprite.RenderUpdates()
+        self.cargar_piezas_erroneas()
+
+        self.textos = pygame.sprite.RenderUpdates()
+        self.cargar_textos()
+
+        self.numero_texto = 0
+        self.textos.sprites()[0].alive()
+
+        self.clock = pygame.time.Clock()
+
+        self.credit_dispatcher = DispatcherCredit(self.piezas, self.golden_piezas, self.piezas_erroneas)
 
     def generar_fuentes(self):
         """Crea la lista de tamaños de fuentes y la fuente en sí"""
@@ -49,9 +107,35 @@ class Credits(object):
         return lista_font
 
     def loop(self):
-        pygame.event.clear()
-        self._load_credits()
-        self._draw_screen()
+
+        pygame.display.set_caption(WINDOW_TITLE)
+        image = IMAGE_CREDITS
+        self.background = pygame.image.load(image)
+
+        title = 'CREDITS'
+        title_img = self.font[10].render(title, True, (100, 100, 100))
+        topleft = (self.background.get_rect().width - title_img.get_rect().width) / 2, 30
+        self.background.blit(title_img, topleft)
+
+
+        # Probemos con dos nomas
+        lista_aux = self.developers
+        while True:
+
+            self.credit_dispatcher.dispatch()
+
+            for event in pygame.event.get():
+                self.control(event)
+
+            self.update()
+            self.draw()
+
+            self.clock.tick(100)
+
+            pygame.display.flip()
+                # genero las imagenes para mostrar
+                
+                #self._dibujar_secuencia(lista_imagenes, background, topleft)
 
     def _load_credits(self):
         """Carga el archivo credits.txt. Con los nombres hace un shuffle para
@@ -81,65 +165,19 @@ class Credits(object):
             lista.append(font.render(developer, True, GREY))
         return lista
 
-    def _dibujar_secuencia(self, lista_imagenes, background, topleft):
-        """Permitirá mostrar las letras en la secuencia de descenso"""
-        y = (WIDTH / 2) - 250 #posicion inicio palabra
-        bandera = False
-        cambiar = False
-        clock = pygame.time.Clock()
-        time_loop = 0
-        while not bandera:
-            clock.tick(CLOCK_TICS)
-            pygame.display.flip()
-            self.screen.blit(background, (0,0))
-            time_loop+=1
-            if cambiar or time_loop==1000:
-                bandera = True
-            elif self._verifyKey():
-                return self.father
-                print "Devolver padre"
-            else:
-                if self._verifyKey():#FIXME now
-                    print "Deolver padre"
-                    return self.father
-                for pos, font in enumerate(lista_imagenes):
-                    self.screen.blit(background, (0,0))
-                    pos_x_inicial = (WIDTH / 2 - font.get_width() / 2)
-                    self.screen.blit(font, (pos_x_inicial, y))
-                    pygame.time.delay(80)
-                    #y += math.sin(font.get_height() - 50)
-                    y += font.get_height() - (50 * 0.25)
-                    if y >= 700 and y <= 800:
-                        pygame.time.delay(1000)
-                    pygame.display.flip()
-                    cambiar = True
-                #pygame.time.delay(1000)
+    def update(self):
+        self.piezas.update()
+        self.piezas_erroneas.update()
+        self.golden_piezas.update()
+        self.textos.update()
 
-    def _draw_screen(self):
-        pygame.display.set_caption(WINDOW_TITLE)
-        lista_fondos = IMAGE_CREDITS
-        background = pygame.image.load(random.choice(lista_fondos))
 
-        title = 'CREDITS'
-        title_img = self.font[10].render(title, True, (100, 100, 100))
-        topleft = (background.get_rect().width - title_img.get_rect().width) / 2, 30
-        background.blit(title_img, topleft)
-        self.screen.blit(background, (0,0))
-        pygame.display.flip()
-
-        # Probemos con dos nomas
-        lista_aux = self.developers
-        while True:
-            for developer in lista_aux:
-                developer = ' '.join(developer)
-                # genero las imagenes para mostrar
-                lista_imagenes = self._generar_imagenes(developer)
-                self._dibujar_secuencia(lista_imagenes, background, topleft)
-                if self._verifyKey():
-                    #music.stop_music()
-                    print "Devolver 1"
-                    return self.father
-            pygame.time.delay(200)
+    def draw(self):
+        self.screen.blit(self.background, (0,0))
+        self.piezas.draw(self.screen)
+        self.piezas_erroneas.draw(self.screen)
+        self.golden_piezas.draw(self.screen)
+        self.textos.draw(self.screen)
 
     def _developers(self):
         print self.developers
@@ -153,6 +191,45 @@ class Credits(object):
                     (event.key in [K_ESCAPE, K_RETURN, K_KP_ENTER]):
                     return True
         return False
+                
+                
+    def control(self, event):
+        if event.type == QUIT:
+            sys.exit(0)
+            
+        if event.type == events.NUEVO_TEXTO:
+            self.numero_texto = (self.numero_texto + 1) % 2
+            self.textos.sprites()[self.numero_texto].alive()
+            print "NUEVO NUMERO", self.numero_texto
+
+                
+    def cargar_piezas(self):
+        '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
+        sets = [Pieces(type_piece="credit", level=self.level) for x in range(1)]
+        sprites = []
+        for s in sets:
+            sprites += s.get_all()
+        self.piezas.add(sprites)
+        
+    def cargar_golden_piezas(self):
+        '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
+        sets = [Pieces(type_piece="golden", level=self.level) for x in range(1)]
+        sprites = []
+        for s in sets:
+            sprites += s.get_all()
+        self.golden_piezas.add(sprites)
+
+    def cargar_piezas_erroneas(self):
+        sets = [Pieces(type_piece="erronea_credit", level=self.level) for x in range(3)]
+        sprites = []
+        for s in sets:
+            sprites += s.get_all()
+        self.piezas_erroneas.add(sprites)
+
+    def cargar_textos(self):
+        for text in ["guille", "mariano"]:
+            lista_imagenes = self._generar_imagenes(text)
+            self.textos.add(Texto(lista_imagenes))
 
 if __name__ == '__main__':
     pygame.init()
