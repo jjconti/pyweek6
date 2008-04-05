@@ -163,7 +163,7 @@ class Menu(object):
         if indice == 2:
             correc = 3
         if indice == 6:
-            correc = 50
+            correc = 3
         print indice
         posicion =  ((WIDTH / 2) - self.imagenes[self.index].get_width()/2, y - 110 + correc)
         self.screen.blit(self.imagenes[self.index], posicion)
