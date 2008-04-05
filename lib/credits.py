@@ -198,7 +198,7 @@ class Credits(object):
         if event.type == events.NUEVO_TEXTO:
             self.numero_texto = (self.numero_texto + 1) % len(self.developers)
             self.textos.sprites()[self.numero_texto].alive()
-            print "NUEVO NUMERO", self.numero_texto
+            #print "NUEVO NUMERO", self.numero_texto
 
                 
     def cargar_piezas(self):

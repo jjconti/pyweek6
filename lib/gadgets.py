@@ -20,7 +20,7 @@ class EnergyBar(pygame.sprite.Sprite):
     def update(self):
         self.time -= 1
         self.energy_percent = int(100 * (float(self.time) / self.total))
-        print self.energy_percent
+        #print self.energy_percent
         self.image = self._image()
         self.rect = self.image.get_rect()
         self.rect.bottomleft = BAR_OFFSET
