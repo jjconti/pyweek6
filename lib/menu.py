@@ -17,7 +17,13 @@ class Menu(object):
         self.index = index
         self.done = False
         self.separator = 2
+        self.imagenes = []
         
+        #cargamos las imagenes del menu
+        nombres = [IMG_PLAY,IMG_STORY,IMG_HELP,IMG_DANCE,IMG_SCORES,IMG_CREDITS,IMG_EXIT]
+        for nombre in nombres:
+            self.imagenes.append(utils.load_image(nombre))
+
         #fuentes
         font1 = pygame.font.Font(FONT_MENU, 40)
         font2 = pygame.font.Font(FONT_MENU, 50)
@@ -102,13 +108,13 @@ class Menu(object):
             if event.key in (K_SPACE, K_RETURN, K_KP_ENTER):
                 #music.play_menu2()
                 self.select()
-            elif event.key == K_UP:
+            elif event.key in [K_LEFT]:
                 #music.play_menu1()
                 if self.index > 0:
                     self.set_index(self.index - 1)
                 else:
                     self.set_index(self.last_index)
-            elif event.key == K_DOWN:
+            elif event.key in [K_RIGHT]:
                 #music.play_menu1()
                 if self.index < self.last_index:
                     self.set_index(self.index + 1)
@@ -150,7 +156,7 @@ class Menu(object):
         
         rects = []
         # el valor de y es el mismo siempre
-        y = self.hor_step + 320 
+        y = self.hor_step + 290 
         separador = 150
         
         #dibuja el item seleccionado en el medio
@@ -173,6 +179,7 @@ class Menu(object):
         x = (3 * WIDTH / 4) - mitadIndex
         self.screen.blit(img2, (x-self.separator,y-self.separator))
         self.screen.blit(img, (x,y))
+        self.screen.blit(self.imagenes[self.index], ((WIDTH / 2) - self.imagenes[self.index].get_width()/2,y+130))
         
         #dibuja el item de la izquierda
         indice = (self.index - 1)
@@ -226,42 +233,4 @@ class Menu(object):
         self.screen.blit(img2, (x-self.separator,y-self.separator))
         self.screen.blit(img, (x,y))
         
-        #hay q mostrar solo tres
-        '''
-        for i in range(3):#range(len(self.items)):
-            
-            #indice = i
-            #if i == 1:
-            #    indice = self.index + 1
-            #elif i== 2:
-            #    indice = self.index - 1
-            #print indice 
-            
-            if i == self.index:
-                img = self.selected_imgs[i]
-                img2 = self.selected_imgs2[i]
-            else:
-                img = self.unselected_imgs[i]
-                img2 = self.unselected_imgs2[i]
-            
-            
-            
-            x -= ( img2.get_width() / 2 )
-
-            self.screen.blit(img2, (x-self.separator,y-self.separator))
-            self.screen.blit(img, (x,y))
-
-            if self.unselected_rects is None:
-                rects += [img.get_rect().move(x,y)]
-
-            separador = 150
-            if i == 0:
-                x = (WIDTH / 2) + ( img2.get_width() / 2 ) + separador
-            else:
-                x = (WIDTH / 2) - ( img2.get_width() / 2 ) - separador
-            #pdb.set_trace()
-            #y += self.hor_step
-        '''
-
-        if self.unselected_rects is None:
-            self.unselected_rects = rects
+        
