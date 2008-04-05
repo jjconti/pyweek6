@@ -182,7 +182,7 @@ class DinamicPiece(pygame.sprite.Sprite):
         #vel = (largo * ancho) / float(500) + 2
         #return min(50, vel)
         #return random.choice(range(20, 35))
-        return random.choice(range(1, 2))
+        return random.choice(range(1, 3))
 
     def rotate(self, angle):
         self.image = pygame.transform.rotate(self.image, angle)
