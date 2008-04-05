@@ -107,7 +107,11 @@ class Menu(object):
             #print 'hola mans'
             sys.exit(0)
         if event.type == KEYDOWN:
-            if event.key in (K_SPACE, K_RETURN, K_KP_ENTER):
+            if event.key == K_f:
+                pygame.display.toggle_fullscreen()
+            elif event.key == K_f:
+                pygame.display.toggle_fullscreen()
+            elif event.key in (K_SPACE, K_RETURN, K_KP_ENTER):
                 #music.play_menu2()
                 self.select()
             elif event.key in [K_LEFT]:
