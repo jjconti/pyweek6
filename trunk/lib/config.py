@@ -97,8 +97,8 @@ INTRO_XY = {'intro0001':(265,  50),'intro0003':(265,  51),'intro0005':(265,  51)
             'intro0041':(206, 349),'intro0043':(206, 356) }
 
 INTRO_TIMES = [0.22] * len(INTRO_IMAGES)
-MISC = os.path.join(IMGS, "misc")
-MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
+#MISC = os.path.join(IMGS, "misc")
+#MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
 
 #backgrounds
 BACKINTRO_IMAGE = BACKGROUND+"/opcion de menu_fix.jpg"
