@@ -127,6 +127,9 @@ MUSIC_LEVEL = {1: {'intro': os.path.join(SOUNDS, "level1_intro.ogg"),
                3: {'intro': os.path.join(SOUNDS, "level3.ogg"),
                    'loop': os.path.join(SOUNDS, "level3_intro.ogg")}}
 
+MUSIC_CREDITS = {'intro': os.path.join(SOUNDS, "credits_intro.ogg"),
+                 'loop': os.path.join(SOUNDS, "credits_loop.ogg")}
+
 #sonidos
 EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
 PEEP = os.path.join(SOUNDS, "peep.ogg")
