@@ -122,8 +122,8 @@ MUSIC_LEVEL = {1: {'intro': os.path.join(SOUNDS, "level1_intro.ogg"),
                    'loop': os.path.join(SOUNDS, "level1.ogg")},
                2: {'intro': os.path.join(SOUNDS, "level2_intro.ogg"),
                    'loop': os.path.join(SOUNDS, "level2.ogg")},
-               3: {'intro': os.path.join(SOUNDS, "level2_intro.ogg"),
-                   'loop': os.path.join(SOUNDS, "level2.ogg")}}
+               3: {'intro': os.path.join(SOUNDS, "level3.ogg"),
+                   'loop': os.path.join(SOUNDS, "level3.ogg")}}
 
 #sonidos
 EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
@@ -132,3 +132,6 @@ ALARM = os.path.join(SOUNDS, "alarm_beeps.wav")
 
 #backgrounds
 HELPBG = os.path.join(BACKGROUND, "help.jpg")
+
+
+BACK_HAPPY_DANCE_FALSE = os.path.join(BACKGROUND, "4.jpg")

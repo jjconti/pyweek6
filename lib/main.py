@@ -9,6 +9,7 @@ from intro import Intro
 #from help import Help
 from credits import Credits
 from dance import HappyDance
+import os
 
 from config import *
 import utils
@@ -49,10 +50,12 @@ def menu(screen):
     return Menu(screen, options, WINDOW_TITLE)
 
 def happy_dance(screen):
-    return HappyDance(screen, menu)
+    if os.path.exists('.youwon'):
+        return HappyDance(screen, menu)
+    return Visual(screen, BACK_HAPPY_DANCE_FALSE, -1, menu)
 
 def play(screen):
-    return Level(screen, menu, 1, 0)
+    return Level(screen, menu, 3, 0)
 
 def scores(screen):
     return HighScores(screen,menu)

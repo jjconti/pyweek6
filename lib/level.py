@@ -121,6 +121,8 @@ class Level(object):
                 return Level(screen, self.father, self.level + 1, self.points, self.bonus, t=TIME_LEVEL3)
             return f
         elif self.level == 3:   #fina del juego
+            tmp = open('.youwon', 'w')
+            tmp.close()
             print "Ganaste"
             sys.exit()
 
