@@ -27,7 +27,7 @@ if not pygame.mixer: print 'Warning, sound disabled'
 class Level(object):
     '''Ojalata level'''
 
-    def __init__(self, screen, father, level=1, points=0, t=TIME_LEVEL1):
+    def __init__(self, screen, father, level=1, points=0, bonus=0, t=TIME_LEVEL1):
 
         self.screen = screen
         pygame.mouse.set_visible(False)
@@ -81,7 +81,7 @@ class Level(object):
 
         self.totalpiezas = len(self.robot)
         self.points = points
-        self.bonus = 0
+        self.bonus = bonus
         self.alarm_play = False
         #music.level(self.level, False)
         music.play_intro(self.level)
@@ -113,11 +113,11 @@ class Level(object):
 
         if self.level == 1:     #pasamos al 2
             def f(screen):
-                return Level(screen, self.father, self.level + 1, self.points, t=TIME_LEVEL2)
+                return Level(screen, self.father, self.level + 1, self.points, self.bonus, t=TIME_LEVEL2)
             return f
         elif self.level == 2:   #pasamos al 3
             def f(screen):
-                return Level(screen, self.father, self.level + 1, self.points, t=TIME_LEVEL3)
+                return Level(screen, self.father, self.level + 1, self.points, self.bonus, t=TIME_LEVEL3)
             return f
         elif self.level == 3:   #fina del juego
             print "Ganaste"
@@ -204,6 +204,8 @@ class Level(object):
                 quepaso = self.dispatcher.agarrar_soltar(event.pos)
                 if quepaso == "encajo":
                     self.points += 10
+                elif quepaso == "encajogolden":
+                    self.bonus += 50
                 self.face_change(event, quepaso)
 
             if event.button == 2:
