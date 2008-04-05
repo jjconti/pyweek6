@@ -73,7 +73,7 @@ class Credits(object):
         self.piezas_erroneas = pygame.sprite.RenderUpdates()
         self.cargar_piezas_erroneas()
 
-        self.textos = pygame.sprite.RenderUpdates()
+        self.textos = pygame.sprite.OrderedUpdates()
         self.cargar_textos()
 
         self.numero_texto = 0
@@ -198,7 +198,7 @@ class Credits(object):
             sys.exit(0)
             
         if event.type == events.NUEVO_TEXTO:
-            self.numero_texto = (self.numero_texto + 1) % 2
+            self.numero_texto = (self.numero_texto + 1) % 4
             self.textos.sprites()[self.numero_texto].alive()
             print "NUEVO NUMERO", self.numero_texto
 
@@ -227,8 +227,8 @@ class Credits(object):
         self.piezas_erroneas.add(sprites)
 
     def cargar_textos(self):
-        for text in ["guille", "mariano"]:
-            lista_imagenes = self._generar_imagenes(text)
+        for text in self.developers:
+            lista_imagenes = self._generar_imagenes(' '.join(text))
             self.textos.add(Texto(lista_imagenes))
 
 if __name__ == '__main__':
