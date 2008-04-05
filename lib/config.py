@@ -115,7 +115,7 @@ INTRO_TIMES = [0.22] * len(INTRO_IMAGES)
 #MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
 
 #backgrounds
-BACKINTRO_IMAGE = BACKGROUND+"/opcion de menu_fix.jpg"
+BACKINTRO_IMAGE = BACKGROUND+"/new_back_intro.jpg"
 BACKMENU_IMAGEN = BACKGROUND+"/opcion de menu_fix.jpg"
 STORYBG = BACKGROUND+"/storybg.jpg"
 
