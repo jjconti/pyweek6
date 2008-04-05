@@ -39,9 +39,13 @@ class Level(object):
         self.cinta_group.add(self.cinta)
         self.tics = 0
         self.totaltime = t
+        self.exittime = None
         self.exit = False
         self.paused = False
         self.volver = False
+        self.salirYa = False
+        self.perdiste = False
+        self.finbucle = False
         self.over = False
 
         self.robot = pygame.sprite.RenderUpdates()
@@ -102,6 +106,7 @@ class Level(object):
         pygame.display.flip()
         pygame.time.delay(2000)
         while not self.finish():
+        
             self.tics += 1
 
             if not self.paused:
@@ -115,10 +120,19 @@ class Level(object):
 
             self.clock.tick(CLOCK_TICS)
             pygame.display.flip()
+
+            if self.perdiste:
+                if not self.exittime:
+                    self.exittime = time.time()
+                elif time.time() - self.exittime > 5.5:
+                    self.finbucle = True
+        
+        if not self.salirYa:
+            self.show_points()
         music.stop_music()
 
         if self.volver: #Volver al menu principal
-            music.stop_music()
+            #music.stop_music()
             return self.father
 
         if self.level == 1:     #pasamos al 2
@@ -133,9 +147,6 @@ class Level(object):
             tmp = open('.youwon', 'w')
             tmp.close()
             print "Ganaste"
-            sys.exit()
-
-        if self.exit:
             return self.father
 
     def update(self):
@@ -201,7 +212,7 @@ class Level(object):
 
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
-                self.volver = True
+                self.salirYA = True
             if event.key == K_f:
                 pygame.display.toggle_fullscreen()
             if event.key in (K_DOWN, K_a):
@@ -243,7 +254,7 @@ class Level(object):
                 self.dispatcher.soltar()
 
     def finish(self):
-        return not self.piezas.sprites() or self.volver
+        return not self.piezas.sprites() or self.finbucle# or self.volver
 
     def cargar_robot(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
@@ -336,18 +347,36 @@ class Level(object):
                 self.situacion = ""
 
     def gameover(self):
+        '''Se te termino el tiempo'''
         if self.over:
             return
-        
         self.over = True
+
         for p in self.piezas_encajadas_atras.sprites() + self.piezas_encajadas_adelante.sprites():
             self.robot.remove(p)
             p.fall()
             self.piezas.add(p)
-            self.dispatcher.stop()
-  
-        return self.father
+        self.dispatcher.stop()
+        self.volver = True
+        self.perdiste = True
 
+    def show_points(self):
+        fondo = random.choice(IMAGE_CREDITS)
+        fondo = utils.load_image(fondo)
+        self.screen.blit(fondo, (0,0))
+        font1 = pygame.font.Font(FONTG, 80)
+        font2 = pygame.font.Font(FONTG, 40)
+        font3 = pygame.font.Font(FONTG, 60)
+        titulo = font1.render("Your points", True, WHITE)
+        self.screen.blit(titulo, (WIDTH/2 - titulo.get_rect().width/2, 40))
+        titulo = font2.render("Puntos: " + str(self.points), True, WHITE)
+        self.screen.blit(titulo, (WIDTH/2 - titulo.get_rect().width/2, 220))
+        titulo = font2.render("Bonus: " + str(self.bonus), True, WHITE)
+        self.screen.blit(titulo, (WIDTH/2 - titulo.get_rect().width/2, 280))
+        titulo = font3.render("Total: " + str(self.points + self.bonus), True, WHITE)
+        self.screen.blit(titulo, (WIDTH/2 - titulo.get_rect().width/2, 340))
+        pygame.display.flip()
+        pygame.time.delay(2000)
 
 class Cinta(pygame.sprite.Sprite):
     '''Cinta transportadora'''

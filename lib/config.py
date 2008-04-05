@@ -65,7 +65,6 @@ BACK = os.path.join(BACKGROUND, "opcion_de_menu.jpg")
 HAND_AFTER_DRAG = os.path.join(IMGS, "hands/after_drag.png")
 HAND_DRAG = os.path.join(IMGS, "hands/drag.png")
 
-IMAGE_CREDITS = os.path.join(BACKGROUND, "credits.png")
 HELP = os.path.join(BACKGROUND, "help_inscription.png")
 
 # Font
@@ -155,9 +154,7 @@ HELPBG = os.path.join(BACKGROUND, "help.jpg")
 
 BACK_HAPPY_DANCE_FALSE = os.path.join(BACKGROUND, "4.jpg")
 
-IMAGE_CREDITS = (os.path.join(BACKGROUND, "1.jpg"),
-        os.path.join(BACKGROUND, "2.jpg"),
-        os.path.join(BACKGROUND, "3.jpg"))
+IMAGE_CREDITS = (os.path.join(BACKGROUND, "1.jpg"), os.path.join(BACKGROUND, "2.jpg"), os.path.join(BACKGROUND, "3.jpg"))
 
 BACK_HAPPY_DANCE_FALSE = os.path.join(BACKGROUND, "4_1.jpg")
 HAPPY_DANCE_TEXT = [
