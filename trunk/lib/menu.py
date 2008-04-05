@@ -54,8 +54,8 @@ class Menu(object):
         title_img2 = font1.render(title, True, RED)
         topleft = (self.background.get_rect().width - title_img.get_rect().width) / 2, 30
         topleft2 = (self.background.get_rect().width - title_img.get_rect().width) / 2-self.separator, 30-self.separator
-        self.background.blit(title_img2, topleft2)
-        self.background.blit(title_img, topleft)
+        #self.background.blit(title_img2, topleft2)
+        #self.background.blit(title_img, topleft)
 
         self.draw_end = False
         self._draw_items()
