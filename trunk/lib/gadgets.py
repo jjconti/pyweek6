@@ -5,8 +5,10 @@ import utils
 
 class EnergyBar(pygame.sprite.Sprite):
     '''An energy bar'''
-    def __init__(self):
+    def __init__(self, total):
         pygame.sprite.Sprite.__init__(self)
+        self.time = total
+        self.total = total
         self.energy_percent = 100 #percent remanding of time
         self.image = self._image()
         self.rect = self.image.get_rect()
@@ -15,8 +17,10 @@ class EnergyBar(pygame.sprite.Sprite):
     def count(self):
         return max(0, self.energy_percent)
 
-    def update(self, perc):
-        self.energy_percent = 100 - perc
+    def update(self):
+        self.time -= 1
+        self.energy_percent = int(100 * (float(self.time) / self.total))
+        print self.energy_percent
         self.image = self._image()
         self.rect = self.image.get_rect()
         self.rect.bottomleft = BAR_OFFSET

@@ -56,7 +56,7 @@ class Level(object):
         self.cargar_piezas_erroneas()
         self.piezas_encajadas_atras = pygame.sprite.RenderUpdates()
         self.piezas_encajadas_adelante = pygame.sprite.RenderUpdates()
-        self.energy_bar = EnergyBar()
+        self.energy_bar = EnergyBar(self.totaltime)
         self.hand = Hand()
         #self.show_points = Points(0)
         self.indicator = Indicator(150, 120, 30, self.level)
@@ -135,7 +135,8 @@ class Level(object):
         
         self.cinta_group.update()
         self.explosions.update()
-        self.energy_bar.update(100 * (float(self.tics) / self.totaltime))
+        #self.energy_bar.update(100 * (float(self.tics) / self.totaltime))
+        self.energy_bar.update()
         if self.energy_bar.count() == 0:
             self.gameover()
         if self.totaltime - self.tics < CLOCK_TICS * 2 and not self.alarm_play:
