@@ -21,7 +21,7 @@ CINTA_LEN = 108
 
 ALPHA_ROBOT = {1: 50,
                2: 50,
-               3: 150}
+               3: 100}
 
 # todos los path
 DATA = os.path.join("data")
