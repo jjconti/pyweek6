@@ -60,7 +60,7 @@ GOLDEN_LEVEL =   {1: os.path.join(LEVEL1, "golden"),
 FACES = os.path.join(IMGS, "faces")
 DUDA, ENOJO, FELIZ, FELIZ2, FELIZ3, INCERTIDUMBRE, SORPRESA, MIEDO = range(1,9)
 HISCORES = os.path.join(DATA, "scores.dat")
-BACK = os.path.join(BACKGROUND, "taller.jpg")
+BACK = os.path.join(BACKGROUND, "opcion_de_menu.jpg")
 
 HAND_AFTER_DRAG = os.path.join(IMGS, "hands/after_drag.png")
 HAND_DRAG = os.path.join(IMGS, "hands/drag.png")
@@ -74,7 +74,7 @@ FONT_CREDITS = os.path.join(FONTS, "Retro 2.ttf")
 #FONT_CREDITS = os.path.join(FONTS, "robot.ttf")
 
 #FONT_MENU = os.path.join(FONTS, "VeraBd.ttf") #de momento pongo esta hasta que encuentre alguna buena
-FONT_MENU = os.path.join(FONTS, "Borobots.ttf") #de momento pongo esta hasta que encuentre alguna buena
+FONT_MENU = os.path.join(FONTS, "Retro 2.ttf") #de momento pongo esta hasta que encuentre alguna buena
 FONTG = FONT_CREDITS 
 
 #colors
@@ -87,6 +87,8 @@ WHITE = (250, 250, 250)
 GREY = (100, 100, 100)
 BLUE = (122, 138, 16)
 YELLOW = (240, 255, 0)
+CELESTE_B1 = ()
+CELESTE_B2 = ()
 
 INTRO = os.path.join(IMGS, "intro")
 INTRO_IMAGES = sorted(glob.glob(INTRO+'/*.png'))
@@ -101,8 +103,8 @@ MISC = os.path.join(IMGS, "misc")
 MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
 
 #backgrounds
-BACKINTRO_IMAGE = BACKGROUND+"/taller.jpg"
-BACKMENU_IMAGEN = BACKGROUND+"/taller.jpg"
+BACKINTRO_IMAGE = BACKGROUND+"/opcion de menu_fix.jpg"
+BACKMENU_IMAGEN = BACKGROUND+"/opcion de menu_fix.jpg"
 #BACKLEVEL_IMAGE = BACKGROUND+"/fondoAzul.png"
 STORYBG = BACKGROUND+"/storybg.jpg"
 STORY = BACKGROUND+"/story.png"

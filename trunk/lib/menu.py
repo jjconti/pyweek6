@@ -17,14 +17,29 @@ class Menu(object):
         self.index = index
         self.done = False
         self.separator = 2
-        font1 = pygame.font.Font(FONT_MENU, 50)
-        font2 = pygame.font.Font(FONT_MENU, 100)
-        self.hor_step = font2.get_height() - 15
+        
+        #fuentes
+        font1 = pygame.font.Font(FONT_MENU, 40)
+        font2 = pygame.font.Font(FONT_MENU, 50)
+        font_b1 = pygame.font.Font(FONT_MENU, 20)
+        font_b2 = pygame.font.Font(FONT_MENU, 15)
+
+        #separacion entre los items del menu
+        self.hor_step = font2.get_height() - 15 
+        
         self.clock = pygame.time.Clock()
+        #fuentes de adelante
         self.selected_imgs = [font2.render(text, True, RED) for text in self.items]
         self.selected_imgs2 = [font2.render(text, True, BLACK) for text in self.items]
         self.unselected_imgs = [font1.render(text, True, GREY) for text in self.items]
         self.unselected_imgs2 = [font1.render(text, True, BLACK) for text in self.items]
+        
+        #fuentes de atras
+        self.unselected_imgs_b1 = [font_b1.render(text, True, GREY) for text in self.items]
+        self.unselected_imgs2_b1 = [font_b1.render(text, True, BLACK) for text in self.items]
+        self.unselected_imgs_b2 = [font_b2.render(text, True, GREY) for text in self.items]
+        self.unselected_imgs2_b2 = [font_b2.render(text, True, BLACK) for text in self.items]
+        
         self.unselected_rects = None
         self.timeloop = 0
         self.state = 0
@@ -131,35 +146,122 @@ class Menu(object):
     def _draw_items(self):
         """Hace la magia de las apariciones de las imagenes.
         """
+
+        
         rects = []
-        y = self.hor_step + 50 # Tune this value as you need
-        for i in range(len(self.items)):
+        # el valor de y es el mismo siempre
+        y = self.hor_step + 320 
+        separador = 150
+        
+        #dibuja el item seleccionado en el medio
+        x = (WIDTH / 2)
+        img = self.selected_imgs[self.index]
+        img2 = self.selected_imgs2[self.index]
+        mitadIndex = ( img2.get_width() / 2 )
+        x -= mitadIndex
+        medioY = 35
+        y += medioY
+        self.screen.blit(img2, (x-self.separator,y-self.separator))
+        self.screen.blit(img, (x,y))
+        y -= medioY
+        
+        #dibuja el item de la derecha
+        indice = (self.index + 1) % len(self.items)
+        img = self.unselected_imgs[indice]
+        img2 = self.unselected_imgs2[indice]
+        mitadIndex = ( img2.get_width() / 2 )
+        x = (3 * WIDTH / 4) - mitadIndex
+        self.screen.blit(img2, (x-self.separator,y-self.separator))
+        self.screen.blit(img, (x,y))
+        
+        #dibuja el item de la izquierda
+        indice = (self.index - 1)
+        img = self.unselected_imgs[indice]
+        img2 = self.unselected_imgs2[indice]
+        mitadIndex = ( img2.get_width() / 2 )
+        x = (WIDTH / 4) - mitadIndex
+        self.screen.blit(img2, (x-self.separator,y-self.separator))
+        self.screen.blit(img, (x,y))
+        
+        atrasY1 = 60
+        atrasY2 = 95
+        atrasX1 = 45
+        atrasX2 = -50
+        #dibuja el item de la izquierda atras 1 
+        indice = (self.index - 2)
+        img = self.unselected_imgs_b1[indice]
+        img2 = self.unselected_imgs2_b1[indice]
+        mitadIndex = ( img2.get_width() / 2 )
+        x = (WIDTH / 4) - mitadIndex - atrasX1
+        y -= atrasY1
+        self.screen.blit(img2, (x-self.separator,y-self.separator))
+        self.screen.blit(img, (x,y))
+        
+        #dibuja el item de la derecha atras 1
+        indice = (self.index + 2) % len(self.items)
+        img = self.unselected_imgs_b1[indice]
+        img2 = self.unselected_imgs2_b1[indice]
+        mitadIndex = ( img2.get_width() / 2 )
+        x = (3 * WIDTH / 4) - mitadIndex + atrasX1
+        self.screen.blit(img2, (x-self.separator,y-self.separator))
+        self.screen.blit(img, (x,y))
+        
+        #dibuja el item de la izquierda atras 2
+        indice = (self.index - 3)
+        img = self.unselected_imgs_b2[indice]
+        img2 = self.unselected_imgs2_b2[indice]
+        mitadIndex = ( img2.get_width() / 2 )
+        x = (WIDTH / 4) - mitadIndex - atrasX2
+        y += atrasY1
+        y -= atrasY2
+        self.screen.blit(img2, (x-self.separator,y-self.separator))
+        self.screen.blit(img, (x,y))
+        
+        #dibuja el item de la derecha atras 2
+        indice = (self.index + 3) % len(self.items)
+        img = self.unselected_imgs_b2[indice]
+        img2 = self.unselected_imgs2_b2[indice]
+        mitadIndex = ( img2.get_width() / 2 )
+        x = (3 * WIDTH / 4) - mitadIndex + atrasX2
+        self.screen.blit(img2, (x-self.separator,y-self.separator))
+        self.screen.blit(img, (x,y))
+        
+        #hay q mostrar solo tres
+        '''
+        for i in range(3):#range(len(self.items)):
+            
+            #indice = i
+            #if i == 1:
+            #    indice = self.index + 1
+            #elif i== 2:
+            #    indice = self.index - 1
+            #print indice 
+            
             if i == self.index:
                 img = self.selected_imgs[i]
                 img2 = self.selected_imgs2[i]
             else:
                 img = self.unselected_imgs[i]
                 img2 = self.unselected_imgs2[i]
-            """Efecto anterior
-            x2 = self.screen.get_width()/2
-            if (self.state == 0) and (i%2 == 0):
-                x1 = x2 - (WIDTH * (50 - self.timeloop) / 50)
-            elif (self.state == 0) and (i%2 == 1):
-                x1 = x2 + (WIDTH * (50 - self.timeloop) / 50)
-            else:
-                x1 = x2
-                self.draw_end = True
-            x = (x1+(x2-x1)*(1-exp(-self.timeloop/20.0)))
-            x -= img.get_width() / 2
-            """
-            x = (WIDTH / 2 - img2.get_width() / 2)
+            
+            
+            
+            x -= ( img2.get_width() / 2 )
+
             self.screen.blit(img2, (x-self.separator,y-self.separator))
             self.screen.blit(img, (x,y))
 
             if self.unselected_rects is None:
                 rects += [img.get_rect().move(x,y)]
 
-            y += self.hor_step
+            separador = 150
+            if i == 0:
+                x = (WIDTH / 2) + ( img2.get_width() / 2 ) + separador
+            else:
+                x = (WIDTH / 2) - ( img2.get_width() / 2 ) - separador
+            #pdb.set_trace()
+            #y += self.hor_step
+        '''
 
         if self.unselected_rects is None:
             self.unselected_rects = rects
