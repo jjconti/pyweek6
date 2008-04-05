@@ -361,7 +361,7 @@ class Level(object):
         self.perdiste = True
 
     def show_points(self):
-        fondo = random.choice(IMAGE_CREDITS)
+        fondo = random.choice(IMAGE_GENERIC)
         fondo = utils.load_image(fondo)
         self.screen.blit(fondo, (0,0))
         font1 = pygame.font.Font(FONTG, 80)

@@ -155,6 +155,9 @@ HELPBG = os.path.join(BACKGROUND, "help.jpg")
 BACK_HAPPY_DANCE_FALSE = os.path.join(BACKGROUND, "4.jpg")
 
 IMAGE_CREDITS = (os.path.join(BACKGROUND, "1.jpg"), os.path.join(BACKGROUND, "2.jpg"), os.path.join(BACKGROUND, "3.jpg"))
+IMAGE_GENERIC = (os.path.join(BACKGROUND, "1.jpg"), os.path.join(BACKGROUND, "2.jpg"), 
+                 os.path.join(BACKGROUND, "3.jpg"), os.path.join(BACKGROUND, "4.jpg"), 
+                 os.path.join(BACKGROUND, "5.jpg"), os.path.join(BACKGROUND, "6.jpg"))
 
 BACK_HAPPY_DANCE_FALSE = os.path.join(BACKGROUND, "4_1.jpg")
 HAPPY_DANCE_TEXT = [
@@ -166,3 +169,4 @@ HAPPY_DANCE_TEXT = [
 "",
 "Santa Fe",
 "Argentina"]
+
