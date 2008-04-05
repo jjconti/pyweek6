@@ -10,7 +10,7 @@ import utils
 from config import  *
 
 class ShowText(object):
-    def __init__(self, screen, func, text, color, background, image = None, y = 40):
+    def __init__(self, screen, func, text, color, background, image = None, offset = 0, y = 40):
         self.func = func
         self.screen = screen
         self.background = background
@@ -24,7 +24,7 @@ class ShowText(object):
         font1 = pygame.font.Font(FONTG, 35)
         for linea in text:
             myText = font1.render(linea, True, self.color)
-            self.screen.blit(myText, (WIDTH / 2 - myText.get_rect().width / 2, self.y))
+            self.screen.blit(myText, ((WIDTH / 2 - myText.get_rect().width / 2 + offset), self.y))
             self.y += step            
             pygame.display.flip()
 

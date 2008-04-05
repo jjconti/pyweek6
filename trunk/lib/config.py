@@ -185,11 +185,14 @@ STORY = [
 'Enjoy!']
 
 HELP = [
-'Help Pepe to manufacture his robots!',
+'Help Pepe to manufacture his',
+'robots!',
 'Right click to pick up/drop pieces.', 
-'Scrol Up/Scroll Down or A/D key to rotate the picked piece',
-'P key for pause',
-'Special pieces gives you bonus points!']
+'Scrol Up/Scroll Down or A/D key',
+'to rotate the picked piece.',
+'P key for pause.',
+'Special pieces gives you',
+'bonus points!']
 
 MESSAGE = [
 'Sorry, you didn\'t win this game yet.',

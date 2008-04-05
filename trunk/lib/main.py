@@ -62,7 +62,7 @@ def happy_dance(screen):
         image = []
         image.append(random.choice(list_robot))
         background = random.choice(IMAGE_GENERIC)
-        return ShowText(screen, menu, MESSAGE, WHITE, background, image, y=240)
+        return ShowText(screen, menu, MESSAGE, WHITE, background, image, 0, 240)
     return HappyDance(screen, menu)
     #return Visual(screen, utils.load_image(BACK_HAPPY_DANCE_FALSE), -1, menu)
 
@@ -73,7 +73,7 @@ def scores(screen):
     return HighScores(screen,menu)
 
 def help(screen):
-    return ShowText(screen,menu,HELP, BLACK,HELPBG,None,y=200)
+    return ShowText(screen,menu,HELP, BLACK,HELPBG,None,35,200)
 
 def credits(screen):
     return Credits(screen,menu)
@@ -82,7 +82,7 @@ def story(screen):
     image = []
     image.append(random.choice(list_robot))
     background = random.choice(IMAGE_GENERIC)
-    return ShowText(screen,menu,STORY,WHITE,background,image,y=40)
+    return ShowText(screen,menu,STORY,WHITE,background,image,0,40)
 
 def exit():
     sys.exit(0)
