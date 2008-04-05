@@ -102,9 +102,7 @@ class Level(object):
     def loop(self):  
         #music.play_music(PLAYMUSIC)
 
-        self.screen.blit(utils.load_image(CARTELBACKLEVEL[self.level]), (0,0))
-        pygame.display.flip()
-        pygame.time.delay(2000)
+        self.show_level()
         while not self.finish():
         
             self.tics += 1
@@ -374,6 +372,14 @@ class Level(object):
         titulo = font2.render("Bonus: " + str(self.bonus), True, WHITE)
         self.screen.blit(titulo, (WIDTH/2 - titulo.get_rect().width/2, 280))
         titulo = font3.render("Total: " + str(self.points + self.bonus), True, WHITE)
+        self.screen.blit(titulo, (WIDTH/2 - titulo.get_rect().width/2, 340))
+        pygame.display.flip()
+        pygame.time.delay(2000)
+
+    def show_level(self):
+        self.screen.blit(utils.load_image(random.choice(IMAGE_GENERIC)), (0,0))
+        font1 = pygame.font.Font(FONTG, 80)
+        titulo = font1.render("Level " + str(self.level), True, WHITE)
         self.screen.blit(titulo, (WIDTH/2 - titulo.get_rect().width/2, 340))
         pygame.display.flip()
         pygame.time.delay(2000)
