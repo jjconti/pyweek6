@@ -104,7 +104,7 @@ class Menu(object):
     def control(self, event):
         
         if event.type == QUIT:
-            print 'hola mans'
+            #print 'hola mans'
             sys.exit(0)
         if event.type == KEYDOWN:
             if event.key in (K_SPACE, K_RETURN, K_KP_ENTER):
@@ -164,7 +164,7 @@ class Menu(object):
             correc = 3
         if indice == 6:
             correc = 3
-        print indice
+        #print indice
         posicion =  ((WIDTH / 2) - self.imagenes[self.index].get_width()/2, y - 110 + correc)
         self.screen.blit(self.imagenes[self.index], posicion)
         
