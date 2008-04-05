@@ -29,7 +29,6 @@ class Texto(pygame.sprite.Sprite):
         self.mod = round(self.life / len(self.lista_imagenes))
         self.image = self.lista_imagenes[0]
         self.rect = self.image.get_rect()
-        
         self.rect.left = (WIDTH / 2 - self.image.get_width() / 2)
 
 
@@ -37,10 +36,16 @@ class Texto(pygame.sprite.Sprite):
         self.life -= 1
         if self.life > 0:
             self.image = self._image()
-            self.rect.left = (WIDTH / 2 - self.image.get_width() / 2) 
-        if self.life == 0:
+            self.rect.left = (WIDTH / 2 - self.image.get_width() / 2)
+        elif self.life > 10 or self.life < 15:
+            pygame.time.delay(1000)
+            #import pdb
+            #pdb.set_trace()
+        elif self.life == 0:
             e = pygame.event.Event(events.NUEVO_TEXTO, {})
             pygame.event.post(e)
+        else:
+            pass
 
     def _image(self):
         if not self.life % 5:
@@ -109,11 +114,11 @@ class Credits(object):
     def loop(self):
 
         pygame.display.set_caption(WINDOW_TITLE)
-        image = IMAGE_CREDITS
+        image = random.choice(IMAGE_CREDITS)
         self.background = pygame.image.load(image)
 
         title = 'CREDITS'
-        title_img = self.font[10].render(title, True, (100, 100, 100))
+        title_img = self.font[10].render(title, True, WHITE)
         topleft = (self.background.get_rect().width - title_img.get_rect().width) / 2, 30
         self.background.blit(title_img, topleft)
 
@@ -121,21 +126,13 @@ class Credits(object):
         # Probemos con dos nomas
         lista_aux = self.developers
         while True:
-
             self.credit_dispatcher.dispatch()
-
             for event in pygame.event.get():
                 self.control(event)
-
             self.update()
             self.draw()
-
             self.clock.tick(100)
-
             pygame.display.flip()
-                # genero las imagenes para mostrar
-                
-                #self._dibujar_secuencia(lista_imagenes, background, topleft)
 
     def _load_credits(self):
         """Carga el archivo credits.txt. Con los nombres hace un shuffle para
@@ -162,7 +159,7 @@ class Credits(object):
         mostrandolas en el mismo tiempo en distintas coordenadas"""
         lista = []
         for font in self.font:
-            lista.append(font.render(developer, True, GREY))
+            lista.append(font.render(developer, True, WHITE))
         return lista
 
     def update(self):
@@ -198,7 +195,7 @@ class Credits(object):
             sys.exit(0)
             
         if event.type == events.NUEVO_TEXTO:
-            self.numero_texto = (self.numero_texto + 1) % 4
+            self.numero_texto = (self.numero_texto + 1) % len(self.developers)
             self.textos.sprites()[self.numero_texto].alive()
             print "NUEVO NUMERO", self.numero_texto
 
@@ -220,7 +217,8 @@ class Credits(object):
         self.golden_piezas.add(sprites)
 
     def cargar_piezas_erroneas(self):
-        sets = [Pieces(type_piece="erronea_credit", level=self.level) for x in range(3)]
+        sets = [Pieces(type_piece="erronea_credit", level=self.level) for x in
+                range(4)]
         sprites = []
         for s in sets:
             sprites += s.get_all()

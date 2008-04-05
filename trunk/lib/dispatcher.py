@@ -183,3 +183,38 @@ class DispatcherCredit(Dispatcher):
         self.golden_piezas     = golden_piezas
         self.piezas_erroneas  = piezas_erroneas
         self.stoped = False
+
+    def dispatch(self):
+        if self.stoped or random.choice(range(25)):
+            return
+
+        if len(self.falling_pieces()) > 8:
+            return
+
+        #print len(self.stop_golden_pieces())
+
+        if self.stop_pieces():
+            golden_ids  = [x.id for x in self.moving_golden_pieces()]
+            valid_right = [x for x in self.stop_right_pieces() if x.id not in golden_ids]
+
+            right_ids = [x.id for x in self.moving_right_pieces()]
+            valid_golden = [x for x in self.stop_golden_pieces() if x.id not in right_ids]
+
+            if not self.falling_right_pieces() and valid_right:
+                piece = random.choice(valid_right)
+            elif self.moving_golden_pieces():
+                piece = random.choice(self.stop_without_golden_pieces())
+            else:
+                right_ids = [x.id for x in self.moving_right_pieces()]
+                try:
+                    piece = random.choice(self.stop_without_golden_pieces() + valid_golden)
+                except IndexError:
+                    pass
+            try:
+                       
+                piece.set_top_position()
+                piece.move()
+            except UnboundLocalError:
+                pass
+
+
