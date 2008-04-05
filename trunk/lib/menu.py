@@ -143,20 +143,8 @@ class Menu(object):
         """
         #rects = []
         # el valor de y es el mismo siempre
-        y = self.hor_step + 500 
+        y = self.hor_step + 470
         #separador = 150
-        
-        #dibuja el item seleccionado en el medio
-        x = (WIDTH / 2)
-        img = self.selected_imgs[self.index]
-        img2 = self.selected_imgs2[self.index]
-        mitadIndex = ( img2.get_width() / 2 )
-        x -= mitadIndex
-        medioY = 80
-        y += medioY
-        self.screen.blit(img2, (x-self.separator,y-self.separator))
-        self.screen.blit(img, (x,y))
-        y -= medioY
         
         #dibuja la imagen
         indice = (self.index + 1) % len(self.items)
@@ -166,8 +154,25 @@ class Menu(object):
         x = (3 * WIDTH / 4) - mitadIndex
         self.screen.blit(img2, (x-self.separator,y-self.separator))
         self.screen.blit(img, (x,y))
-        self.screen.blit(self.imagenes[self.index], ((WIDTH / 2) - self.imagenes[self.index].get_width()/2,y - 120))
+        correc = 0
+        if indice == 5:
+            correc = 21
+        print indice
+        posicion =  ((WIDTH / 2) - self.imagenes[self.index].get_width()/2, y - 110 + correc)
+        self.screen.blit(self.imagenes[self.index], posicion)
         
+        #dibuja el item seleccionado en el medio
+        x = (WIDTH / 2)
+        img = self.selected_imgs[self.index]
+        img2 = self.selected_imgs2[self.index]
+        mitadIndex = ( img2.get_width() / 2 )
+        x -= mitadIndex
+        medioY = 100
+        y += medioY
+        self.screen.blit(img2, (x-self.separator,y-self.separator))
+        self.screen.blit(img, (x,y))
+        y -= medioY
+
         #dibuja el item de la izquierda
         indice = (self.index - 1)
         img = self.unselected_imgs[indice]

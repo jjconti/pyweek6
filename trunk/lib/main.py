@@ -54,7 +54,7 @@ def main():
 	
 def menu(screen):
     options = [("Play", play), ("Story", story), ("Help", help), ("Happy Dance", happy_dance), \
-               ("Credits", credits), ("Exit",  exit)]
+               ("Score", scores),("Credits", credits), ("Exit",  exit)]
     return Menu(screen, options, WINDOW_TITLE)
 
 def happy_dance(screen):
@@ -68,7 +68,8 @@ def play(screen):
     return Level(screen, menu, 1, 0)
 
 def scores(screen):
-    return HighScores(screen,menu)
+    #return HighScores(screen,menu)
+    pass
 
 def help(screen):
     return ShowText(screen,menu,HELP,BLACK,HELPBG,None,35,200)
