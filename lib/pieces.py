@@ -227,7 +227,7 @@ class DinamicPiece(pygame.sprite.Sprite):
     def update_normal(self):
         num = self.num.next()
         #num = round(math.radians(num), 6)
-        func_y = 10*num
+        func_y = 5*num
 
         direccion = 1
         #print self.func_x[num]
