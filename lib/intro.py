@@ -5,7 +5,7 @@ import os
 import glob
 import utils
 from config import WIDTH, HEIGHT, INTRO, INTRO_XY,BACKINTRO_IMAGE
-from music import play_screw, play_brokenThings
+from music import play_screw, play_brokenThings, stop_brokenThings
 
 ROBOT_OFFSET = (100, 80)
 
@@ -52,6 +52,10 @@ class Intro(object):
                 #self.screen.fill((0,0,0))
                 self.screen.blit(self.background, (0, 0))
                 self.screen.blit(image[1], (INTRO_XY[image[0]][0]+ROBOT_OFFSET[0], INTRO_XY[image[0]][1]+ROBOT_OFFSET[1]))
+                if image[0] == 'intro0011':
+                    play_screw()
+                if image[0] == 'intro0025':
+                    play_brokenThings()
                 pygame.display.flip()
                 i = 1
                 while i < time_sleep:
@@ -64,6 +68,10 @@ class Intro(object):
                             if event.type == KEYDOWN and \
                                 (event.key in [K_ESCAPE, K_RETURN, K_KP_ENTER]):
                                 return self.func
+            pygame.time.delay(100)
+            stop_brokenThings()
+            pygame.time.delay(1000)
+
         if self.loopear:
             self.loop(reverse=True)
         return self.func
