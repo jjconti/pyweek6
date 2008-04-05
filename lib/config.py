@@ -78,11 +78,11 @@ FONTG = FONT_CREDITS
 #iconos para el menu
 IMG_PLAY = os.path.join(IMGS, "menu/pedro.png")
 IMG_STORY = os.path.join(IMGS, "menu/cesar_bn.png")
-IMG_HELP = os.path.join(IMGS, "menu/games-hint_gray_50.png")
-IMG_DANCE = os.path.join(IMGS, "menu/media-playback-start.png")
-IMG_SCORES = os.path.join(IMGS, "menu/view-pim-journal.png")
-IMG_CREDITS = os.path.join(IMGS, "menu/rating.png")
-IMG_EXIT = os.path.join(IMGS, "menu/window-close.png")
+IMG_HELP = os.path.join(IMGS, "menu/juanjo.png")
+IMG_DANCE = os.path.join(IMGS, "menu/juanjo.png")
+IMG_SCORES = os.path.join(IMGS, "menu/gush.png")
+IMG_CREDITS = os.path.join(IMGS, "menu/juanjo.png")
+IMG_EXIT = os.path.join(IMGS, "menu/humitos.png")
 
 #colors
 COLOR1 = (10, 50, 200) 
