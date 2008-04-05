@@ -61,7 +61,7 @@ GOLDEN_LEVEL =   {1: os.path.join(LEVEL1, "golden"),
 FACES = os.path.join(IMGS, "faces")
 DUDA, ENOJO, FELIZ, FELIZ2, FELIZ3, INCERTIDUMBRE, SORPRESA, MIEDO = range(1,9)
 HISCORES = os.path.join(DATA, "scores.dat")
-BACK = os.path.join(BACKGROUND, "opcion_de_menu.jpg")
+BACK = os.path.join(BACKGROUND, "new_back_intro.jpg")
 
 HAND_AFTER_DRAG = os.path.join(IMGS, "hands/after_drag.png")
 HAND_DRAG = os.path.join(IMGS, "hands/drag.png")
