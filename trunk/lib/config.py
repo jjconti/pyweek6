@@ -190,6 +190,6 @@ HELP = [
 
 MESSAGE = [
 'Sorry, you didn\'t win this game yet.',
-'You have to complete the three level first.']
+'You have to complete the three levels first.']
 
 
