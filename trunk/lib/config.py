@@ -172,7 +172,7 @@ STORY = [
 'Pedro is a modest man.',
 'One day, he read a book by Isaac Asimov',
 'and began to dream about robots (Robot Dreams).',
-'Time later, Pedro invest his money in a Robot Factory',
+'Time later, Pedro invested his money in a Robot Factory',
 'called "Pedro\'s Robot Factory" (of course) and you',
 'are his roboticist (Sorry).',
 'Pedro developed the "Funnelhead" model',
@@ -188,6 +188,7 @@ HELP = [
 'Scrol Up/Scroll Down or A/D key',
 'to rotate the picked piece.',
 'P key for pause.',
+'F key for fullscreen.',
 'Special pieces gives you',
 'bonus points!']
 
@@ -201,7 +202,8 @@ THANKS = [
 'of all the the mate, tea and',
 'coffee we drank tonight.',
 '',
-'http://code.google.com/p/pyweek6/'
+'http://code.google.com/p/pyweek6/',
+'PyWeek 6 entry'
 ]
 
 MESSAGE = [
