@@ -5,6 +5,7 @@ import os
 import glob
 import utils
 from config import WIDTH, HEIGHT, INTRO, INTRO_XY,BACKINTRO_IMAGE
+from music import play_screw, play_brokenThings
 
 ROBOT_OFFSET = (100, 80)
 

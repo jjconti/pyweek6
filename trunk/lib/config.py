@@ -129,6 +129,8 @@ MUSIC_LEVEL = {1: {'intro': os.path.join(SOUNDS, "level1_intro.ogg"),
 EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
 PEEP = os.path.join(SOUNDS, "peep.ogg")
 ALARM = os.path.join(SOUNDS, "alarm_beeps.wav")
+SCREW = os.path.join(SOUNDS, "screw.wav")
+BROKENTHING = os.path.join(SOUNDS, "brokenThings.wav")
 
 #backgrounds
 HELPBG = os.path.join(BACKGROUND, "help.jpg")
