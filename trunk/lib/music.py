@@ -13,6 +13,7 @@ SOUNDS['peep'] = utils.load_sound(PEEP)
 SOUNDS['alarm'] = utils.load_sound(ALARM)
 SOUNDS['screw'] = utils.load_sound(SCREW)
 SOUNDS['brokenThings'] = utils.load_sound(BROKENTHINGS)
+SOUNDS['hammer'] = utils.load_sound(HAMMER)
 
 last_music = None
 playing = None
@@ -22,6 +23,9 @@ def play_explosion():
 
 def play_screw():
     SOUNDS['screw'].play()
+
+def play_hammer():
+    SOUNDS['hammer'].play()
 
 def play_brokenThings():
     SOUNDS['brokenThings'].play()
