@@ -40,7 +40,7 @@ class ShowText(object):
     def control(self, event):
         if event.type == QUIT:
             sys.exit(0)
-        if event.type == KEYDOWN or event.key in (K_ESCAPE, K_KP_ENTER):
+        if event.type == KEYDOWN and event.key in (K_ESCAPE, K_KP_ENTER):
             return True
         if event.type == events.NUEVO_TEXTO:
             self.numero_texto = (self.numero_texto + 1) % len(self.developers)
