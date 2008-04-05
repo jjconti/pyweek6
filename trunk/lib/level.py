@@ -228,7 +228,7 @@ class Level(object):
 
         if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
-                if self.ass.rect.collidepoint(event.pos) and self.level == 1:
+                if self.ass.rect.collidepoint(event.pos) and self.level == 2:
                     PedoWhite(event.pos)
 
                 quepaso = self.dispatcher.agarrar_soltar(event.pos)
