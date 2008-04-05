@@ -54,7 +54,7 @@ def main():
 	
 def menu(screen):
     options = [("Play", play), ("Story", story), ("Help", help), ("Happy Dance", happy_dance), \
-               ("High Scores", scores), ("Credits", credits), ("Exit",  exit)]
+               ("Credits", credits), ("Exit",  exit)]
     return Menu(screen, options, WINDOW_TITLE)
 
 def happy_dance(screen):

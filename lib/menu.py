@@ -22,7 +22,7 @@ class Menu(object):
         #cargamos las imagenes del menu
         nombres = [IMG_PLAY,IMG_STORY,IMG_HELP,IMG_DANCE,IMG_SCORES,IMG_CREDITS,IMG_EXIT]
         for nombre in nombres:
-            self.imagenes.append(utils.load_image(nombre))
+            self.imagenes.append(utils.load_image_alpha(nombre))
 
         #fuentes
         font1 = pygame.font.Font(FONT_MENU, 35)
@@ -103,6 +103,7 @@ class Menu(object):
 
     def control(self, event):
         if event.type == QUIT:
+            print 'hola mans'
             sys.exit(0)
         if event.type == KEYDOWN:
             if event.key in (K_SPACE, K_RETURN, K_KP_ENTER):
@@ -155,7 +156,7 @@ class Menu(object):
         self.screen.blit(img, (x,y))
         y -= medioY
         
-        #dibuja el item de la derecha
+        #dibuja la imagen
         indice = (self.index + 1) % len(self.items)
         img = self.unselected_imgs[indice]
         img2 = self.unselected_imgs2[indice]
@@ -163,7 +164,7 @@ class Menu(object):
         x = (3 * WIDTH / 4) - mitadIndex
         self.screen.blit(img2, (x-self.separator,y-self.separator))
         self.screen.blit(img, (x,y))
-        self.screen.blit(self.imagenes[self.index], ((WIDTH / 2) - self.imagenes[self.index].get_width()/2,y - 70))
+        self.screen.blit(self.imagenes[self.index], ((WIDTH / 2) - self.imagenes[self.index].get_width()/2,y - 120))
         
         #dibuja el item de la izquierda
         indice = (self.index - 1)
