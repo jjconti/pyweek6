@@ -81,7 +81,7 @@ class Menu(object):
             self.timeloop += 1
             if self.timeloop == 50:
                 self.state=1
-        self.draw_end = False
+        #self.draw_end = False
         while not self.done: # menu draw only if some key is pressed
 
             self.clock.tick(CLOCK_TICS)

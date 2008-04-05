@@ -2,6 +2,7 @@ import pygame
 from config import *
 import utils
 import music
+import random
 
 class EnergyBar(pygame.sprite.Sprite):
     '''An energy bar'''
@@ -121,15 +122,27 @@ class Indicator(pygame.sprite.Sprite):
         return img
 
 
-def load_pedo_white(file):
-      img = utils.load_image_alpha(os.path.join("data/imgs/pedos/white", file))
+def load_pedo(file, color="white"):
+      img = utils.load_image_alpha(os.path.join("data/imgs/pedos/%s" % color, file))
       img = pygame.transform.scale(img, (img.get_width()*1, img.get_height()*1))
       return img
 
 pedo_white = [
-               load_pedo_white("pedo_1.png"),
-               load_pedo_white("pedo_2.png"),
-               load_pedo_white("pedo_3.png")
+               load_pedo("pedo_1.png", "white"),
+               load_pedo("pedo_2.png", "white"),
+               load_pedo("pedo_3.png", "white")
+             ]
+
+pedo_green = [
+               load_pedo("pedo_1.png", "green"),
+               load_pedo("pedo_2.png", "green"),
+               load_pedo("pedo_3.png", "green")
+             ]
+
+pedo_red = [
+               load_pedo("pedo_1.png", "red"),
+               load_pedo("pedo_2.png", "red"),
+               load_pedo("pedo_3.png", "red")
              ]
 
 class PedoWhite(pygame.sprite.Sprite):
@@ -137,7 +150,7 @@ class PedoWhite(pygame.sprite.Sprite):
       def __init__(self, pos):
 
             pygame.sprite.Sprite.__init__(self, self.containers)
-            self.images = pedo_white
+            self.images = random.choice([pedo_white, pedo_red, pedo_green])
             self.image = self.images[0]
             self.rect = self.image.get_rect(center = pos)
             self.life = 24
