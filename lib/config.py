@@ -135,6 +135,12 @@ HELPBG = os.path.join(BACKGROUND, "help.jpg")
 
 
 BACK_HAPPY_DANCE_FALSE = os.path.join(BACKGROUND, "4_1.jpg")
+
+IMAGE_CREDITS = ((os.path.join(BACKGROUND, "1.jpg")),
+        (os.path.join(BACKGROUND, "2.jpg")),
+        (os.path.join(BACKGROUND, "3.jpg")))
+
+BACK_HAPPY_DANCE_FALSE = os.path.join(BACKGROUND, "4_1.jpg")
 HAPPY_DANCE_TEXT = [
 "Thanks you for playing Robot Factory!",
 "a game from the authors of",
