@@ -32,9 +32,9 @@ SOUNDS = os.path.join(DATA, "sounds")
 BACKGROUND = os.path.join(IMGS, "background")
 
 # tiempo que duran los niveles
-TIME_LEVEL1 = 1500  #50 segundos
-TIME_LEVEL2 = 6500  #65 segundos
-TIME_LEVEL3 = 7500  #75 segundos
+TIME_LEVEL1 = 1500  #15 segundos
+TIME_LEVEL2 = 2000  #20 segundos
+TIME_LEVEL3 = 3000  #30 segundos
 
 # imagenes
 LEVEL1 = os.path.join(IMGS, "level1")
