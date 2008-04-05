@@ -5,6 +5,7 @@ import os
 import sys
 import pygame
 from pygame.locals import *
+import random
 
 from config import  *
 from level import Level
@@ -24,6 +25,9 @@ import data
 if not pygame.font: print 'Warning, fonts disabled'
 if not pygame.mixer: print 'Warning, sound disabled'
 	
+list_robot = []
+for fullname in LEVEL_IMAGES:
+    list_robot.append(utils.load_image_alpha(fullname, 255))
 							
 def main():
     #Initialize 
@@ -48,16 +52,19 @@ def main():
             opcion = change
     opcion()
 	
-	
 def menu(screen):
     options = [("Play", play), ("Story", story), ("Help", help), ("Happy Dance", happy_dance), \
                ("High Scores", scores), ("Credits", credits), ("Exit",  exit)]
     return Menu(screen, options, WINDOW_TITLE)
 
 def happy_dance(screen):
-    if os.path.exists('.youwon'):
-        return ShowText(screen, menu, MESSAGE, 240)
-    return Visual(screen, utils.load_image(BACK_HAPPY_DANCE_FALSE), -1, menu)
+    if not os.path.exists('.youwon'):
+        image = []
+        image.append(random.choice(list_robot))
+        background = random.choice(IMAGE_GENERIC)
+        return ShowText(screen, menu, MESSAGE, WHITE, background, image, y=240)
+    return HappyDance(screen, menu)
+    #return Visual(screen, utils.load_image(BACK_HAPPY_DANCE_FALSE), -1, menu)
 
 def play(screen):
     return Level(screen, menu, 1, 0)
@@ -66,14 +73,16 @@ def scores(screen):
     return HighScores(screen,menu)
 
 def help(screen):
-    return ShowText(screen,menu,HELP,200)
+    return ShowText(screen,menu,HELP, BLACK,HELPBG,None,y=200)
 
 def credits(screen):
     return Credits(screen,menu)
 
 def story(screen):
-    return ShowText(screen,menu,STORY,40)
-
+    image = []
+    image.append(random.choice(list_robot))
+    background = random.choice(IMAGE_GENERIC)
+    return ShowText(screen,menu,STORY,WHITE,background,image,y=40)
 
 def exit():
     sys.exit(0)
