@@ -87,9 +87,7 @@ class Credits(object):
         self.textos.sprites()[0].alive()
 
         self.clock = pygame.time.Clock()
-        e = pygame.event.Event(events.END_INTRO, {})
-        pygame.mixer.music.set_endevent(events.END_INTRO)
-        music.play_music(MUSIC_CREDITS['intro'], 1)
+        music.play_intro(MUSIC_CREDITS)
 
         self.credit_dispatcher = DispatcherCredit(self.piezas, self.golden_piezas, self.piezas_erroneas)
 
@@ -207,8 +205,8 @@ class Credits(object):
             self.numero_texto = (self.numero_texto + 1) % len(self.developers)
             self.textos.sprites()[self.numero_texto].alive()
 
-        if event.type == events.END_INTRO:
-            music.play_music(MUSIC_CREDITS['loop'])
+        if event.type == events.INTRO:
+            music.play_loop(MUSIC_CREDITS)
 
     def cargar_piezas(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
