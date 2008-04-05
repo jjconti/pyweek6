@@ -139,12 +139,12 @@ MUSIC_CREDITS = {'intro': os.path.join(SOUNDS, "credits_intro.ogg"),
                  'loop': os.path.join(SOUNDS, "credits_loop.ogg")}
 
 #sonidos
-EXPLOSION = os.path.join(SOUNDS, "Explode2.wav")
+EXPLOSION = os.path.join(SOUNDS, "Explode2.ogg")
 PEEP = os.path.join(SOUNDS, "peep.ogg")
-ALARM = os.path.join(SOUNDS, "alarm_beeps.wav")
-SCREW = os.path.join(SOUNDS, "screw.wav")
-BROKENTHINGS = os.path.join(SOUNDS, "brokenThings.wav")
-FART = os.path.join(SOUNDS, "fart.wav")
+ALARM = os.path.join(SOUNDS, "alarm_beeps.ogg")
+SCREW = os.path.join(SOUNDS, "screw.ogg")
+BROKENTHINGS = os.path.join(SOUNDS, "brokenThings.ogg")
+FART = os.path.join(SOUNDS, "fart.ogg")
 FART2 = os.path.join(SOUNDS, "fart2.wav")
 HAMMER = os.path.join(SOUNDS, "hammer.wav")
 
