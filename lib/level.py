@@ -129,7 +129,7 @@ class Level(object):
             self.show_points()
         music.stop_music()
 
-        if self.volver: #Volver al menu principal
+        if self.volver or self.salirYa: #Volver al menu principal
             #music.stop_music()
             return self.father
 
@@ -210,7 +210,8 @@ class Level(object):
 
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
-                self.salirYA = True
+                print "Salir ya"
+                self.salirYa = True
             if event.key == K_f:
                 pygame.display.toggle_fullscreen()
             if event.key in (K_DOWN, K_a):
@@ -252,7 +253,7 @@ class Level(object):
                 self.dispatcher.soltar()
 
     def finish(self):
-        return not self.piezas.sprites() or self.finbucle# or self.volver
+        return not self.piezas.sprites() or self.finbucle or self.salirYa
 
     def cargar_robot(self):
         '''Cargar las imágenes y las posiciones en las que se tiene que dibujar.'''
