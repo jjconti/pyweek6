@@ -1,6 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8
+
+import os
 import sys
 import pygame
 from pygame.locals import *
+
 from config import  *
 from level import Level
 from menu import Menu
@@ -8,8 +13,8 @@ from menu import Menu
 from intro import Intro
 #from help import Help
 from credits import Credits
+from showtext import ShowText
 from dance import HappyDance
-import os
 
 from config import *
 import utils
@@ -51,7 +56,7 @@ def menu(screen):
 
 def happy_dance(screen):
     if os.path.exists('.youwon'):
-        return HappyDance(screen, menu)
+        return ShowText(screen, menu, MESSAGE, 240)
     return Visual(screen, utils.load_image(BACK_HAPPY_DANCE_FALSE), -1, menu)
 
 def play(screen):
@@ -61,19 +66,13 @@ def scores(screen):
     return HighScores(screen,menu)
 
 def help(screen):
-    bg = utils.load_image(HELPBG)
-    text = utils.load_image(HELP, (0,0,0))
-    bg.blit(text, (0,0))
-    return Visual(screen, bg, -1, menu)
+    return ShowText(screen,menu,HELP,200)
 
 def credits(screen):
     return Credits(screen,menu)
 
 def story(screen):
-    bg = utils.load_image(STORYBG)
-    text = utils.load_image(STORY, (0,0,0,255))
-    bg.blit(text, (0,0))
-    return Visual(screen, bg, -1, menu)
+    return ShowText(screen,menu,STORY,40)
 
 
 def exit():

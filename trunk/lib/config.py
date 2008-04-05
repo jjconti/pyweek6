@@ -30,6 +30,7 @@ FONTS = os.path.join(DATA, "fonts")
 CREDITS = os.path.join(DATA, "credits.txt")
 SOUNDS = os.path.join(DATA, "sounds")
 BACKGROUND = os.path.join(IMGS, "background")
+#STORY = os.path.join(DATA, "story.txt")
 
 # tiempo que duran los niveles
 TIME_LEVEL1 = 1800
@@ -114,9 +115,7 @@ INTRO_TIMES = [0.22] * len(INTRO_IMAGES)
 #backgrounds
 BACKINTRO_IMAGE = BACKGROUND+"/opcion de menu_fix.jpg"
 BACKMENU_IMAGEN = BACKGROUND+"/opcion de menu_fix.jpg"
-#BACKLEVEL_IMAGE = BACKGROUND+"/fondoAzul.png"
 STORYBG = BACKGROUND+"/storybg.jpg"
-STORY = BACKGROUND+"/story.png"
 
 BACKLEVEL1 = BACKGROUND+"/nivel1.jpg"
 BACKLEVEL2 = BACKGROUND+"/nivel1.jpg"
@@ -168,4 +167,29 @@ HAPPY_DANCE_TEXT = [
 "",
 "Santa Fe",
 "Argentina"]
+
+STORY = [
+'Pedro is a modest man.',
+'One day, he read a book by Isaac Asimov',
+'and began to dream about robots (Robot Dreams).',
+'Time later, Pedro invest his money in a Robot Factory',
+'called "Pedro\'s Robot Factory" (of course) and you',
+'are his roboticist (Sorry).',
+'Pedro developed the "Funnelhead" model',
+'...and you must to build it.',
+'Pedro is a demanding boss and level to level,',
+'while the enterprise progress, you must be faster.',
+'Enjoy!']
+
+HELP = [
+'Help Pepe to manufacte his robots!',
+'Right click to pick up/drop pieces.', 
+'Scrol Up/Scroll Down or A/D key to rotate the picked piece',
+'P key for pause',
+'Special hats gives you bonus points!']
+
+MESSAGE = [
+'Sorry, you didn\'t win this game yet.',
+'You have to complete the three level first.']
+
 
