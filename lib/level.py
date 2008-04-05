@@ -71,6 +71,8 @@ class Level(object):
         self.cargar_faces()
         self.explosions = pygame.sprite.RenderUpdates()
         ExplosionMedium.containers = self.explosions
+        self.pedos = pygame.sprite.RenderUpdates()
+        PedoWhite.containers = self.pedos
 
         self.ass = Ass()
         self.asses= pygame.sprite.RenderUpdates()
@@ -145,6 +147,7 @@ class Level(object):
         
         self.cinta_group.update()
         self.explosions.update()
+        self.pedos.update()
         #self.energy_bar.update(100 * (float(self.tics) / self.totaltime))
         self.energy_bar.update()
         if self.energy_bar.count() == 0:
@@ -171,6 +174,7 @@ class Level(object):
         self.golden_piezas_used.draw(self.screen)
 
         self.explosions.draw(self.screen)
+        self.pedos.draw(self.screen)
         self.gadgets.draw(self.screen)
         self.mini_robot.draw(self.screen)
 
@@ -214,9 +218,9 @@ class Level(object):
 
         if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
-                if self.ass.rect.collidepoint(event.pos):
-                    music.play_fart()
-                
+                if self.ass.rect.collidepoint(event.pos) and self.level == 1:
+                    PedoWhite(event.pos)
+
                 quepaso = self.dispatcher.agarrar_soltar(event.pos)
                 if quepaso == "encajo":
                     self.points += 10
