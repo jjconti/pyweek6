@@ -47,6 +47,7 @@ class Level(object):
         self.perdiste = False
         self.finbucle = False
         self.over = False
+        self.gano = False
 
         self.robot = pygame.sprite.RenderUpdates()
         self.cargar_robot()
@@ -126,6 +127,8 @@ class Level(object):
                     self.finbucle = True
         
         if not self.salirYa:
+            if self.level == 3 and not self.volver:
+                self.gano = True
             self.show_points()
         music.stop_music()
 
@@ -376,6 +379,15 @@ class Level(object):
         self.screen.blit(titulo, (WIDTH/2 - titulo.get_rect().width/2, 340))
         pygame.display.flip()
         pygame.time.delay(2000)
+        if self.level == 3 and self.gano:
+            fondo = random.choice(IMAGE_GENERIC)
+            fondo = utils.load_image(fondo)
+            self.screen.blit(fondo, (0,0))
+            font1 = pygame.font.Font(FONTG, 80)
+            titulo = font1.render("Congratulations!", True, WHITE)
+            self.screen.blit(titulo, (WIDTH/2 - titulo.get_rect().width/2, 340))
+            pygame.display.flip()
+            pygame.time.delay(2000)
 
     def show_level(self):
         self.screen.blit(utils.load_image(random.choice(IMAGE_GENERIC)), (0,0))
