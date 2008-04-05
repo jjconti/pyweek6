@@ -71,19 +71,20 @@ class Menu(object):
 
             self.screen.blit(self.background, (0,0))
 
-            if pygame.event.peek([KEYDOWN, KEYUP, QUIT]):
-                for event in pygame.event.get():
-                    self.control(event)
+            #if pygame.event.peek([KEYDOWN, KEYUP, QUIT]):
+            for event in pygame.event.get():
+                self.control(event)
 
             self._draw_items()
             pygame.display.flip()
 
-            self.timeloop += 1
-            if self.timeloop == 50:
-                self.state=1
-        #self.draw_end = False
-        while not self.done: # menu draw only if some key is pressed
-            print "hola"
+            #self.timeloop += 1
+            #if self.timeloop == 50:
+            #    self.state=1
+        #print "hola"
+        self.draw_end = False
+        '''while not self.done: # menu draw only if some key is pressed
+            
             self.clock.tick(CLOCK_TICS)
 
             self.screen.blit(self.background, (0,0))
@@ -97,11 +98,12 @@ class Menu(object):
 
             self.timeloop += 1
             if self.timeloop == 50:
-                self.state=1
+                self.state=1'''
         music.stop_music()
         return self.returns[self.index]
 
     def control(self, event):
+        
         if event.type == QUIT:
             print 'hola mans'
             sys.exit(0)
