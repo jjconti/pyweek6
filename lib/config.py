@@ -182,7 +182,7 @@ STORY = [
 'Enjoy!']
 
 HELP = [
-'Help Pepe to manufacture his',
+'Help Pedro to manufacture his',
 'robots!',
 'Right click to pick up/drop pieces.', 
 'Scrol Up/Scroll Down or A/D key',
