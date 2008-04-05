@@ -106,9 +106,10 @@ class Level(object):
 
             self.clock.tick(CLOCK_TICS)
             pygame.display.flip()
+        music.stop_music()
 
         if self.volver: #Volver al menu principal
-            music.stop_level()
+            music.stop_music()
             return self.father
 
         if self.level == 1:     #pasamos al 2
@@ -174,7 +175,10 @@ class Level(object):
                 self.paused ^= True
 
         if self.paused:
+            music.pause_music()
             return
+        else:
+            music.unpause_music()
 
         if event.type == QUIT:
             sys.exit(0)

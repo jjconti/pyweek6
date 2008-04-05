@@ -34,6 +34,7 @@ def play_countdown(times=0, start=0.0):
 
 def play_music(music_name, times=-1):
     global last_music
+    global playing
     if last_music != music_name:
         last_music = music_name
         pygame.mixer.music.load(music_name)
@@ -50,19 +51,19 @@ def is_playing_music():
 def play_level(level):
     global playing
     music = MUSIC_LEVEL[level]
+    play_music(music['loop'])
+    #level_mus = pygame.mixer.Sound(music['loop'])
+    #playing = level_mus
+    #level_mus.play(-1)
 
-    level_mus = pygame.mixer.Sound(music['loop'])
-    playing = level_mus
-    level_mus.play(-1)
+#def stop_level():
+    #global playing
+    #playing.stop()
 
-def stop_level():
-    global playing
-    playing.stop()
-
-def pause_level():
+def pause_music():
     pygame.mixer.music.pause()
 
-def unpause_level():
+def unpause_music():
     pygame.mixer.music.unpause()
 
 def play_intro(level):
