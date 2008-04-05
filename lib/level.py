@@ -144,7 +144,7 @@ class Level(object):
         elif self.level == 3:   #fina del juego
             tmp = open('.youwon', 'w')
             tmp.close()
-            print "Ganaste"
+            #print "Ganaste"
             return self.father
 
     def update(self):
@@ -210,7 +210,7 @@ class Level(object):
 
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
-                print "Salir ya"
+                #print "Salir ya"
                 self.salirYa = True
             if event.key == K_f:
                 pygame.display.toggle_fullscreen()
@@ -223,7 +223,7 @@ class Level(object):
            self.dispatcher.explosion()
 
         if event.type == events.INTRO:
-           print "TERMINO INTRO"
+           #print "TERMINO INTRO"
            music.play_loop(MUSIC_LEVEL[self.level])
 
         if event.type == MOUSEBUTTONDOWN:
