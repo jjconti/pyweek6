@@ -5,20 +5,23 @@ import glob
 import utils
 
 class Visual(object):
-    def __init__(self, screen, images, times, func=None, loopear=False):
+    def __init__(self, screen, images, times, func=None, loopear=False, pos=(0,0), bg=None):
         self.screen = screen
+        self.bg = bg
+        self.pos = pos
         self.images = images
         if times == -1:
             self.times = -1
         else:
             self.times = [x*1000 for x in times]
         self.func = func    #father function
+        self.func.teclaapretada = False
         self.loopear = loopear
         
 
     def loop(self, reverse=False):
         if self.times == -1:
-            self.screen.blit(self.images, (0,0))
+            self.screen.blit(self.images, self.pos)
             pygame.display.flip()
             while True:
                 pygame.event.clear()
@@ -35,8 +38,11 @@ class Visual(object):
             for image, time_sleep in zip(self.images, self.times):
                 #si se le pone una imagen de fondo hay que sacar este
                 #fill
-                self.screen.fill((0,0,0))
-                self.screen.blit(image, (0,0))
+                if self.bg:
+                    self.screen.blit(self.bg, (0,0))
+                else:
+                    self.screen.fill(BLACK)
+                self.screen.blit(image, self.pos)
                 pygame.display.flip()
                 i = 1
                 while i < time_sleep:
@@ -48,6 +54,7 @@ class Visual(object):
                                 sys.exit(0)
                             if event.type == KEYDOWN and \
                                 (event.key in [K_ESCAPE, K_RETURN, K_KP_ENTER]):
+                                self.func.teclaapretada = True  # ;-)
                                 return self.func
         if self.loopear:
             self.loop(reverse=True)
