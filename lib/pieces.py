@@ -125,7 +125,6 @@ class DinamicPiece(pygame.sprite.Sprite):
         if self.prof:
             self.prof = self.prof[2] # Fix
         self.set_top_position()
-        self.change_function = random.choice(range(HEIGHT))
 
     def is_wrong(self):
         return not (1 <= self.id <= 50)
@@ -226,9 +225,6 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.rect.top += 5
 
     def update_normal(self):
-        if self.rect.y == self.change_function:
-            self.func_x = random.choice(self.functions)
-
         num = self.num.next()
         #num = round(math.radians(num), 6)
         func_y = 10*num
