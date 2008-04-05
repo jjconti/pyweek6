@@ -155,8 +155,16 @@ class Menu(object):
         self.screen.blit(img2, (x-self.separator,y-self.separator))
         self.screen.blit(img, (x,y))
         correc = 0
+        if indice == 3:
+            correc = -15
+        if indice == 4:
+            correc = 5
         if indice == 5:
             correc = 21
+        if indice == 2:
+            correc = 3
+        if indice == 6:
+            correc = -7
         print indice
         posicion =  ((WIDTH / 2) - self.imagenes[self.index].get_width()/2, y - 110 + correc)
         self.screen.blit(self.imagenes[self.index], posicion)

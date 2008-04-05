@@ -54,7 +54,7 @@ def main():
 	
 def menu(screen):
     options = [("Play", play), ("Story", story), ("Help", help), ("Happy Dance", happy_dance), \
-               ("Score", scores),("Credits", credits), ("Exit",  exit)]
+               ("Thanks to", thanks),("Credits", credits), ("Exit",  exit)]
     return Menu(screen, options, WINDOW_TITLE)
 
 def happy_dance(screen):
@@ -81,6 +81,11 @@ def story(screen):
     image = random.choice(list_robot)
     background = random.choice(IMAGE_GENERIC)
     return ShowText(screen,menu,STORY,WHITE,background,image,0,40)
+
+def thanks(screen):
+    image = random.choice(list_robot)
+    background = random.choice(IMAGE_GENERIC)
+    return ShowText(screen,menu,THANKS,WHITE,background,image,0,40)
 
 def exit():
     sys.exit(0)
