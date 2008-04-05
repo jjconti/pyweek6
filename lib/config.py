@@ -135,3 +135,10 @@ HELPBG = os.path.join(BACKGROUND, "help.jpg")
 
 
 BACK_HAPPY_DANCE_FALSE = os.path.join(BACKGROUND, "4_1.jpg")
+HAPPY_DANCE_TEXT = [
+"Thanks you for playing Robot Factory!",
+"a game from the authors of",
+"Twisted Zombie",
+"",
+"Santa Fe",
+"Argentina"]

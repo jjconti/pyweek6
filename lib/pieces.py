@@ -101,7 +101,7 @@ class DinamicPiece(pygame.sprite.Sprite):
                  #lambda x,direccion: direccion*x,
                  #lambda x,direccion: direccion*x**2/6,
                  #lambda x,direccion: -direccion*x**2/6]
-    functions = [func.a, func.b, func.c, func.d, func.e, func.f]
+    functions = [func.a, func.b, func.c]#, func.d]#, func.e, func.f]
     #functions = [func.a]
 
     MOVING_CINTA   = 0
