@@ -72,7 +72,7 @@ class Dispatcher(object):
 
     def stop(self):
         self.stoped = True
- 
+
     def dispatch(self):
         if self.stoped or random.choice(range(25)):
             return

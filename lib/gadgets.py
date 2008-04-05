@@ -74,6 +74,17 @@ class Hand(pygame.sprite.Sprite):
     def collide(self, piece):
         return self.rect.colliderect(piece.rect)
 
+class Ass(pygame.sprite.Sprite):
+    '''An energy bar'''
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((130, 80))
+        
+        #self.image.fill((0,0,0))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (700, 450)
+        
+        
 
 class Indicator(pygame.sprite.Sprite):
 

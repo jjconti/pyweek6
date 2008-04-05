@@ -131,6 +131,7 @@ PEEP = os.path.join(SOUNDS, "peep.ogg")
 ALARM = os.path.join(SOUNDS, "alarm_beeps.wav")
 SCREW = os.path.join(SOUNDS, "screw.wav")
 BROKENTHINGS = os.path.join(SOUNDS, "brokenThings.wav")
+FART = os.path.join(SOUNDS, "fart.wav")
 HAMMER = os.path.join(SOUNDS, "hammer.wav")
 
 #backgrounds

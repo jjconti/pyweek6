@@ -145,7 +145,8 @@ class DinamicPiece(pygame.sprite.Sprite):
 
     def fall(self):
         self.moving = self.MOVING_FALLING
-
+        ExplosionMedium(self.rect.center)
+    
     def fit(self, robot, mini_robot):
         #print self.id
         #print self.desfasaje_rotacion
@@ -222,7 +223,7 @@ class DinamicPiece(pygame.sprite.Sprite):
         self.rect.left += 4
 
     def update_falling(self):
-        self.rect.top += 5
+        self.rect.top += 10
 
     def update_normal(self):
         num = self.num.next()
