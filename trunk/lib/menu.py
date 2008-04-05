@@ -25,8 +25,8 @@ class Menu(object):
             self.imagenes.append(utils.load_image(nombre))
 
         #fuentes
-        font1 = pygame.font.Font(FONT_MENU, 40)
-        font2 = pygame.font.Font(FONT_MENU, 50)
+        font1 = pygame.font.Font(FONT_MENU, 35)
+        font2 = pygame.font.Font(FONT_MENU, 60)
         font_b1 = pygame.font.Font(FONT_MENU, 20)
         font_b2 = pygame.font.Font(FONT_MENU, 15)
 
@@ -35,16 +35,16 @@ class Menu(object):
         
         self.clock = pygame.time.Clock()
         #fuentes de adelante
-        self.selected_imgs = [font2.render(text, True, RED) for text in self.items]
+        self.selected_imgs = [font2.render(text, True, CURRENT_COLOR) for text in self.items]
         self.selected_imgs2 = [font2.render(text, True, BLACK) for text in self.items]
-        self.unselected_imgs = [font1.render(text, True, GREY) for text in self.items]
-        self.unselected_imgs2 = [font1.render(text, True, BLACK) for text in self.items]
+        self.unselected_imgs = [font1.render(text, True, CELESTE_B0) for text in self.items]
+        self.unselected_imgs2 = [font1.render(text, True, CELESTE_B0_SHADOW) for text in self.items]
         
         #fuentes de atras
-        self.unselected_imgs_b1 = [font_b1.render(text, True, GREY) for text in self.items]
-        self.unselected_imgs2_b1 = [font_b1.render(text, True, BLACK) for text in self.items]
-        self.unselected_imgs_b2 = [font_b2.render(text, True, GREY) for text in self.items]
-        self.unselected_imgs2_b2 = [font_b2.render(text, True, BLACK) for text in self.items]
+        self.unselected_imgs_b1 = [font_b1.render(text, True, CELESTE_B1) for text in self.items]
+        self.unselected_imgs2_b1 = [font_b1.render(text, True, CELESTE_B1) for text in self.items]
+        self.unselected_imgs_b2 = [font_b2.render(text, True, CELESTE_B2) for text in self.items]
+        self.unselected_imgs2_b2 = [font_b2.render(text, True, CELESTE_B2) for text in self.items]
         
         self.unselected_rects = None
         self.timeloop = 0
@@ -120,20 +120,6 @@ class Menu(object):
                     self.set_index(self.index + 1)
                 else:
                     self.set_index(0)
-        if event.type == MOUSEMOTION:
-            x,y = pygame.mouse.get_pos()
-            for i in range(len(self.unselected_rects)):
-                r = self.unselected_rects[i]
-                if r.collidepoint(x,y):
-                    self.set_index(i)
-                    return
-        if event.type == MOUSEBUTTONDOWN:
-            x,y = pygame.mouse.get_pos()
-            for i in range(len(self.unselected_rects)):
-                r = self.unselected_rects[i]
-                if r.collidepoint(x,y):
-                    self.select()
-                    return
 
     def set_index(self, index):
         if self.index != index:
@@ -152,12 +138,10 @@ class Menu(object):
     def _draw_items(self):
         """Hace la magia de las apariciones de las imagenes.
         """
-
-        
-        rects = []
+        #rects = []
         # el valor de y es el mismo siempre
-        y = self.hor_step + 290 
-        separador = 150
+        y = self.hor_step + 500 
+        #separador = 150
         
         #dibuja el item seleccionado en el medio
         x = (WIDTH / 2)
@@ -165,7 +149,7 @@ class Menu(object):
         img2 = self.selected_imgs2[self.index]
         mitadIndex = ( img2.get_width() / 2 )
         x -= mitadIndex
-        medioY = 35
+        medioY = 80
         y += medioY
         self.screen.blit(img2, (x-self.separator,y-self.separator))
         self.screen.blit(img, (x,y))
@@ -179,7 +163,7 @@ class Menu(object):
         x = (3 * WIDTH / 4) - mitadIndex
         self.screen.blit(img2, (x-self.separator,y-self.separator))
         self.screen.blit(img, (x,y))
-        self.screen.blit(self.imagenes[self.index], ((WIDTH / 2) - self.imagenes[self.index].get_width()/2,y+130))
+        self.screen.blit(self.imagenes[self.index], ((WIDTH / 2) - self.imagenes[self.index].get_width()/2,y - 70))
         
         #dibuja el item de la izquierda
         indice = (self.index - 1)
