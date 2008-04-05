@@ -21,10 +21,13 @@ def play_explosion():
     SOUNDS['explosion'].play()
 
 def play_screw():
-    SOUNDS['screw'] = utils.load_soung(SCREW)
+    SOUNDS['screw'].play()
 
 def play_brokenThings():
-    SOUNDS['brokenThings'] = utils.load_soung(BROKENTHINGS)
+    SOUNDS['brokenThings'].play()
+
+def stop_brokenThings():
+    SOUNDS['brokenThings'].stop()
 
 def play_peep():
     SOUNDS['peep'].play(-1)
