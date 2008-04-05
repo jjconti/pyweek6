@@ -42,8 +42,8 @@ class Menu(object):
     def loop(self):
         '''Returns the asosiated object for the selected item'''
         pygame.event.clear()
-        #if not music.is_playing_music():
-        #    music.play_music(MENUMUSIC)
+        if not music.is_playing_music():
+           music.play_music(MENUMUSIC)
         while (not self.draw_end) and (not self.done): # menu draw the first time
 
             self.clock.tick(CLOCK_TICS)
@@ -77,6 +77,7 @@ class Menu(object):
             self.timeloop += 1
             if self.timeloop == 50:
                 self.state=1
+        music.stop_music()
         return self.returns[self.index]
 
     def control(self, event):
