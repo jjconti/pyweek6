@@ -55,7 +55,7 @@ def happy_dance(screen):
     return Visual(screen, utils.load_image(BACK_HAPPY_DANCE_FALSE), -1, menu)
 
 def play(screen):
-    return Level(screen, menu, 1, 0)
+    return Level(screen, menu, 3, 0)
 
 def scores(screen):
     return HighScores(screen,menu)
