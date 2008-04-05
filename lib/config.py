@@ -108,6 +108,8 @@ INTRO_XY = {'intro0001':(265,  50),'intro0003':(265,  51),'intro0005':(265,  51)
             'intro0031':(206, 122),'intro0033':(206, 187),'intro0035':(206, 237),'intro0037':(206, 322),'intro0039':(206, 356),
             'intro0041':(206, 349),'intro0043':(206, 356) }
 
+LEVEL_IMAGES = sorted(glob.glob(IMGS+'/blueprint/*.png'))
+
 INTRO_TIMES = [0.22] * len(INTRO_IMAGES)
 #MISC = os.path.join(IMGS, "misc")
 #MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
@@ -183,11 +185,11 @@ STORY = [
 'Enjoy!']
 
 HELP = [
-'Help Pepe to manufacte his robots!',
+'Help Pepe to manufacture his robots!',
 'Right click to pick up/drop pieces.', 
 'Scrol Up/Scroll Down or A/D key to rotate the picked piece',
 'P key for pause',
-'Special hats gives you bonus points!']
+'Special pieces gives you bonus points!']
 
 MESSAGE = [
 'Sorry, you didn\'t win this game yet.',
