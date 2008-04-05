@@ -1,7 +1,7 @@
 import pygame
 from config import *
 import utils
-
+import music
 
 class EnergyBar(pygame.sprite.Sprite):
     '''An energy bar'''
@@ -78,11 +78,11 @@ class Ass(pygame.sprite.Sprite):
     '''An energy bar'''
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((130, 80))
+        self.image = pygame.Surface((130, 45))
         
-        #self.image.fill((0,0,0))
+        self.image.fill((0,0,0))
         self.rect = self.image.get_rect()
-        self.rect.topleft = (700, 450)
+        self.rect.topleft = (700, 480)
         
         
 
@@ -121,3 +121,32 @@ class Indicator(pygame.sprite.Sprite):
         return img
 
 
+def load_pedo_white(file):
+      img = utils.load_image_alpha(os.path.join("data/imgs/pedos/white", file))
+      img = pygame.transform.scale(img, (img.get_width()*1, img.get_height()*1))
+      return img
+
+pedo_white = [
+               load_pedo_white("pedo_1.png"),
+               load_pedo_white("pedo_2.png"),
+               load_pedo_white("pedo_3.png")
+             ]
+
+class PedoWhite(pygame.sprite.Sprite):
+
+      def __init__(self, pos):
+
+            pygame.sprite.Sprite.__init__(self, self.containers)
+            self.images = pedo_white
+            self.image = self.images[0]
+            self.rect = self.image.get_rect(center = pos)
+            self.life = 24
+            self.frame = 0
+            music.play_fart()
+
+      def update(self):
+            self.life -= 1
+            if self.life <= 0:
+                  self.kill()
+            self.frame += 1
+            self.image = self.images[self.frame/8%len(self.images)]

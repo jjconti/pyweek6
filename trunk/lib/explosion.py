@@ -29,6 +29,8 @@ def load_exp3(file):
       img = pygame.transform.scale(img, (img.get_width()*1, img.get_height()*1))
       return img
 
+
+
 #def load_exp4(file):
       #img = load_image(os.path.join("explosion-big", file))
       #img = pygame.transform.scale(img, (img.get_width()*8, img.get_height()*8))
@@ -71,6 +73,8 @@ mediumexpimgs = [load_exp3("exp1.png"),
                load_exp3("exp6.png"),
                load_exp3("exp7.png"),
                load_exp3("exp8.png")]
+               
+
 
 #smallexpimgs = [load_exp2("exp1.png"),
                #load_exp2("exp2.png"),
@@ -174,6 +178,9 @@ class ExplosionMedium(pygame.sprite.Sprite):
                   self.kill()
             self.frame += 1
             self.image = self.images[self.frame/3%len(self.images)]
+            
+            
+
 
 
 #class ExplosionSmall(pygame.sprite.Sprite):

@@ -14,6 +14,7 @@ SOUNDS['alarm'] = utils.load_sound(ALARM)
 SOUNDS['screw'] = utils.load_sound(SCREW)
 SOUNDS['brokenThings'] = utils.load_sound(BROKENTHINGS)
 SOUNDS['fart'] = utils.load_sound(FART)
+SOUNDS['fart2'] = utils.load_sound(FART2)
 SOUNDS['hammer'] = utils.load_sound(HAMMER)
 
 last_music = None
@@ -38,7 +39,8 @@ def play_peep():
     SOUNDS['peep'].play(-1)
 
 def play_fart():
-    SOUNDS['fart'].play()
+    fart = random.choice([SOUNDS['fart'], SOUNDS['fart2']])
+    fart.play()
     
 def stop_peep():
     SOUNDS['peep'].stop()

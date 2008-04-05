@@ -118,7 +118,7 @@ STORY = BACKGROUND+"/story.png"
 
 BACKLEVEL1 = BACKGROUND+"/nivel1.jpg"
 BACKLEVEL2 = BACKGROUND+"/nivel1.jpg"
-BACKLEVEL3 = BACKGROUND+"/nivel1.jpg"
+BACKLEVEL3 = BACKGROUND+"/nivel3.jpg"
 
 BACKLEVEL = {1: BACKLEVEL1, 2:BACKLEVEL2, 3:BACKLEVEL3}
 CARTELBACKLEVEL1 = BACKGROUND+"/cartel_nivel1.jpg"
@@ -146,6 +146,7 @@ ALARM = os.path.join(SOUNDS, "alarm_beeps.wav")
 SCREW = os.path.join(SOUNDS, "screw.wav")
 BROKENTHINGS = os.path.join(SOUNDS, "brokenThings.wav")
 FART = os.path.join(SOUNDS, "fart.wav")
+FART2 = os.path.join(SOUNDS, "fart2.wav")
 HAMMER = os.path.join(SOUNDS, "hammer.wav")
 
 #backgrounds
