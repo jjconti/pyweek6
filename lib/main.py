@@ -63,7 +63,6 @@ def happy_dance(screen):
         background = random.choice(IMAGE_GENERIC)
         return ShowText(screen, menu, MESSAGE, WHITE, background, image, 0, 240)
     return HappyDance(screen, menu)
-    #return Visual(screen, utils.load_image(BACK_HAPPY_DANCE_FALSE), -1, menu)
 
 def play(screen):
     return Level(screen, menu, 1, 0)
