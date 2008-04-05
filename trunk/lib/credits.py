@@ -34,11 +34,12 @@ class Texto(pygame.sprite.Sprite):
 
     def update(self):
         self.life -= 1
-        if self.life > 0:
+        
+        if self.life in range(20, 30):
+            return
+        elif self.life > 0:
             self.image = self._image()
             self.rect.left = (WIDTH / 2 - self.image.get_width() / 2)
-        elif self.life > 10 or self.life < 15:
-            pygame.time.delay(1000)
             #import pdb
             #pdb.set_trace()
         elif self.life == 0:
