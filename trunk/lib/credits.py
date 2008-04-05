@@ -192,8 +192,9 @@ class Credits(object):
                 
                 
     def control(self, event):
-        if event.type == QUIT:
+        if event.type == KEYDOWN and event.key == K_ESCAPE:
             sys.exit(0)
+            print "QUIT"
             
         if event.type == events.NUEVO_TEXTO:
             self.numero_texto = (self.numero_texto + 1) % len(self.developers)
