@@ -83,7 +83,7 @@ class Menu(object):
                 self.state=1
         #self.draw_end = False
         while not self.done: # menu draw only if some key is pressed
-
+            print "hola"
             self.clock.tick(CLOCK_TICS)
 
             self.screen.blit(self.background, (0,0))
