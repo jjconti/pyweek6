@@ -134,4 +134,4 @@ ALARM = os.path.join(SOUNDS, "alarm_beeps.wav")
 HELPBG = os.path.join(BACKGROUND, "help.jpg")
 
 
-BACK_HAPPY_DANCE_FALSE = os.path.join(BACKGROUND, "4.jpg")
+BACK_HAPPY_DANCE_FALSE = os.path.join(BACKGROUND, "4_1.jpg")
