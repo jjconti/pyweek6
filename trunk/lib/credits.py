@@ -52,7 +52,7 @@ class Texto(pygame.sprite.Sprite):
     def _image(self):
         if not self.life % 5:
             self.proxima_imagen += 1
-            self.rect.top += self.image.get_height()- (50 * .25)
+            self.rect.top += self.image.get_height()- (15 * .25)
 
         return self.lista_imagenes[self.proxima_imagen]
         
@@ -112,8 +112,13 @@ class Credits(object):
         """
         lista_font = []
         # Gereramos las fuentes
+
+        if os.name == 'posix':
+            myFont = FONT_CREDITS
+        else:
+            myFont = None
         for size in lista_size:
-            lista_font.append(pygame.font.Font(FONT_CREDITS, size))
+            lista_font.append(pygame.font.Font(myFont, size))
         return lista_font
 
     def loop(self):
