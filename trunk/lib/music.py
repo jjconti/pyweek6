@@ -11,8 +11,8 @@ SOUNDS = {}
 SOUNDS['explosion'] = utils.load_sound(EXPLOSION)
 SOUNDS['peep'] = utils.load_sound(PEEP)
 SOUNDS['alarm'] = utils.load_sound(ALARM)
-SOUNDS['screw'] = utils.load_soung(SCREW)
-SOUNDS['brokenThings'] = utils.load_soung(BROKENTHINGS)
+SOUNDS['screw'] = utils.load_sound(SCREW)
+SOUNDS['brokenThings'] = utils.load_sound(BROKENTHINGS)
 
 last_music = None
 playing = None
