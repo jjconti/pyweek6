@@ -115,13 +115,13 @@ INTRO_TIMES = [0.22] * len(INTRO_IMAGES)
 #MISC_IMAGES = sorted(glob.glob(MISC+'/*.png'))
 
 #backgrounds
-BACKINTRO_IMAGE = BACKGROUND+"/new_back_intro.jpg"
-BACKMENU_IMAGEN = BACKGROUND+"/opcion de menu_fix.jpg"
+BACKINTRO_IMAGE = os.path.join(BACKGROUND, "new_back_intro.jpg")
+BACKMENU_IMAGEN = os.path.join(BACKGROUND, "opcion de menu_fix.jpg")
 STORYBG = BACKGROUND+"/storybg.jpg"
 
-BACKLEVEL1 = BACKGROUND+"/nivel1.jpg"
-BACKLEVEL2 = BACKGROUND+"/nivel2.jpg"
-BACKLEVEL3 = BACKGROUND+"/nivel3.jpg"
+BACKLEVEL1 = os.path.join(BACKGROUND, "nivel1.jpg")
+BACKLEVEL2 = os.path.join(BACKGROUND, "nivel2.jpg")
+BACKLEVEL3 = os.path.join(BACKGROUND, "nivel3.jpg")
 
 BACKLEVEL = {1: BACKLEVEL1, 2:BACKLEVEL2, 3:BACKLEVEL3}
 
@@ -200,7 +200,7 @@ THANKS = [
 '',
 'And of course thanks to the manufacters',
 'of all the the mate, tea and',
-'coffee we drank tonight.',
+'coffee we drank the last night.',
 '',
 'http://code.google.com/p/pyweek6/',
 'PyWeek 6 entry'
