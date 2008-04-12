@@ -176,7 +176,7 @@ STORY = [
 'called "Pedro\'s Robot Factory" (of course) and you',
 'are his roboticist (Sorry).',
 'Pedro developed the "Funnelhead" model',
-'...and you must to build it.',
+'...and you must build it.',
 'Pedro is a demanding boss and level to level,',
 'while the enterprise progress, you must be faster.',
 'Enjoy!']
